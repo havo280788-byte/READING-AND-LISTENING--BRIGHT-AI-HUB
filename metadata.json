@@ -1,0 +1,7 @@
+{
+  "name": "BRIGHT AI HUB",
+  "description": "A comprehensive English learning SPA for 11th-grade students in Tran Hung Dao high school- Lam Dong",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
