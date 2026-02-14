@@ -1,5 +1,5 @@
 
-import { UnitData, ClozeQuestion, SentenceScrambleItem, PracticeTestData, ErrorCorrectionData, GrammarChallengeData, WordFormData, ReadingData, ListeningData, VocabularyWord } from './types';
+import { UnitData, ClozeQuestion, PracticeTestData, ErrorCorrectionData, GrammarChallengeData, WordFormData, ReadingData, ListeningData, VocabularyWord } from './types';
 
 // ==========================================
 // STABLE VOCABULARY ARCHIVE (Units 1 - 4)
@@ -131,41 +131,6 @@ export const UNIT6_VOCAB: VocabularyWord[] = [
 export const UNIT7_VOCAB: VocabularyWord[] = [];
 export const UNIT8_VOCAB: VocabularyWord[] = [];
 
-// ==========================================
-// PRE-WRITING DATA
-// ==========================================
-
-export const unit1PreWriting: SentenceScrambleItem[] = [
-  { id: 1, scrambled: ["often", "clothes", "parents", "My", "judge", "my", "and", "hairstyle"], correct_sentence: "My parents often judge my clothes and hairstyle.", vietnamese_meaning: "Bố mẹ tôi thường phán xét quần áo và kiểu tóc của tôi." },
-  { id: 2, scrambled: ["arguments", "curfew", "lead", "Strict", "can", "to", "often"], correct_sentence: "Strict curfew can often lead to arguments.", vietnamese_meaning: "Giờ giới nghiêm nghiêm ngặt thường có thể dẫn đến tranh cãi." },
-  { id: 3, scrambled: ["opinions", "should", "Parents", "listen", "children's", "their", "to"], correct_sentence: "Parents should listen to their children's opinions.", vietnamese_meaning: "Cha mẹ nên lắng nghe ý kiến của con cái." },
-  { id: 4, scrambled: ["independent", "Teenagers", "to", "be", "strive", "more"], correct_sentence: "Teenagers strive to be more independent.", vietnamese_meaning: "Thanh thiếu niên nỗ lực để trở nên tự lập hơn." },
-  { id: 5, scrambled: ["communication", "Open", "key", "the", "bridge", "is", "to", "gap"], correct_sentence: "Open communication is the key to bridge gap.", vietnamese_meaning: "Giao tiếp cởi mở là chìa khóa để thu hép khoảng cách." }
-];
-
-export const unit2PreWriting: SentenceScrambleItem[] = [
-  { id: 1, scrambled: ["famous", "scenery", "Ha Long Bay", "is", "picturesque", "for", "its"], correct_sentence: "Ha Long Bay is famous for its picturesque scenery.", vietnamese_meaning: "Vịnh Hạ Long nổi tiếng với phong cảnh đẹp như tranh vẽ." },
-  { id: 2, scrambled: ["ASEAN", "promotes", "and", "solidarity", "regional", "cooperation"], correct_sentence: "ASEAN promotes regional solidarity and cooperation.", vietnamese_meaning: "ASEAN thúc đẩy tinh thần đoàn kết và hợp tác khu vực." },
-  { id: 3, scrambled: ["important", "Vietnam", "An", "member", "is", "of", "ASEAN"], correct_sentence: "Vietnam is an important member of ASEAN.", vietnamese_meaning: "Việt Nam là một thành viên quan trọng của ASEAN." },
-  { id: 4, scrambled: ["motto", "Identity", "Community", "The", "One", "is", "Vision", "One", "One"], correct_sentence: "The motto is One Vision One Identity One Community.", vietnamese_meaning: "Phương châm là Một Tầm nhìn, Một Bản sắc, Một Cộng đồng." },
-  { id: 5, scrambled: ["it", "who", "was", "my", "traditional", "taught", "mother", "values", "me"], correct_sentence: "It was my mother who taught me traditional values.", vietnamese_meaning: "Chính mẹ tôi là người đã dạy tôi các giá trị truyền thống." }
-];
-
-export const unit3PreWriting: SentenceScrambleItem[] = [
-  { id: 1, scrambled: ["city", "deserted", "Local", "people", "the", "tourists", "as", "arrived"], correct_sentence: "Local people deserted the city as tourists arrived.", vietnamese_meaning: "Người dân địa phương rời bỏ thành phố khi du khách đến." },
-  { id: 2, scrambled: ["global", "Human", "activities", "the", "cause", "are", "warming", "main", "of"], correct_sentence: "Human activities are the main cause of global warming.", vietnamese_meaning: "Các hoạt động của con người là nguyên nhân chính gây ra hiện tượng nóng lên toàn cầu." },
-  { id: 3, scrambled: ["emissions", "Factories", "toxic", "atmosphere", "into", "the", "release"], correct_sentence: "Factories release toxic emissions into the atmosphere.", vietnamese_meaning: "Các nhà máy thải khí độc vào bầu khí quyển." },
-  { id: 4, scrambled: ["renewable", "should", "energy", "We", "sources", "use"], correct_sentence: "We should use renewable energy sources.", vietnamese_meaning: "Chúng ta nên sử dụng các nguồn năng lượng tái tạo." },
-  { id: 5, scrambled: ["save", "forests", "help", "CO2", "Planting", "absorb"], correct_sentence: "Planting forests help save absorb CO2.", vietnamese_meaning: "Trồng rừng giúp hấp thụ khí CO2." }
-];
-
-export const unit4PreWriting: SentenceScrambleItem[] = [
-  { id: 1, scrambled: ["monument", "is", "both", "ancient", "and", "The", "well-known"], correct_sentence: "The monument is both ancient and well-known.", vietnamese_meaning: "Di tích này vừa cổ kính vừa nổi tiếng." },
-  { id: 2, scrambled: ["heritage", "preserve", "must", "We", "our", "cultural"], correct_sentence: "We must preserve our cultural heritage.", vietnamese_meaning: "Chúng ta phải bảo tồn di sản văn hóa của mình." },
-  { id: 3, scrambled: ["tourism", "Mass", "heritage", "can", "damage", "sites"], correct_sentence: "Mass tourism can damage heritage sites.", vietnamese_meaning: "Du lịch đại chúng có thể gây hại cho các khu di sản." },
-  { id: 4, scrambled: ["nor", "Neither", "monuments", "the", "castles", "were", "the", "safe"], correct_sentence: "Neither the monuments nor the castles were safe.", vietnamese_meaning: "Cả di tích lẫn lâu đài đều không được an toàn." },
-  { id: 5, scrambled: ["is", "Thang Long", "a", "Citadel", "Heritage", "World", "Site"], correct_sentence: "Thang Long Citadel is a World Heritage Site.", vietnamese_meaning: "Hoàng thành Thăng Long là Di sản Thế giới." }
-];
 
 // ==========================================
 // PRACTICE TESTS
@@ -1365,31 +1330,7 @@ export const COURSE_DATA: UnitData[] = [
       drills: [{ text: "I have a conflict with my parents." }, { text: "My parents are very strict with me." }],
       interview: [{ question: "Do you ever have arguments with your parents?" }]
     },
-    writing: {
-      topic: 'Generation Gap',
-      prompt: 'Write an essay about the causes of the generation gap.',
-      preWriting: unit1PreWriting,
-      scaffolding: {
-        structure: [
-          "Mở bài: Dẫn dắt về vấn đề khoảng cách thế hệ trong gia đình hiện nay.",
-          "Thân bài 1: Nêu các nguyên nhân gây ra mâu thuẫn (khác biệt về quan điểm, lối sống).",
-          "Thân bài 2: Đề xuất giải pháp (lắng nghe, chia sẻ, tôn trọng sự độc lập).",
-          "Kết bài: Khẳng định tầm quan trọng của việc thấu hiểu để thu hẹp khoảng cách."
-        ],
-        phrases: [
-          "generation gap (n): khoảng cách thế hệ",
-          "independent (adj) / independence (n): tự lập / sự độc lập",
-          "strict (adj): nghiêm khắc",
-          "old-fashioned (adj): lạc hậu, lỗi thời",
-          "easy-going (adj): dễ tính",
-          "relationship (n): mối quan hệ"
-        ]
-      },
-      sampleEssay: {
-        title: "SAMPLE ESSAY: THE GENERATION GAP",
-        content: "In many families, the generation gap is a common issue that causes conflicts between parents and children. There are several causes for this gap, primarily differences in viewpoints and lifestyles. Parents often value traditional manners and stability, while teenagers strive for independence and modern trends. To bridge this gap, both sides need to listen and share. Parents should respect their children's privacy and opinions, while children should understand their parents' concerns. In conclusion, mutual understanding is the key to a happy family."
-      }
-    },
+
     reading: UNIT1_READING_DATA,
     listening: UNIT1_LISTENING_DATA
   },
@@ -1406,15 +1347,7 @@ export const COURSE_DATA: UnitData[] = [
       drills: [{ text: "Vietnam is a member of ASEAN." }],
       interview: [{ question: "What historical sites in Vietnam do you like?" }]
     },
-    writing: {
-      topic: 'Vietnam and ASEAN',
-      prompt: 'Write about the benefits of ASEAN membership.',
-      preWriting: unit2PreWriting,
-      sampleEssay: {
-        title: "SAMPLE ESSAY: VIETNAM AND ASEAN",
-        content: "Since joining ASEAN in 1995, Vietnam has experienced significant economic and cultural growth. Membership has opened doors for trade, investment, and cultural exchange with neighboring countries. Furthermore, regional cooperation helps maintain peace and stability, allowing Vietnam to focus on development. In conclusion, ASEAN membership is vital for Vietnam's future prosperity and integration."
-      }
-    },
+
     reading: UNIT2_READING_DATA,
     listening: UNIT2_LISTENING_DATA
   },
@@ -1431,15 +1364,7 @@ export const COURSE_DATA: UnitData[] = [
       drills: [{ text: "Global warming is a serious threat." }],
       interview: [{ question: "What causes global warming?" }]
     },
-    writing: {
-      topic: 'Global Warming',
-      prompt: 'Write about ways to reduce your carbon footprint.',
-      preWriting: unit3PreWriting,
-      sampleEssay: {
-        title: "SAMPLE ESSAY: COMBATING GLOBAL WARMING",
-        content: "Global warming is an alarming issue caused mainly by human activities. To combat this, individuals must take responsibility for reducing their carbon footprint. Simple actions like using public transport, planting trees, and recycling can make a significant difference. By working together to protect the environment, we can ensure a safer planet for future generations."
-      }
-    },
+
     reading: UNIT3_READING_DATA,
     listening: UNIT3_LISTENING_DATA
   },
@@ -1456,15 +1381,7 @@ export const COURSE_DATA: UnitData[] = [
       drills: [{ text: "Ha Long Bay is a world heritage site." }],
       interview: [{ question: "Which heritage site do you like the most?" }]
     },
-    writing: {
-      topic: 'World Heritage',
-      prompt: 'Write about the importance of preserving heritage.',
-      preWriting: unit4PreWriting,
-      sampleEssay: {
-        title: "SAMPLE ESSAY: PRESERVING OUR HERITAGE",
-        content: "Preserving World Heritage Sites is crucial for maintaining our cultural identity and history. These sites not only attract tourism but also educate future generations about our past. However, they face threats from pollution and neglect. Therefore, both the government and individuals must take action to protect and restore these invaluable treasures."
-      }
-    },
+
     reading: UNIT4_READING_DATA,
     listening: UNIT4_LISTENING_DATA
   },
@@ -1478,12 +1395,7 @@ export const COURSE_DATA: UnitData[] = [
       games: []
     },
     speaking: { drills: [], interview: [] },
-    writing: {
-      topic: 'Future Cities',
-      prompt: 'Describe a city in the future.',
-      preWriting: [],
-      sampleEssay: { title: "Sample", content: "Content pending." }
-    },
+
     reading: UNIT5_READING_DATA,
     listening: UNIT5_LISTENING_DATA
   },
@@ -1497,12 +1409,7 @@ export const COURSE_DATA: UnitData[] = [
       games: []
     },
     speaking: { drills: [], interview: [] },
-    writing: {
-      topic: 'Social Issues',
-      prompt: 'Discuss a social issue in your community and how to solve it.',
-      preWriting: [],
-      sampleEssay: { title: "Sample", content: "Content pending." }
-    },
+
     reading: UNIT6_READING_DATA,
     listening: UNIT6_LISTENING_DATA
   },
@@ -1516,12 +1423,7 @@ export const COURSE_DATA: UnitData[] = [
       games: []
     },
     speaking: { drills: [], interview: [] },
-    writing: {
-      topic: 'Healthy Lifestyle',
-      prompt: 'Write about how to stay healthy.',
-      preWriting: [],
-      sampleEssay: { title: "Sample", content: "Content pending." }
-    },
+
     reading: UNIT7_READING_DATA,
     listening: UNIT7_LISTENING_DATA
   },
@@ -1535,12 +1437,7 @@ export const COURSE_DATA: UnitData[] = [
       games: []
     },
     speaking: { drills: [], interview: [] },
-    writing: {
-      topic: 'Life Expectancy',
-      prompt: 'Write about factors affecting life expectancy.',
-      preWriting: [],
-      sampleEssay: { title: "Sample", content: "Content pending." }
-    },
+
     reading: UNIT8_READING_DATA,
     listening: UNIT8_LISTENING_DATA
   }

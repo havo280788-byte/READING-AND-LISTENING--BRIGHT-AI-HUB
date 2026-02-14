@@ -226,19 +226,6 @@ export interface UnitData {
     interview: SpeakingInterview[];
     presentation?: SpeakingPresentation;
   };
-  writing: {
-    topic: string;
-    prompt: string;
-    preWriting?: SentenceScrambleItem[];
-    scaffolding?: {
-      structure: string[];
-      phrases: string[];
-    };
-    sampleEssay?: {
-      title: string;
-      content: string;
-    };
-  };
   reading?: ReadingData;
   listening?: ListeningData;
 }
@@ -265,7 +252,6 @@ export interface UserStats {
     vocabulary: number;
     grammar: number;
     speaking: number;
-    writing: number;
     reading: number;
     listening: number;
     challenge: number;
@@ -310,4 +296,4 @@ export interface RankingData {
   total_students: number;
 }
 
-export type ViewType = 'dashboard' | 'vocabulary' | 'grammar' | 'speaking' | 'writing' | 'reading' | 'listening' | 'practice_test';
+export type ViewType = 'dashboard' | 'vocabulary' | 'grammar' | 'speaking' | 'reading' | 'listening' | 'practice_test';

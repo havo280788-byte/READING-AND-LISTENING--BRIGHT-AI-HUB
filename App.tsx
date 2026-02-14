@@ -18,11 +18,10 @@ import VocabularyModule from './components/VocabularyModule';
 import GrammarModule from './components/GrammarModule';
 import ReadingModule from './components/ReadingModule';
 import ListeningModule from './components/ListeningModule';
-import WritingModule from './components/WritingModule';
 import PracticeTest from './components/PracticeTest';
 import Auth from './components/Auth';
 import ApiKeyModal from './components/ApiKeyModal';
-import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, PenTool, Shield, LayoutDashboard, Mic, Zap } from 'lucide-react';
+import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, Shield, LayoutDashboard, Mic, Zap } from 'lucide-react';
 import { syncScoreToSheet, updateModuleStatus, getActiveApiKey } from './services/geminiService';
 import { saveStudentProgress, loadStudentProgress, loadAllStudentsProgress, isFirebaseConfigured } from './services/firebaseService';
 
@@ -45,7 +44,7 @@ const INITIAL_STATS = (username: string, name: string): UserStats => ({
     vocabulary: 0,
     grammar: 0,
     speaking: 0,
-    writing: 0,
+
     reading: 0,
     listening: 0,
     challenge: 0
@@ -129,7 +128,7 @@ const App: React.FC = () => {
         stats.moduleProgress[`${uid}_vocabulary_escape`]?.score || 0,
       grammar: stats.moduleProgress[`${uid}_grammar_quiz`]?.score || 0,
       speaking: 0,
-      writing: stats.moduleProgress[`${uid}_writing`]?.score || 0,
+
       reading: stats.moduleProgress[`${uid}_reading`]?.score || 0,
       listening: stats.moduleProgress[`${uid}_listening`]?.score || 0,
       challenge: stats.moduleProgress[`${uid}_practice_test`]?.score || 0
@@ -205,7 +204,7 @@ const App: React.FC = () => {
     }
   };
 
-  const handleTaskCompletion = async (moduleId: string, score: number, meta?: { writing_content?: string, ai_writing_feedback?: string }) => {
+  const handleTaskCompletion = async (moduleId: string, score: number) => {
     if (!stats || !currentUser) return;
     setIsSyncing(true);
 
@@ -217,9 +216,7 @@ const App: React.FC = () => {
         name: currentUser.name,
         unit: unitLabel,
         module: moduleId,
-        score: score,
-        writing_content: meta?.writing_content,
-        ai_feedback: meta?.ai_writing_feedback
+        score: score
       });
 
       // 2. Set Status for Mastery Progress (NOW LOCAL ONLY)
@@ -290,9 +287,6 @@ const App: React.FC = () => {
         setActiveView('reading');
         break;
       case 'reading':
-        setActiveView('writing');
-        break;
-      case 'writing':
         setActiveView('practice_test');
         break;
       default:
@@ -327,7 +321,6 @@ const App: React.FC = () => {
                   {activeView === 'grammar' && <Puzzle size={16} className="text-[#27AE60]" />}
                   {activeView === 'listening' && <Headphones size={16} className="text-[#27AE60]" />}
                   {activeView === 'reading' && <BookOpen size={16} className="text-[#27AE60]" />}
-                  {activeView === 'writing' && <PenTool size={16} className="text-[#27AE60]" />}
                   {activeView === 'practice_test' && <Shield size={16} className="text-[#27AE60]" />}
                   <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView} Hub</h1>
                 </div>
@@ -420,16 +413,6 @@ const App: React.FC = () => {
               />
             )}
 
-            {activeView === 'writing' && (
-              <WritingModule
-                studentName={stats.name}
-                studentUsername={stats.username}
-                writingData={currentUnit.writing}
-                onComplete={(score, meta) => handleTaskCompletion(`${stats.selectedUnitId}_writing`, score, meta)}
-                onReturn={() => setActiveView('dashboard')}
-                onNextStep={() => handleSequenceNext('writing')}
-              />
-            )}
 
             {activeView === 'practice_test' && (
               <PracticeTest
