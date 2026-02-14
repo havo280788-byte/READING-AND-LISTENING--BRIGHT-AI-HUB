@@ -74,7 +74,21 @@ const App: React.FC = () => {
     if (!savedUser) return null;
     const user = JSON.parse(savedUser);
     const savedStats = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${user.username}`);
-    return savedStats ? JSON.parse(savedStats) : INITIAL_STATS(user.username, user.name);
+    if (!savedStats) return INITIAL_STATS(user.username, user.name);
+
+    const parsed = JSON.parse(savedStats);
+    // Recalculate progress from moduleProgress to ensure it's always up-to-date
+    const uid = parsed.selectedUnitId || 'u1';
+    const mp = parsed.moduleProgress || {};
+    parsed.progress = {
+      vocabulary: Math.max(mp[`${uid}_vocabulary_memory`]?.score || 0, mp[`${uid}_vocabulary_escape`]?.score || 0),
+      grammar: mp[`${uid}_grammar_quiz`]?.score || 0,
+      speaking: 0,
+      reading: mp[`${uid}_reading`]?.score || 0,
+      listening: mp[`${uid}_listening`]?.score || 0,
+      challenge: mp[`${uid}_practice_test`]?.score || 0
+    };
+    return parsed;
   });
 
   const hasApiKey = !!getActiveApiKey();
@@ -118,26 +132,29 @@ const App: React.FC = () => {
   // Remote sync disabled - app runs in local-only mode
   // Progress is loaded from localStorage in handleLogin and initial state
 
-  // Update Progress Bars based on Module Progress
+  // Helper: recalculate progress from moduleProgress (called inline, not via useEffect)
+  const recalculateProgress = (moduleProgress: Record<string, any>, unitId: string) => {
+    return {
+      vocabulary: Math.max(
+        moduleProgress[`${unitId}_vocabulary_memory`]?.score || 0,
+        moduleProgress[`${unitId}_vocabulary_escape`]?.score || 0
+      ),
+      grammar: moduleProgress[`${unitId}_grammar_quiz`]?.score || 0,
+      speaking: 0,
+      reading: moduleProgress[`${unitId}_reading`]?.score || 0,
+      listening: moduleProgress[`${unitId}_listening`]?.score || 0,
+      challenge: moduleProgress[`${unitId}_practice_test`]?.score || 0
+    };
+  };
+
+  // Recalculate progress whenever unit changes
   useEffect(() => {
     if (!stats) return;
-    const uid = stats.selectedUnitId;
-
-    const nextProgress = {
-      vocabulary: stats.moduleProgress[`${uid}_vocabulary_memory`]?.score ||
-        stats.moduleProgress[`${uid}_vocabulary_escape`]?.score || 0,
-      grammar: stats.moduleProgress[`${uid}_grammar_quiz`]?.score || 0,
-      speaking: 0,
-
-      reading: stats.moduleProgress[`${uid}_reading`]?.score || 0,
-      listening: stats.moduleProgress[`${uid}_listening`]?.score || 0,
-      challenge: stats.moduleProgress[`${uid}_practice_test`]?.score || 0
-    };
-
+    const nextProgress = recalculateProgress(stats.moduleProgress, stats.selectedUnitId);
     if (JSON.stringify(stats.progress) !== JSON.stringify(nextProgress)) {
       setStats(prev => prev ? ({ ...prev, progress: nextProgress }) : null);
     }
-  }, [stats?.moduleProgress, stats?.selectedUnitId]);
+  }, [stats?.selectedUnitId]);
 
   // Save Local Storage changes
   useEffect(() => {
@@ -184,6 +201,9 @@ const App: React.FC = () => {
         console.warn('Firebase merge skipped:', e);
       }
     }
+
+    // Recalculate progress from moduleProgress immediately (not via useEffect)
+    finalStats.progress = recalculateProgress(finalStats.moduleProgress || {}, finalStats.selectedUnitId);
 
     setStats(finalStats);
     localStorage.setItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`, JSON.stringify(finalStats));
@@ -243,11 +263,21 @@ const App: React.FC = () => {
           }
         };
 
+        // Recalculate progress immediately from the new moduleProgress
+        const newProgress = recalculateProgress(newModuleProgress, prev.selectedUnitId);
+
+        // Track completed module IDs
+        const newCompletedIds = isNewCompletion && !isSubTask
+          ? [...(prev.completedModuleIds || []), moduleId]
+          : (prev.completedModuleIds || []);
+
         const updatedStats = {
           ...prev,
           xp: prev.xp + xpReward,
           completedModules: prev.completedModules + moduleCountIncr,
-          moduleProgress: newModuleProgress
+          completedModuleIds: newCompletedIds,
+          moduleProgress: newModuleProgress,
+          progress: newProgress
         };
 
         // 4. Sync to Firebase (fire and forget)
