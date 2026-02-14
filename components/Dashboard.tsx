@@ -1,20 +1,22 @@
 
 import React, { useState, useMemo } from 'react';
 import { UserStats } from '../types';
-import { Book, Puzzle, Mic, PenTool, CheckCircle2, Zap, ChevronRight, BookOpen, Headphones, Shield, Trophy, Crown } from 'lucide-react';
+import { Book, Puzzle, Mic, PenTool, CheckCircle2, Zap, ChevronRight, BookOpen, Headphones, Shield, Trophy, Crown, Flame, Star, GraduationCap, BarChart3, Sparkles, TrendingUp, Award } from 'lucide-react';
 
 interface DashboardProps {
   stats: UserStats;
   unitTitle: string;
   totalModules: number;
   onNavigate: (view: any) => void;
+  firebaseStudents?: Record<string, any>;
 }
 
-const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, progress: Record<string, number>, status: 'unlocked' | 'locked' }> = {
+const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, emoji: string, progress: Record<string, number>, status: 'unlocked' | 'locked' }> = {
   1: {
     id: 1,
     title: "Generation Gap",
     subtitle: "Independent Life",
+    emoji: "👨‍👩‍👧‍👦",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -22,6 +24,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 2,
     title: "Vietnam and ASEAN",
     subtitle: "Cultural Heritage",
+    emoji: "🌏",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -29,6 +32,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 3,
     title: "Global Warming",
     subtitle: "Ecological Systems",
+    emoji: "🌡️",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -36,6 +40,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 4,
     title: "World Heritage",
     subtitle: "Culture & Preservation",
+    emoji: "🏛️",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -43,6 +48,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 5,
     title: "Cities & Education",
     subtitle: "Future Life",
+    emoji: "🏙️",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -50,6 +56,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 6,
     title: "Social Issues",
     subtitle: "Community Awareness",
+    emoji: "🤝",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -57,6 +64,7 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 7,
     title: "Healthy Lifestyle",
     subtitle: "Well-being",
+    emoji: "💪",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   },
@@ -64,12 +72,13 @@ const CURRICULUM: Record<number, { id: number, title: string, subtitle: string, 
     id: 8,
     title: "Health & Life Expectancy",
     subtitle: "Longevity",
+    emoji: "❤️‍🩹",
     status: 'unlocked',
     progress: { vocabulary: 0, grammar: 0, reading: 0, listening: 0, challenge: 0 }
   }
 };
 
-const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, onNavigate }) => {
+const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, onNavigate, firebaseStudents = {} }) => {
   const [activeUnitId, setActiveUnitId] = useState<number>(() => {
     const num = parseInt(stats.selectedUnitId.replace('u', ''));
     return isNaN(num) ? 1 : num;
@@ -124,19 +133,30 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
       }
     }
 
-    // Merge all 53 students with their saved data (default to 0 XP)
-    const students = ALL_STUDENTS.map(s => ({
-      name: s.name,
-      username: s.username,
-      xp: savedDataMap[s.username]?.xp || 0,
-      completedModules: savedDataMap[s.username]?.completedModules || 0
-    }));
+    // Merge: Firebase data takes priority, then localStorage, then defaults
+    const students = ALL_STUDENTS.map(s => {
+      const fbData = firebaseStudents[s.username];
+      const localData = savedDataMap[s.username];
+
+      // Use the source with the higher XP (Firebase vs Local)
+      const fbXp = fbData?.xp || 0;
+      const localXp = localData?.xp || 0;
+      const fbModules = fbData?.completedModules || 0;
+      const localModules = localData?.completedModules || 0;
+
+      return {
+        name: s.name,
+        username: s.username,
+        xp: Math.max(fbXp, localXp),
+        completedModules: Math.max(fbModules, localModules)
+      };
+    });
 
     students.sort((a, b) => b.xp - a.xp || a.name.localeCompare(b.name));
     const ranked = students.map((s, i) => ({ ...s, rank: i + 1 }));
     const myRank = ranked.find(s => s.username === stats.username);
     return { rankedStudents: ranked, currentUserRank: myRank };
-  }, [stats.xp, stats.username]);
+  }, [stats.xp, stats.username, firebaseStudents]);
 
   const skills = [
     {
@@ -214,11 +234,17 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
             </div>
             <div className="mt-4 md:mt-0 flex space-x-3">
               <div className="bg-green-50 px-5 py-3 rounded-2xl border border-[#27AE60]/20">
-                <p className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest mb-1">XP Points</p>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <Flame size={12} className="text-[#2ECC71]" />
+                  <p className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest">XP Points</p>
+                </div>
                 <p className="text-xl font-black text-[#27AE60] italic">{stats.xp}</p>
               </div>
               <div className="bg-green-50 px-5 py-3 rounded-2xl border border-[#27AE60]/20">
-                <p className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest mb-1">Level</p>
+                <div className="flex items-center gap-1.5 mb-1">
+                  <GraduationCap size={12} className="text-[#2ECC71]" />
+                  <p className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest">Level</p>
+                </div>
                 <p className="text-xl font-black text-[#27AE60] italic">Grade 11</p>
               </div>
             </div>
@@ -227,7 +253,10 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
           <div className="bg-green-50 p-6 rounded-[2rem] border border-[#27AE60]/20 shadow-inner">
             <div className="flex justify-between items-end mb-3">
               <div>
-                <h4 className="text-sm font-black text-[#2D3748] uppercase tracking-widest mb-1">Curriculum Mastery</h4>
+                <div className="flex items-center gap-2">
+                  <BarChart3 size={16} className="text-[#27AE60]" />
+                  <h4 className="text-sm font-black text-[#2D3748] uppercase tracking-widest mb-1">Curriculum Mastery</h4>
+                </div>
                 <p className="text-xs text-[#5D6D61]">Total Modules Completed: <span className="font-bold text-[#27AE60]">{stats.completedModules}</span> / {totalModules}</p>
               </div>
               <div className="text-right">
@@ -327,7 +356,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                     ? 'bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed opacity-60'
                     : 'bg-white text-[#2D3748] border-green-100 hover:bg-green-50'}`}
             >
-              {unit.status === 'locked' && <i className="fa-solid fa-lock text-[10px]"></i>}
+              {unit.status === 'locked' ? <i className="fa-solid fa-lock text-[10px]"></i> : <span>{unit.emoji}</span>}
               Unit {unit.id}: {unit.title}
             </button>
           ))}
@@ -336,10 +365,16 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
 
       <section className="space-y-6">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl font-black text-[#27AE60] drop-shadow-sm">
-            {activeUnitId === 1 ? 'Generation Gap' : activeUnitId === 2 ? 'Vietnam & ASEAN' : activeUnitId === 3 ? 'Global Warming' : activeUnitId === 4 ? 'World Heritage' : activeUnitId === 5 ? 'Future Cities' : activeUnitId === 6 ? 'Social Issues' : activeUnitId === 7 ? 'Healthy Lifestyle' : 'Health & Life'} Mastery
-          </h3>
-          <span className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest">Target: Grade 11 Advanced</span>
+          <div className="flex items-center gap-3">
+            <span className="text-2xl">{currentUnitData.emoji}</span>
+            <h3 className="text-xl font-black text-[#27AE60] drop-shadow-sm">
+              {activeUnitId === 1 ? 'Generation Gap' : activeUnitId === 2 ? 'Vietnam & ASEAN' : activeUnitId === 3 ? 'Global Warming' : activeUnitId === 4 ? 'World Heritage' : activeUnitId === 5 ? 'Future Cities' : activeUnitId === 6 ? 'Social Issues' : activeUnitId === 7 ? 'Healthy Lifestyle' : 'Health & Life'} Mastery
+            </h3>
+          </div>
+          <div className="flex items-center gap-2">
+            <Sparkles size={14} className="text-[#2ECC71]" />
+            <span className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest">Target: Grade 11 Advanced</span>
+          </div>
         </div>
 
         {isEnrolledUnit && (
@@ -352,7 +387,8 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
             </div>
             <div className="relative z-10">
               <div className="flex items-center space-x-3 mb-4">
-                <div className="bg-[#27AE60]/10 text-[#27AE60] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
+                <div className="bg-[#27AE60]/10 text-[#27AE60] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] animate-pulse flex items-center gap-1.5">
+                  <Award size={12} />
                   Elite Challenge
                 </div>
               </div>
@@ -365,6 +401,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
 
               <div className="mt-8 flex items-center space-x-4">
                 <div className="px-6 py-3 bg-[#27AE60] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg flex items-center gap-2 hover:bg-[#2ECC71]">
+                  <Zap size={14} />
                   Start Final Assessment
                   <ChevronRight size={16} />
                 </div>

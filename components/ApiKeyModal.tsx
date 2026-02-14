@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { X, CheckCircle2, Key, Zap, Shield, Crown, AlertCircle } from 'lucide-react';
+import { X, CheckCircle2, Key, Zap, Shield, Crown, AlertCircle, Database } from 'lucide-react';
+import { getFirebaseUrl, setFirebaseUrl as saveFirebaseUrl } from '../services/firebaseService';
 
 interface ApiKeyModalProps {
   isOpen: boolean;
@@ -43,14 +44,17 @@ const MODELS = [
 const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
   const [apiKey, setApiKey] = useState('');
   const [selectedModel, setSelectedModel] = useState('gemini-3-pro-preview');
+  const [firebaseUrl, setFirebaseUrl] = useState('');
   const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     if (isOpen) {
       const savedKey = localStorage.getItem('user_gemini_key') || '';
       const savedModel = localStorage.getItem('user_gemini_model') || 'gemini-3-pro-preview';
+      const savedFirebaseUrl = getFirebaseUrl();
       setApiKey(savedKey);
       setSelectedModel(savedModel);
+      setFirebaseUrl(savedFirebaseUrl);
     }
   }, [isOpen]);
 
@@ -60,11 +64,14 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
     if (apiKey.trim()) {
       localStorage.setItem('user_gemini_key', apiKey.trim());
       localStorage.setItem('user_gemini_model', selectedModel);
+      if (firebaseUrl.trim()) {
+        saveFirebaseUrl(firebaseUrl.trim());
+      }
       setIsSaved(true);
       setTimeout(() => {
         setIsSaved(false);
         onClose();
-        window.location.reload(); // Reload to apply changes/model to all services
+        window.location.reload();
       }, 800);
     } else {
       alert("Vui lòng nhập API Key hợp lệ để tiếp tục.");
@@ -85,7 +92,7 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
               <p className="text-slate-500 font-medium text-sm">Cấu hình AI cho ứng dụng của bạn</p>
             </div>
           </div>
-          <button 
+          <button
             onClick={onClose}
             className="p-2 bg-slate-100 hover:bg-slate-200 text-slate-500 rounded-full transition-colors"
           >
@@ -104,22 +111,21 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                   <button
                     key={model.id}
                     onClick={() => setSelectedModel(model.id)}
-                    className={`relative p-5 rounded-3xl border-2 text-center transition-all duration-200 flex flex-col items-center gap-3 group ${
-                      isSelected 
-                        ? `border-blue-500 bg-white ring-4 ring-blue-500/10 shadow-xl scale-[1.02] z-10` 
+                    className={`relative p-5 rounded-3xl border-2 text-center transition-all duration-200 flex flex-col items-center gap-3 group ${isSelected
+                        ? `border-blue-500 bg-white ring-4 ring-blue-500/10 shadow-xl scale-[1.02] z-10`
                         : 'border-slate-100 bg-slate-50 hover:border-blue-200 hover:bg-white'
-                    }`}
+                      }`}
                   >
                     {model.tag && (
                       <span className="absolute -top-3 bg-[#2ECC71] text-white text-[9px] font-black px-3 py-1 rounded-full shadow-md uppercase tracking-wider">
                         {model.tag}
                       </span>
                     )}
-                    
+
                     <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${isSelected ? model.color : 'bg-slate-200 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-500'}`}>
                       {model.icon}
                     </div>
-                    
+
                     <div>
                       <div className={`font-black text-sm ${isSelected ? 'text-slate-800' : 'text-slate-500'}`}>
                         {model.name}
@@ -152,7 +158,7 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                 <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                   <Key size={18} className="text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                 </div>
-                <input 
+                <input
                   type="password"
                   value={apiKey}
                   onChange={(e) => setApiKey(e.target.value)}
@@ -161,9 +167,9 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                 />
               </div>
               <div className="mt-4 flex justify-end">
-                <a 
-                  href="https://aistudio.google.com/api-keys" 
-                  target="_blank" 
+                <a
+                  href="https://aistudio.google.com/api-keys"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="text-[11px] font-black text-blue-600 hover:text-blue-700 hover:underline flex items-center gap-1 bg-blue-50 px-3 py-1.5 rounded-lg transition-colors"
                 >
@@ -173,8 +179,31 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
             </div>
           </div>
 
+          {/* Section 3: Firebase Database URL */}
+          <div className="space-y-4">
+            <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">3. FIREBASE DATABASE URL (Lưu kết quả chung)</h3>
+            <div>
+              <div className="relative group">
+                <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                  <Database size={18} className="text-slate-400 group-focus-within:text-amber-500 transition-colors" />
+                </div>
+                <input
+                  type="text"
+                  value={firebaseUrl}
+                  onChange={(e) => setFirebaseUrl(e.target.value)}
+                  placeholder="https://your-project.firebaseio.com"
+                  className="w-full pl-12 pr-4 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl outline-none focus:border-amber-500 focus:bg-white transition-all font-mono text-sm text-slate-800 placeholder:text-slate-400 font-medium"
+                />
+              </div>
+              <p className="mt-3 flex items-start gap-2 text-[10px] font-bold text-slate-400 bg-amber-50 p-3 rounded-xl border border-amber-100">
+                <Database size={14} className="text-amber-500 mt-0.5 shrink-0" />
+                <span>Dán URL Firebase để đồng bộ kết quả học sinh giữa các thiết bị. Tạo project miễn phí tại <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-600 underline">Firebase Console</a></span>
+              </p>
+            </div>
+          </div>
+
           {/* Footer Action */}
-          <button 
+          <button
             onClick={handleSave}
             className="w-full py-5 bg-[#3B82F6] hover:bg-blue-600 text-white rounded-2xl font-black text-base shadow-xl shadow-blue-200 transition-all flex items-center justify-center gap-2 active:scale-[0.98] border-b-4 border-blue-700 active:border-b-0 active:translate-y-1"
           >

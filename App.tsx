@@ -22,8 +22,9 @@ import WritingModule from './components/WritingModule';
 import PracticeTest from './components/PracticeTest';
 import Auth from './components/Auth';
 import ApiKeyModal from './components/ApiKeyModal';
-import { Target, CheckCircle, CloudSync, Settings } from 'lucide-react';
+import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, PenTool, Shield, LayoutDashboard, Mic, Zap } from 'lucide-react';
 import { syncScoreToSheet, updateModuleStatus, getActiveApiKey } from './services/geminiService';
+import { saveStudentProgress, loadStudentProgress, loadAllStudentsProgress, isFirebaseConfigured } from './services/firebaseService';
 
 const TOTAL_MODULES = 30;
 const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
@@ -62,6 +63,7 @@ const App: React.FC = () => {
   const [vocabInitialView, setVocabInitialView] = useState<'list' | 'game'>('list');
   const [isSyncing, setIsSyncing] = useState(false);
   const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
+  const [firebaseStudents, setFirebaseStudents] = useState<Record<string, any>>({});
 
   const [currentUser, setCurrentUser] = useState<UserAccount | null>(() => {
     const saved = localStorage.getItem('elite_eng_current_user');
@@ -84,6 +86,19 @@ const App: React.FC = () => {
     if (!key) {
       setIsApiKeyModalOpen(true);
     }
+  }, []);
+
+  // Load shared leaderboard from Firebase on mount
+  useEffect(() => {
+    const loadFirebase = async () => {
+      if (isFirebaseConfigured()) {
+        const allData = await loadAllStudentsProgress();
+        if (allData && Object.keys(allData).length > 0) {
+          setFirebaseStudents(allData);
+        }
+      }
+    };
+    loadFirebase();
   }, []);
 
   // Name Normalization Effect - only depends on currentUser
@@ -132,12 +147,47 @@ const App: React.FC = () => {
     }
   }, [stats, currentUser]);
 
-  const handleLogin = (user: UserAccount) => {
+  const handleLogin = async (user: UserAccount) => {
     const normalizedUser = { ...user, name: normalizeName(user.name) };
     setCurrentUser(normalizedUser);
     localStorage.setItem('elite_eng_current_user', JSON.stringify(normalizedUser));
-    const savedStats = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`);
-    setStats(savedStats ? JSON.parse(savedStats) : INITIAL_STATS(normalizedUser.username, normalizedUser.name));
+
+    const localStats = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`);
+    let finalStats = localStats ? JSON.parse(localStats) : INITIAL_STATS(normalizedUser.username, normalizedUser.name);
+
+    // Try to load from Firebase and merge (remote takes priority for XP/modules)
+    if (isFirebaseConfigured()) {
+      try {
+        const remoteData = await loadStudentProgress(normalizedUser.username);
+        if (remoteData) {
+          // Merge: take the higher XP, more completed modules, and merge moduleProgress
+          const mergedModuleProgress = { ...finalStats.moduleProgress };
+          if (remoteData.moduleProgress) {
+            for (const [key, val] of Object.entries(remoteData.moduleProgress as Record<string, any>)) {
+              const localVal = mergedModuleProgress[key];
+              if (!localVal || (val && (val as any).score > (localVal as any).score)) {
+                mergedModuleProgress[key] = val;
+              }
+            }
+          }
+          finalStats = {
+            ...finalStats,
+            xp: Math.max(finalStats.xp || 0, remoteData.xp || 0),
+            completedModules: Math.max(finalStats.completedModules || 0, remoteData.completedModules || 0),
+            moduleProgress: mergedModuleProgress,
+            selectedUnitId: remoteData.selectedUnitId || finalStats.selectedUnitId
+          };
+        }
+        // Refresh leaderboard
+        const allData = await loadAllStudentsProgress();
+        if (allData) setFirebaseStudents(allData);
+      } catch (e) {
+        console.warn('Firebase merge skipped:', e);
+      }
+    }
+
+    setStats(finalStats);
+    localStorage.setItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`, JSON.stringify(finalStats));
   };
 
   const handleLogout = () => {
@@ -196,12 +246,24 @@ const App: React.FC = () => {
           }
         };
 
-        return {
+        const updatedStats = {
           ...prev,
           xp: prev.xp + xpReward,
           completedModules: prev.completedModules + moduleCountIncr,
           moduleProgress: newModuleProgress
         };
+
+        // 4. Sync to Firebase (fire and forget)
+        if (isFirebaseConfigured() && currentUser) {
+          saveStudentProgress(currentUser.username, updatedStats).then(() => {
+            // Refresh leaderboard after sync
+            loadAllStudentsProgress().then(allData => {
+              if (allData) setFirebaseStudents(allData);
+            });
+          });
+        }
+
+        return updatedStats;
       });
     } catch (e) {
       console.error("Syncing failed but local progress saved:", e);
@@ -260,8 +322,14 @@ const App: React.FC = () => {
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
               <div className="animate-fadeIn">
                 <div className="flex items-center space-x-2 mb-1">
-                  <Target size={14} className="text-[#27AE60]" />
-                  <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView} Hub</h1>
+                  {activeView === 'dashboard' && <LayoutDashboard size={16} className="text-[#27AE60]" />}
+                  {activeView === 'vocabulary' && <Book size={16} className="text-[#27AE60]" />}
+                  {activeView === 'grammar' && <Puzzle size={16} className="text-[#27AE60]" />}
+                  {activeView === 'listening' && <Headphones size={16} className="text-[#27AE60]" />}
+                  {activeView === 'reading' && <BookOpen size={16} className="text-[#27AE60]" />}
+                  {activeView === 'writing' && <PenTool size={16} className="text-[#27AE60]" />}
+                  {activeView === 'practice_test' && <Shield size={16} className="text-[#27AE60]" />}
+                  <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView} Hub</h1>
                 </div>
                 <p className="text-[#2ECC71] font-medium text-sm">Tran Hung Dao High School • {currentUnit.title}</p>
               </div>
@@ -291,14 +359,14 @@ const App: React.FC = () => {
                   </div>
                 )}
                 <div className="bg-green-50 text-[#27AE60] px-4 py-2 rounded-2xl font-black flex items-center shadow-lg border border-[#2ECC71]/20 ml-auto md:ml-0">
-                  <CheckCircle size={14} className="text-[#27AE60] mr-2" />
+                  <Zap size={14} className="text-[#27AE60] mr-2" />
                   <span className="w-5 h-5 rounded-lg bg-[#27AE60] text-white flex items-center justify-center text-[8px] mr-2 uppercase">XP</span> {stats.xp}
                 </div>
                 <div className="w-10 h-10 rounded-2xl bg-[#27AE60] flex items-center justify-center text-white font-black shadow-lg border-2 border-white">{stats.name.charAt(0)}</div>
               </div>
             </header>
 
-            {activeView === 'dashboard' && <Dashboard stats={stats} unitTitle={currentUnit.title} totalModules={TOTAL_MODULES} onNavigate={setActiveView} />}
+            {activeView === 'dashboard' && <Dashboard stats={stats} unitTitle={currentUnit.title} totalModules={TOTAL_MODULES} onNavigate={setActiveView} firebaseStudents={firebaseStudents} />}
 
             {activeView === 'vocabulary' && (
               <VocabularyModule
@@ -387,10 +455,10 @@ const App: React.FC = () => {
 
       <div className="fixed bottom-[20px] left-1/2 -translate-x-1/2 z-[1000] pointer-events-none select-none flex flex-col items-center justify-center w-auto animate-fadeIn px-6 py-3 rounded-2xl bg-white/10 backdrop-blur-md shadow-sm border border-black/5">
         <p className="text-[18px] font-bold text-[#27AE60] uppercase tracking-[0.5px] leading-tight whitespace-nowrap">
-          DEVELOPED BY TEACHER VO THI THU HA
+          ✨ DEVELOPED BY TEACHER VO THI THU HA ✨
         </p>
         <p className="text-[14px] font-normal text-[#2ECC71] uppercase tracking-[0.5px] leading-tight mt-1">
-          TRAN HUNG DAO HIGH SCHOOL - LAM DONG
+          🏫 TRAN HUNG DAO HIGH SCHOOL - LAM DONG
         </p>
       </div>
     </div>
