@@ -1,7 +1,7 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { UserStats } from '../types';
-import { Book, Puzzle, Mic, PenTool, CheckCircle2, Zap, ChevronRight, BookOpen, Headphones, Shield } from 'lucide-react';
+import { Book, Puzzle, Mic, PenTool, CheckCircle2, Zap, ChevronRight, BookOpen, Headphones, Shield, Trophy, Crown } from 'lucide-react';
 
 interface DashboardProps {
   stats: UserStats;
@@ -78,6 +78,32 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
   const currentUnitData = CURRICULUM[activeUnitId] || CURRICULUM[1];
   const progressPercentage = Math.round((stats.completedModules / totalModules) * 100);
   const isEnrolledUnit = stats.selectedUnitId === `u${activeUnitId}`;
+
+  // Build XP ranking from all students' localStorage data
+  const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
+  const { rankedStudents, currentUserRank } = useMemo(() => {
+    const students: { name: string; username: string; xp: number; completedModules: number }[] = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith(STORAGE_KEY_PREFIX + '_')) {
+        try {
+          const data = JSON.parse(localStorage.getItem(key) || '{}');
+          if (data.name && typeof data.xp === 'number') {
+            students.push({
+              name: data.name,
+              username: data.username || key.replace(STORAGE_KEY_PREFIX + '_', ''),
+              xp: data.xp,
+              completedModules: data.completedModules || 0
+            });
+          }
+        } catch (e) { /* skip invalid entries */ }
+      }
+    }
+    students.sort((a, b) => b.xp - a.xp);
+    const ranked = students.map((s, i) => ({ ...s, rank: i + 1 }));
+    const myRank = ranked.find(s => s.username === stats.username);
+    return { rankedStudents: ranked, currentUserRank: myRank };
+  }, [stats.xp, stats.username]);
 
   const skills = [
     {
@@ -185,6 +211,101 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
         </div>
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#27AE60]/10 rounded-full blur-[80px] -mr-32 -mt-32"></div>
       </section>
+
+      {/* XP Leaderboard */}
+      {rankedStudents.length > 0 && (
+        <section className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-xl border border-green-100 relative overflow-hidden">
+          <div className="relative z-10">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-amber-50 flex items-center justify-center text-amber-500">
+                  <Trophy size={20} />
+                </div>
+                <div>
+                  <h3 className="text-lg font-black text-[#2D3748] uppercase tracking-tight">Class Leaderboard</h3>
+                  <p className="text-[10px] font-bold text-[#5D6D61] uppercase tracking-widest">{rankedStudents.length} students ranked by XP</p>
+                </div>
+              </div>
+              {currentUserRank && (
+                <div className="bg-green-50 px-5 py-2.5 rounded-2xl border border-[#27AE60]/20">
+                  <p className="text-[10px] font-black text-[#2ECC71] uppercase tracking-widest">Your Rank</p>
+                  <p className="text-xl font-black text-[#27AE60] text-center">#{currentUserRank.rank}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="space-y-2">
+              {rankedStudents.slice(0, 10).map((student) => {
+                const isMe = student.username === stats.username;
+                const rankBg = student.rank === 1 ? 'bg-amber-400 text-amber-950'
+                  : student.rank === 2 ? 'bg-slate-300 text-slate-700'
+                    : student.rank === 3 ? 'bg-orange-300 text-orange-800'
+                      : 'bg-slate-100 text-slate-500';
+                const rankEmoji = student.rank === 1 ? '🥇' : student.rank === 2 ? '🥈' : student.rank === 3 ? '🥉' : '';
+
+                return (
+                  <div
+                    key={student.username}
+                    className={`flex items-center justify-between p-4 rounded-2xl transition-all ${isMe
+                        ? 'bg-green-50 border-2 border-[#27AE60]/40 shadow-md ring-2 ring-[#27AE60]/10'
+                        : 'bg-slate-50/50 border border-slate-100 hover:border-green-200'
+                      }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center font-black text-xs ${rankBg}`}>
+                        {rankEmoji || `#${student.rank}`}
+                      </div>
+                      <div className="w-9 h-9 rounded-full bg-[#27AE60] text-white flex items-center justify-center font-black text-sm shadow-sm">
+                        {student.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className={`text-sm font-bold ${isMe ? 'text-[#27AE60]' : 'text-[#2D3748]'}`}>
+                          {student.name} {isMe && <span className="text-[10px] font-black text-[#2ECC71] uppercase ml-1">(You)</span>}
+                        </p>
+                        <p className="text-[10px] text-slate-400">{student.completedModules} modules completed</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className={`text-lg font-black ${isMe ? 'text-[#27AE60]' : 'text-[#2D3748]'}`}>{student.xp}</span>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">XP</p>
+                    </div>
+                  </div>
+                );
+              })}
+
+              {/* Show current user if outside top 10 */}
+              {currentUserRank && currentUserRank.rank > 10 && (
+                <>
+                  <div className="flex items-center justify-center py-2">
+                    <span className="text-xs text-slate-300 font-bold">• • •</span>
+                  </div>
+                  <div className="flex items-center justify-between p-4 rounded-2xl bg-green-50 border-2 border-[#27AE60]/40 shadow-md ring-2 ring-[#27AE60]/10">
+                    <div className="flex items-center gap-4">
+                      <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-xs bg-green-100 text-[#27AE60]">
+                        #{currentUserRank.rank}
+                      </div>
+                      <div className="w-9 h-9 rounded-full bg-[#27AE60] text-white flex items-center justify-center font-black text-sm shadow-sm">
+                        {currentUserRank.name.charAt(0)}
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-[#27AE60]">
+                          {currentUserRank.name} <span className="text-[10px] font-black text-[#2ECC71] uppercase ml-1">(You)</span>
+                        </p>
+                        <p className="text-[10px] text-slate-400">{currentUserRank.completedModules} modules completed</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-lg font-black text-[#27AE60]">{currentUserRank.xp}</span>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase">XP</p>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="absolute top-0 right-0 w-48 h-48 bg-amber-400/5 rounded-full blur-[60px] -mr-24 -mt-24"></div>
+        </section>
+      )}
 
       <section className="space-y-4">
         <div className="flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-hide">
