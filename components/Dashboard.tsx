@@ -74,15 +74,15 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
     const num = parseInt(stats.selectedUnitId.replace('u', ''));
     return isNaN(num) ? 1 : num;
   });
-  
+
   const currentUnitData = CURRICULUM[activeUnitId] || CURRICULUM[1];
   const progressPercentage = Math.round((stats.completedModules / totalModules) * 100);
   const isEnrolledUnit = stats.selectedUnitId === `u${activeUnitId}`;
 
   const skills = [
-    { 
-      key: 'vocabulary', 
-      label: 'Vocabulary', 
+    {
+      key: 'vocabulary',
+      label: 'Vocabulary',
       vietnamese: 'Từ vựng',
       icon: <Book size={18} />,
       watermark: <Book size={140} />,
@@ -91,9 +91,9 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
       barDefault: 'bg-[#2ECC71]',
       border: 'border-green-50'
     },
-    { 
-      key: 'grammar', 
-      label: 'Grammar', 
+    {
+      key: 'grammar',
+      label: 'Grammar',
       vietnamese: 'Ngữ pháp',
       icon: <Puzzle size={18} />,
       watermark: <Puzzle size={140} />,
@@ -102,9 +102,9 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
       barDefault: 'bg-[#2ECC71]',
       border: 'border-green-50'
     },
-    { 
-      key: 'reading', 
-      label: 'Reading', 
+    {
+      key: 'reading',
+      label: 'Reading',
       vietnamese: 'Đọc',
       icon: <BookOpen size={18} />,
       watermark: <BookOpen size={140} />,
@@ -113,9 +113,9 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
       barDefault: 'bg-[#2ECC71]',
       border: 'border-green-50'
     },
-    { 
-      key: 'listening', 
-      label: 'Listening', 
+    {
+      key: 'listening',
+      label: 'Listening',
       vietnamese: 'Nghe',
       icon: <Headphones size={18} />,
       watermark: <Headphones size={140} />,
@@ -124,9 +124,9 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
       barDefault: 'bg-[#2ECC71]',
       border: 'border-green-50'
     },
-    { 
-      key: 'challenge', 
-      label: 'Challenge', 
+    {
+      key: 'challenge',
+      label: 'Challenge',
       vietnamese: 'Thử thách',
       icon: <Shield size={18} />,
       watermark: <Zap size={140} />,
@@ -176,8 +176,8 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
               </div>
             </div>
             <div className="w-full bg-[#27AE60]/10 h-4 rounded-full overflow-hidden p-1 border border-[#27AE60]/20">
-              <div 
-                className="h-full bg-gradient-to-r from-[#2ECC71] to-[#27AE60] rounded-full transition-all duration-1000 ease-out" 
+              <div
+                className="h-full bg-gradient-to-r from-[#2ECC71] to-[#27AE60] rounded-full transition-all duration-1000 ease-out"
                 style={{ width: `${progressPercentage}%` }}
               ></div>
             </div>
@@ -194,11 +194,11 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
               onClick={() => setActiveUnitId(unit.id)}
               disabled={unit.status === 'locked'}
               className={`px-6 py-2.5 rounded-full text-xs font-black uppercase tracking-widest transition-all duration-300 border shadow-sm whitespace-nowrap flex items-center gap-2
-                ${activeUnitId === unit.id 
-                  ? 'bg-[#27AE60] text-white border-[#27AE60] shadow-lg scale-105' 
+                ${activeUnitId === unit.id
+                  ? 'bg-[#27AE60] text-white border-[#27AE60] shadow-lg scale-105'
                   : unit.status === 'locked'
-                  ? 'bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed opacity-60'
-                  : 'bg-white text-[#2D3748] border-green-100 hover:bg-green-50'}`}
+                    ? 'bg-slate-100 text-slate-300 border-slate-200 cursor-not-allowed opacity-60'
+                    : 'bg-white text-[#2D3748] border-green-100 hover:bg-green-50'}`}
             >
               {unit.status === 'locked' && <i className="fa-solid fa-lock text-[10px]"></i>}
               Unit {unit.id}: {unit.title}
@@ -216,45 +216,58 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
         </div>
 
         {isEnrolledUnit && (
-          <div 
+          <div
             onClick={() => onNavigate('practice_test')}
             className={`p-8 rounded-[2.5rem] border-4 shadow-2xl mb-8 relative overflow-hidden group cursor-pointer hover:scale-[1.01] transition-all bg-white border-green-100`}
           >
-             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform text-[#27AE60]">
-                <Zap size={120} fill="currentColor" />
-             </div>
-             <div className="relative z-10">
-                <div className="flex items-center space-x-3 mb-4">
-                   <div className="bg-[#27AE60]/10 text-[#27AE60] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
-                      Elite Challenge
-                   </div>
+            <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:rotate-12 transition-transform text-[#27AE60]">
+              <Zap size={120} fill="currentColor" />
+            </div>
+            <div className="relative z-10">
+              <div className="flex items-center space-x-3 mb-4">
+                <div className="bg-[#27AE60]/10 text-[#27AE60] px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-[0.2em] animate-pulse">
+                  Elite Challenge
                 </div>
-                <h4 className="text-4xl font-black text-[#2D3748] italic tracking-tighter mb-2 uppercase">
-                   Unit {activeUnitId} Challenge
-                </h4>
-                <p className="text-[#5D6D61] text-sm font-medium italic max-w-xl">
-                  {activeUnitId <= 4 ? 'Complete comprehensive questions to prove your mastery.' : 'Advanced module structure ready. Content pending final compilation.'}
-                </p>
-                
-                <div className="mt-8 flex items-center space-x-4">
-                   <div className="px-6 py-3 bg-[#27AE60] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg flex items-center gap-2 hover:bg-[#2ECC71]">
-                      Start Final Assessment
-                      <ChevronRight size={16} />
-                   </div>
+              </div>
+              <h4 className="text-4xl font-black text-[#2D3748] italic tracking-tighter mb-2 uppercase">
+                Unit {activeUnitId} Challenge
+              </h4>
+              <p className="text-[#5D6D61] text-sm font-medium italic max-w-xl">
+                {activeUnitId <= 4 ? 'Complete comprehensive questions to prove your mastery.' : 'Advanced module structure ready. Content pending final compilation.'}
+              </p>
+
+              <div className="mt-8 flex items-center space-x-4">
+                <div className="px-6 py-3 bg-[#27AE60] text-white rounded-2xl font-black text-xs uppercase tracking-widest transition-colors shadow-lg flex items-center gap-2 hover:bg-[#2ECC71]">
+                  Start Final Assessment
+                  <ChevronRight size={16} />
                 </div>
-             </div>
+              </div>
+            </div>
           </div>
         )}
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {skills.map((skill) => {
-            const val = isEnrolledUnit 
-              ? (stats.progress[skill.key as keyof typeof stats.progress] || 0)
-              : (currentUnitData.progress[skill.key] || 0);
-            
+            let val: number;
+            if (isEnrolledUnit) {
+              val = stats.progress[skill.key as keyof typeof stats.progress] || 0;
+            } else {
+              // Read actual progress from moduleProgress for this unit
+              const uid = `u${activeUnitId}`;
+              const keyMap: Record<string, string[]> = {
+                vocabulary: [`${uid}_vocabulary_memory`, `${uid}_vocabulary_escape`],
+                grammar: [`${uid}_grammar_quiz`],
+                reading: [`${uid}_reading`],
+                listening: [`${uid}_listening`],
+                challenge: [`${uid}_practice_test`],
+              };
+              const moduleKeys = keyMap[skill.key] || [];
+              val = Math.max(0, ...moduleKeys.map(k => stats.moduleProgress[k]?.score || 0));
+            }
+
             return (
-              <div 
-                key={skill.key} 
+              <div
+                key={skill.key}
                 onClick={() => isEnrolledUnit && (skill.key === 'challenge' ? onNavigate('practice_test') : onNavigate(skill.key))}
                 className={`relative overflow-hidden p-8 rounded-[2.5rem] bg-white backdrop-blur-sm border-2 border-green-100 shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 cursor-pointer group`}
               >
@@ -284,10 +297,10 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                       </p>
                       <span className={`text-4xl font-black ${skill.accent}`}>{val}%</span>
                     </div>
-                    
+
                     <div className="w-full bg-slate-100 h-4 rounded-full overflow-hidden border border-slate-200 p-1">
-                      <div 
-                        className={`h-full ${getDynamicColor(val, skill.barDefault)} rounded-full transition-all duration-1000 ease-out ${val === 0 ? 'opacity-0' : 'opacity-100'}`} 
+                      <div
+                        className={`h-full ${getDynamicColor(val, skill.barDefault)} rounded-full transition-all duration-1000 ease-out ${val === 0 ? 'opacity-0' : 'opacity-100'}`}
                         style={{ width: `${val}%` }}
                       ></div>
                     </div>
