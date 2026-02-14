@@ -10,11 +10,13 @@ import {
   UNIT3_ERROR_CORRECTION,
   UNIT4_ERROR_CORRECTION,
   UNIT5_ERROR_CORRECTION,
+  UNIT6_ERROR_CORRECTION,
   UNIT1_GRAMMAR_CHALLENGE,
   UNIT2_GRAMMAR_CHALLENGE,
   UNIT3_GRAMMAR_CHALLENGE,
   UNIT4_GRAMMAR_CHALLENGE,
-  UNIT5_GRAMMAR_CHALLENGE
+  UNIT5_GRAMMAR_CHALLENGE,
+  UNIT6_GRAMMAR_CHALLENGE
 } from '../constants';
 import { CheckCircle2, AlertCircle, ChevronRight, BookOpen, Construction, Star, ShieldCheck } from 'lucide-react';
 import PerformanceCertificate from './PerformanceCertificate';
@@ -250,51 +252,89 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
           may_might: {
             name: "MAY / MIGHT",
             usage: [
-              "Diễn tả khả năng không chắc chắn.",
-              "May: Khả năng cao hơn Might.",
-              "Might: Khả năng thấp hơn May."
+              "Khả năng có thể xảy ra trong tương lai (không chắc chắn 100%).",
+              "Note: 'Might' thể hiện khả năng thấp hơn 'May'."
             ],
-            formula: ["S + may/might + V", "S + may/might + not + V", "Note: Không dùng 'may to' hoặc 'might to'"],
-            signals: ["Perhaps", "Maybe", "Possibly"]
+            formula: ["(+) S + may/might + V", "(-) S + may/might not + V"],
+            signals: ["Maybe", "Perhaps", "Possible", "S + is not sure"]
           },
           be_likely: {
             name: "BE LIKELY TO",
             usage: [
-              "Diễn tả xác suất cao xảy ra.",
-              "Cấu trúc: S + be likely + to V.",
-              "Hoặc: It is likely that + S + will + V."
+              "Khả năng cao sẽ xảy ra (có cơ sở).",
+              "Dùng thay cho 'probably will'."
             ],
-            formula: ["S + is/are likely + to V", "It is likely that + clause", "S + is/are unlikely + to V"],
+            formula: ["(+) S + am/is/are + likely + to V", "(-) S + am/is/are + unlikely + to V", "(?) Is + S + likely + to V?"],
             signals: ["Likely", "Unlikely", "Probable"]
           }
         }
       };
-    }
-    return {
-      main_title: "GRAMMAR FOUNDATION",
-      description: "Building a solid base for advanced English proficiency.",
-      keys: ['simple', 'continuous', 'stative'] as const,
-      content: {
-        simple: {
-          name: "PRESENT SIMPLE",
-          usage: ["Daily habits", "General truths"],
-          formula: ["S", "V(s/es)", "O"],
-          signals: ["Every day", "Usually"]
-        },
-        continuous: {
-          name: "PRESENT CONTINUOUS",
-          usage: ["Happening now"],
-          formula: ["S", "Am/Is/Are", "V-ing"],
-          signals: ["Now", "At the moment"]
-        },
-        stative: {
-          name: "STATIVE VERBS",
-          usage: ["Mental states"],
-          formula: ["Note", "No -ing form"],
-          signals: ["Know", "Like", "Believe"]
+    } else if (grammarData.topic.includes("Gerunds")) {
+      return {
+        main_title: "GERUNDS & QUESTION TAGS",
+        description: "Mastering -ing forms and tag questions.",
+        keys: ['gerunds', 'perfect_gerund', 'question_tags'] as const,
+        content: {
+          gerunds: {
+            name: "GERUNDS (-ING FORM)",
+            usage: [
+              "Subject: Volunteering helps poor communities.",
+              "Object after verbs: enjoy, avoid, suggest, mind...",
+              "After prepositions: succeed in, apologize for...",
+              "Fixed phrases: look forward to, can't stand..."
+            ],
+            formula: ["S + V + V-ing", "She enjoys helping people."],
+            signals: ["enjoy", "avoid", "suggest", "mind", "deny"]
+          },
+          perfect_gerund: {
+            name: "PERFECT GERUND",
+            usage: [
+              "Action happened BEFORE the main verb.",
+              "Formula: having + V3/ed",
+              "Ex: She denied having taken the money."
+            ],
+            formula: ["having + V3/ed"],
+            signals: ["deny", "admit", "apologize for", "accuse of"]
+          },
+          question_tags: {
+            name: "QUESTION TAGS",
+            usage: [
+              "(+) Sentence -> (-) Tag: She is nice, isn't she?",
+              "(-) Sentence -> (+) Tag: You don't know, do you?",
+              "Special: I am -> aren't I?, Let's -> shall we?"
+            ],
+            formula: ["S + V..., aux + pron?", "Imperative -> will you?"],
+            signals: ["isn't it?", "don't you?", "shall we?"]
+          }
         }
-      }
-    };
+      };
+    } else {
+      return {
+        main_title: "GRAMMAR FOUNDATION",
+        description: "Building a solid base for advanced English proficiency.",
+        keys: ['simple', 'continuous', 'stative'] as const,
+        content: {
+          simple: {
+            name: "PRESENT SIMPLE",
+            usage: ["Daily habits", "General truths"],
+            formula: ["S + V(s/es)", "S + don't/doesn't + V"],
+            signals: ["Every day", "Usually"]
+          },
+          continuous: {
+            name: "PRESENT CONTINUOUS",
+            usage: ["Happening now"],
+            formula: ["S + am/is/are + V-ing"],
+            signals: ["Now", "At the moment"]
+          },
+          stative: {
+            name: "STATIVE VERBS",
+            usage: ["Mental states", "Feelings"],
+            formula: ["No -ing form"],
+            signals: ["Know", "Like", "Believe"]
+          }
+        }
+      };
+    }
   }, [grammarData.topic, unitId]);
 
   const [activeTopic, setActiveTopic] = useState<string>(topicsData.keys[0]);
@@ -327,7 +367,8 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
       u2: UNIT2_GRAMMAR_CHALLENGE,
       u3: UNIT3_GRAMMAR_CHALLENGE,
       u4: UNIT4_GRAMMAR_CHALLENGE,
-      u5: UNIT5_GRAMMAR_CHALLENGE
+      u5: UNIT5_GRAMMAR_CHALLENGE,
+      u6: UNIT6_GRAMMAR_CHALLENGE
     };
 
     let pool: GrammarChallengeQuestion[] = [];
@@ -549,7 +590,8 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
       u2: UNIT2_ERROR_CORRECTION,
       u3: UNIT3_ERROR_CORRECTION,
       u4: UNIT4_ERROR_CORRECTION,
-      u5: UNIT5_ERROR_CORRECTION
+      u5: UNIT5_ERROR_CORRECTION,
+      u6: UNIT6_ERROR_CORRECTION
     };
     const errorData = errorDataMap[unitId] || UNIT1_ERROR_CORRECTION;
     return <GrammarErrorCorrection

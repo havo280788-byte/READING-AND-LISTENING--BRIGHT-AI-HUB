@@ -585,7 +585,118 @@ const PHASES: Phase[] = [
       }
     ]
   },
-  { id: 'u6', title: 'Forbidden Library (Unit 6)', description: 'Questions coming soon.', questions: [] },
+  {
+    id: 'u6',
+    title: 'Forbidden Library (Unit 6)',
+    description: '15 Questions for Unit 6 ONLY.',
+    questions: [
+      {
+        id: 1,
+        question: "Many people suffer from ______ because they do not have enough money to buy food.",
+        options: ["racism", "poverty", "healthcare", "funding"],
+        correct_answer: "poverty",
+        explanation: "Key word: 'not have enough money to buy food' -> Poverty (nghèo đói). The state of being extremely poor. (Nghèo đói là tình trạng không có đủ tiền để trang trải nhu cầu cơ bản)."
+      },
+      {
+        id: 2,
+        question: "A person without a home is described as ______.",
+        options: ["unemployed", "poor", "homeless", "unequal"],
+        correct_answer: "homeless",
+        explanation: "Key word: 'without a home' -> Homeless (vô gia cư). Having no home. (Vô gia cư nghĩa là không có nhà ở)."
+      },
+      {
+        id: 3,
+        question: "Discrimination based on skin colour or race is called ______.",
+        options: ["bullying", "crisis", "racism", "disease"],
+        correct_answer: "racism",
+        explanation: "Key word: 'based on skin colour or race' -> Racism (phân biệt chủng tộc). Prejudice against people of other races. (Phân biệt chủng tộc là định kiến dựa trên màu da hoặc sắc tộc)."
+      },
+      {
+        id: 4,
+        question: "When many people lose their jobs, the country faces high ______.",
+        options: ["hunger", "unemployment", "nutrition", "equality"],
+        correct_answer: "unemployment",
+        explanation: "Key word: 'lose their jobs' -> Unemployment (thất nghiệp). The state of not having a job. (Thất nghiệp là tình trạng không có việc làm)."
+      },
+      {
+        id: 5,
+        question: "A serious illness such as malaria is a type of ______.",
+        options: ["crime", "pollution", "disease", "crisis"],
+        correct_answer: "disease",
+        explanation: "Key word: 'serious illness' -> Disease (bệnh tật). A disorder of structure or function in a human. (Bệnh tật là sự rối loạn chức năng cơ thể, như bệnh sốt rét)."
+      },
+      {
+        id: 6,
+        question: "When someone repeatedly hurts or threatens another person, it is called ______.",
+        options: ["bullying", "cooperation", "shelter", "obesity"],
+        correct_answer: "bullying",
+        explanation: "Key word: 'repeatedly hurts or threatens' -> Bullying (bắt nạt). Seeking to harm or intimidate someone. (Bắt nạt là hành vi cố ý làm hại hoặc đe dọa người khác)."
+      },
+      {
+        id: 7,
+        question: "A sudden economic problem that causes instability is known as a(n) ______.",
+        options: ["shelter", "crisis", "war", "profit"],
+        correct_answer: "crisis",
+        explanation: "Key word: 'sudden economic problem' -> Crisis (khủng hoảng). A time of intense difficulty or danger. (Khủng hoảng là giai đoạn khó khăn hoặc nguy hiểm nghiêm trọng)."
+      },
+      {
+        id: 8,
+        question: "Lack of proper food and nutrients can lead to ______.",
+        options: ["pollution", "malnutrition", "employment", "obesity"],
+        correct_answer: "malnutrition",
+        explanation: "Key word: 'Lack of proper food and nutrients' -> Malnutrition (suy dinh dưỡng). Lack of proper nutrition. (Suy dinh dưỡng là tình trạng thiếu các chất dinh dưỡng cần thiết)."
+      },
+      {
+        id: 9,
+        question: "Organisations that do not aim to make money are called ______ organisations.",
+        options: ["profitable", "non-profit", "economic", "commercial"],
+        correct_answer: "non-profit",
+        explanation: "Key word: 'do not aim to make money' -> Non-profit (phi lợi nhuận). Not existing or done for the purpose of making a profit. (Tổ chức phi lợi nhuận hoạt động không vì mục đích kiếm tiền)."
+      },
+      {
+        id: 10,
+        question: "The government provided emergency ______ after the earthquake.",
+        options: ["racism", "funding", "humanitarian aid", "bullying"],
+        correct_answer: "humanitarian aid",
+        explanation: "Key word: 'emergency... after earthquake' -> Humanitarian aid (viện trợ nhân đạo). Material or logistical assistance for people in need. (Viện trợ nhân đạo là sự giúp đỡ vật chất cho người gặp nạn)."
+      },
+      {
+        id: 11,
+        question: "Doctors and hospitals are part of the country’s ______ system.",
+        options: ["healthcare", "employment", "crisis", "poverty"],
+        correct_answer: "healthcare",
+        explanation: "Key word: 'Doctors and hospitals' -> Healthcare (chăm sóc sức khỏe). The organized provision of medical care. (Y tế/Chăm sóc sức khỏe là hệ thống cung cấp dịch vụ khám chữa bệnh)."
+      },
+      {
+        id: 12,
+        question: "Too much unhealthy food can cause ______ in children and adults.",
+        options: ["hunger", "obesity", "depression", "equality"],
+        correct_answer: "obesity",
+        explanation: "Key word: 'Too much unhealthy food' -> Obesity (béo phì). The state of being grossly fat or overweight. (Béo phì là tình trạng thừa cân quá mức do ăn uống không lành mạnh)."
+      },
+      {
+        id: 13,
+        question: "Dirty air and water are examples of environmental ______.",
+        options: ["poverty", "crime", "pollution", "racism"],
+        correct_answer: "pollution",
+        explanation: "Key word: 'Dirty air and water' -> Pollution (ô nhiễm). The presence in or introduction into the environment of a substance or thing that has harmful or poisonous effects. (Ô nhiễm là sự làm bẩn môi trường không khí, nước...)."
+      },
+      {
+        id: 14,
+        question: "A safe place for homeless people to stay is called a ______.",
+        options: ["shelter", "funding", "disease", "economy"],
+        correct_answer: "shelter",
+        explanation: "Key word: 'safe place... to stay' -> Shelter (nơi trú ẩn/nhà tình thương). A place giving temporary protection. (Shelter là nơi cung cấp chỗ ở tạm thời và an toàn)."
+      },
+      {
+        id: 15,
+        question: "Scientists often ______ research to study social problems.",
+        options: ["shelter", "fund", "conduct", "promote"],
+        correct_answer: "conduct",
+        explanation: "Collocation: 'Conduct research' (tiến hành nghiên cứu). To organize and carry out research. (Conduct research là cụm từ đi liền với nhau)."
+      }
+    ]
+  },
   { id: 'u7', title: 'Forbidden Library (Unit 7)', description: 'Questions coming soon.', questions: [] },
   { id: 'u8', title: 'Forbidden Library (Unit 8)', description: 'Questions coming soon.', questions: [] }
 ];

@@ -1,7 +1,17 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { ViewType, UserStats, UserAccount } from './types';
-import { COURSE_DATA, UNIT1_PRACTICE_TEST, UNIT2_PRACTICE_TEST, UNIT3_PRACTICE_TEST, UNIT4_PRACTICE_TEST } from './constants';
+import {
+  COURSE_DATA,
+  UNIT1_PRACTICE_TEST,
+  UNIT2_PRACTICE_TEST,
+  UNIT3_PRACTICE_TEST,
+  UNIT4_PRACTICE_TEST,
+  UNIT5_PRACTICE_TEST,
+  UNIT6_PRACTICE_TEST,
+  UNIT7_PRACTICE_TEST,
+  UNIT8_PRACTICE_TEST
+} from './constants';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import VocabularyModule from './components/VocabularyModule';
@@ -356,7 +366,16 @@ const App: React.FC = () => {
             {activeView === 'practice_test' && (
               <PracticeTest
                 studentName={stats.name}
-                testData={stats.selectedUnitId === 'u4' ? UNIT4_PRACTICE_TEST : stats.selectedUnitId === 'u3' ? UNIT3_PRACTICE_TEST : stats.selectedUnitId === 'u2' ? UNIT2_PRACTICE_TEST : UNIT1_PRACTICE_TEST}
+                testData={{
+                  u1: UNIT1_PRACTICE_TEST,
+                  u2: UNIT2_PRACTICE_TEST,
+                  u3: UNIT3_PRACTICE_TEST,
+                  u4: UNIT4_PRACTICE_TEST,
+                  u5: UNIT5_PRACTICE_TEST,
+                  u6: UNIT6_PRACTICE_TEST,
+                  u7: UNIT7_PRACTICE_TEST,
+                  u8: UNIT8_PRACTICE_TEST
+                }[stats.selectedUnitId] || UNIT1_PRACTICE_TEST}
                 onComplete={(score) => handleTaskCompletion(`${stats.selectedUnitId}_practice_test`, score)}
                 onReturn={() => setActiveView('dashboard')}
                 unitProgress={stats.moduleProgress}

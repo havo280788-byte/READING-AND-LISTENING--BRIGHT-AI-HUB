@@ -106,7 +106,28 @@ export const UNIT5_VOCAB: VocabularyWord[] = [
   { id: 'u5_20', english: 'socialise', vietnamese: 'Giao lưu, kết nối xã hội', example: 'Virtual reality allows us to socialise with friends anywhere.', wordFamily: 'v' }
 ];
 
-export const UNIT6_VOCAB: VocabularyWord[] = [];
+export const UNIT6_VOCAB: VocabularyWord[] = [
+  { id: 'u6_1', english: 'disease', phonetic: '/dɪˈziːz/', vietnamese: 'Bệnh tật', example: 'Malaria is a serious disease in many developing countries.', wordFamily: 'n: disease; adj: diseased', visualPrompt: 'Medical illustration of a virus or bacteria under a microscope, blue and red colors' },
+  { id: 'u6_2', english: 'homelessness', phonetic: '/ˈhəʊmləsnəs/', vietnamese: 'Tình trạng vô gia cư', example: 'The government is working to reduce homelessness in big cities.', wordFamily: 'adj: homeless', visualPrompt: 'A person sleeping on a park bench in a city at night, urban setting' },
+  { id: 'u6_3', english: 'hunger', phonetic: '/ˈhʌŋɡə(r)/', vietnamese: 'Nạn đói', example: 'Millions of children suffer from hunger every year.', wordFamily: 'adj: hungry', visualPrompt: 'An empty bowl on a wooden table, symbolizing hunger and poverty' },
+  { id: 'u6_4', english: 'racism', phonetic: '/ˈreɪsɪzəm/', vietnamese: 'Nạn phân biệt chủng tộc', example: 'Education plays a key role in fighting racism.', wordFamily: 'n/adj: racist; n: race', visualPrompt: 'Hands of different skin colors holding each other in a circle, symbolizing unity' },
+  { id: 'u6_5', english: 'unemployment', phonetic: '/ˌʌnɪmˈplɔɪmənt/', vietnamese: 'Thất nghiệp', example: 'High unemployment can lead to poverty and crime.', wordFamily: 'adj: unemployed/employed; n: employment', visualPrompt: 'A person looking at job listings on a board, worried expression' },
+  { id: 'u6_6', english: 'poverty', phonetic: '/ˈpɒvəti/', vietnamese: 'Nghèo đói', example: 'Many charities focus on reducing poverty worldwide.', wordFamily: 'adj: poor', visualPrompt: 'A dilapidated house in a rural area, showing signs of poverty' },
+  { id: 'u6_7', english: 'crisis', phonetic: '/ˈkraɪsɪs/', vietnamese: 'Khủng hoảng', example: 'The country is facing an economic crisis.', wordFamily: 'n: crisis', visualPrompt: 'A downward stock market chart with red arrows, indicating financial crisis' },
+  { id: 'u6_8', english: 'bullying', phonetic: '/ˈbʊliɪŋ/', vietnamese: 'Bắt nạt', example: 'Cyberbullying is a serious problem among teenagers.', wordFamily: 'v/n: bully', visualPrompt: 'A sad student sitting alone while others whisper in the background, school setting' },
+  { id: 'u6_9', english: 'crime', phonetic: '/kraɪm/', vietnamese: 'Tội phạm', example: 'The city has introduced new laws to reduce crime.', wordFamily: 'n: criminal', visualPrompt: 'Police tape crossing a scene, blue and yellow colors' },
+  { id: 'u6_10', english: 'depression', phonetic: '/dɪˈpreʃn/', vietnamese: 'Trầm cảm', example: 'Depression affects millions of people worldwide.', wordFamily: 'adj: depressed', visualPrompt: 'A person sitting alone in a dark room looking out a window, rainy weather' },
+  { id: 'u6_11', english: 'gender inequality', phonetic: '/ˌdʒendə ˌɪnɪˈkwɒləti/', vietnamese: 'Bất bình đẳng giới', example: 'Gender inequality still exists in many workplaces.', wordFamily: 'n: equality; adj: equal/unequal', visualPrompt: 'Scales tipping to one side showing gender symbols, representing inequality' },
+  { id: 'u6_12', english: 'healthcare', phonetic: '/ˈhelθkeə(r)/', vietnamese: 'Chăm sóc sức khỏe', example: 'Access to healthcare should be equal for everyone.', wordFamily: 'n: healthcare', visualPrompt: 'A doctor holding a stethoscope, hospital background, medical cross symbol' },
+  { id: 'u6_13', english: 'obesity', phonetic: '/əʊˈbiːsəti/', vietnamese: 'Béo phì', example: 'Obesity is linked to heart disease and diabetes.', wordFamily: 'adj: obese', visualPrompt: 'Healthy vs unhealthy food choices on a table, balance scale' },
+  { id: 'u6_14', english: 'pollution', phonetic: '/pəˈluːʃn/', vietnamese: 'Ô nhiễm', example: 'Air pollution causes serious health problems.', wordFamily: 'v: pollute; n: pollutant', visualPrompt: 'Factory smokestacks releasing grey smoke into a blue sky' },
+  { id: 'u6_15', english: 'malnutrition', phonetic: '/ˌmælnjuˈtrɪʃn/', vietnamese: 'Suy dinh dưỡng', example: 'Malnutrition affects children in poor communities.', wordFamily: 'n: nutrition; adj: nutritious', visualPrompt: 'A child measuring their height on a wall chart, looking thin' },
+  { id: 'u6_16', english: 'non-profit', phonetic: '/ˌnɒn ˈprɒfɪt/', vietnamese: 'Phi lợi nhuận', example: 'They work for a non-profit organisation.', wordFamily: 'n: profit; adj: profitable', visualPrompt: 'Hands holding a heart symbol, representing charity and non-profit work' },
+  { id: 'u6_17', english: 'humanitarian aid', phonetic: '/hjuːˌmænɪˈteəriən eɪd/', vietnamese: 'Viện trợ nhân đạo', example: 'The country received humanitarian aid after the earthquake.', wordFamily: 'n: aid', visualPrompt: 'Boxes of food and water being unloaded from a truck, red cross symbol' },
+  { id: 'u6_18', english: 'shelter', phonetic: '/ˈʃeltə(r)/', vietnamese: 'Nơi trú ẩn', example: 'The charity built a shelter for homeless families.', wordFamily: 'v/n: shelter', visualPrompt: 'A simple wooden house or tent providing safety and shelter' },
+  { id: 'u6_19', english: 'funding', phonetic: '/ˈfʌndɪŋ/', vietnamese: 'Tài trợ / Quỹ', example: 'The project depends on international funding.', wordFamily: 'v: fund', visualPrompt: 'Coins and banknotes stacked, representing funding and donation' },
+  { id: 'u6_20', english: 'conduct', phonetic: '/kənˈdʌkt/', vietnamese: 'Tiến hành', example: 'Scientists conducted research on the spread of disease.', wordFamily: 'v: conduct', visualPrompt: 'Scientists in a lab conducting an experiment with test tubes' }
+];
 export const UNIT7_VOCAB: VocabularyWord[] = [];
 export const UNIT8_VOCAB: VocabularyWord[] = [];
 
@@ -396,7 +417,67 @@ export const UNIT5_PRACTICE_TEST: PracticeTestData = {
     }
   ]
 };
-export const UNIT6_PRACTICE_TEST: PracticeTestData = { module_id: "u6_practice_test", title: "Unit 6: Elite Challenge", unit_context: "Unit 6: Social Issues", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
+export const UNIT6_PRACTICE_TEST: PracticeTestData = {
+  module_id: "u6_practice_test",
+  title: "Unit 6: Elite Challenge",
+  unit_context: "Unit 6: Social Issues",
+  type: "gamified_test",
+  total_questions: 30,
+  time_limit_minutes: 20,
+  description: "Comprehensive test on Social Issues, Gerunds, and Question Tags.",
+  sections: [
+    {
+      section_name: "Part 1: Phonetics",
+      questions: [
+        { id: 1, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. p_o_verty B. h_o_meless C. s_o_cial D. gl_o_bal", options: ["A", "B", "C", "D"], answer: "B", explanation: "'poverty' /o/, 'homeless' /əʊ/, 'social' /əʊ/, 'global' /əʊ/." },
+        { id: 2, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. den_ie_s B. tr_ie_s C. stud_ie_s D. repl_ie_s", options: ["A", "B", "C", "D"], answer: "A", explanation: "Checks -es ending sounds." },
+        { id: 3, type: 'multiple_choice', question: "Choose the word with different stress: A. charity B. poverty C. community D. quality", options: ["A", "B", "C", "D"], answer: "C", explanation: "'community' stress on 2nd syllable, others on 1st." },
+        { id: 4, type: 'multiple_choice', question: "Choose the word with different stress: A. volunteer B. engineer C. committee D. referee", options: ["A", "B", "C", "D"], answer: "C", explanation: "'committee' stress on 2nd, others on 3rd (suffix -eer/-ee)." },
+        { id: 5, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. camp_ai_gn B. r_ai_n C. br_ai_n D. mount_ai_n", options: ["A", "B", "C", "D"], answer: "D", explanation: "'mountain' /ɪn/, others /eɪ/." }
+      ]
+    },
+    {
+      section_name: "Part 2: Vocabulary & Grammar",
+      questions: [
+        { id: 6, type: 'multiple_choice', question: "Many families in this area live in abject ______.", options: ["poverty", "wealth", "health", "safety"], answer: "poverty", explanation: "Context: 'live in abject poverty' (nghèo cùng cực)." },
+        { id: 7, type: 'multiple_choice', question: "The government has launched a ______ against domestic violence.", options: ["campaign", "camp", "war", "battle"], answer: "campaign", explanation: "Launch a campaign (phát động chiến dịch)." },
+        { id: 8, type: 'multiple_choice', question: "______ violence is a serious problem in many societies.", options: ["Domestic", "Foreign", "School", "Social"], answer: "Domestic", explanation: "Domestic violence (bạo lực gia đình)." },
+        { id: 9, type: 'multiple_choice', question: "We should respect the cultural ______ of ethnic minorities.", options: ["differences", "shocks", "gaps", "conflicts"], answer: "differences", explanation: "Cultural differences (sự khác biệt văn hóa)." },
+        { id: 10, type: 'multiple_choice', question: "Discrimination based on gender is called ______ discrimination.", options: ["gender", "race", "age", "class"], answer: "gender", explanation: "Gender discrimination (phân biệt giới tính)." },
+        { id: 11, type: 'multiple_choice', question: "She denied ______ the vase.", options: ["breaking", "to break", "break", "broken"], answer: "breaking", explanation: "Deny + V-ing." },
+        { id: 12, type: 'multiple_choice', question: "I look forward to ______ from you soon.", options: ["hearing", "hear", "heard", "be heard"], answer: "hearing", explanation: "Look forward to + V-ing." },
+        { id: 13, type: 'multiple_choice', question: "Let's go for a walk, ______?", options: ["shall we", "will we", "do we", "don't we"], answer: "shall we", explanation: "Let's -> shall we." },
+        { id: 14, type: 'multiple_choice', question: "You haven't seen Mary today, ______?", options: ["have you", "haven't you", "do you", "did you"], answer: "have you", explanation: "Negative statement -> Positive tag." },
+        { id: 15, type: 'multiple_choice', question: "Don't forget to lock the door, ______?", options: ["will you", "shall you", "do you", "don't you"], answer: "will you", explanation: "Imperative -> will you." },
+        { id: 16, type: 'multiple_choice', question: "He admitted ______ a mistake.", options: ["making", "to make", "made", "make"], answer: "making", explanation: "Admit + V-ing." },
+        { id: 17, type: 'multiple_choice', question: "He apologised ______ being late.", options: ["for", "of", "to", "about"], answer: "for", explanation: "Apologies for + V-ing." },
+        { id: 18, type: 'multiple_choice', question: "She is used to ______ up early.", options: ["getting", "get", "got", "to get"], answer: "getting", explanation: "Be used to + V-ing (quen với việc gì)." },
+        { id: 19, type: 'multiple_choice', question: "It's no use ______ to persuade him.", options: ["trying", "to try", "try", "tried"], answer: "trying", explanation: "It's no use + V-ing (vô ích khi làm gì)." },
+        { id: 20, type: 'multiple_choice', question: "Nobody works on Sunday, ______?", options: ["do they", "does he", "don't they", "doesn't he"], answer: "do they", explanation: "Nobody -> they. Question tag is positive." }
+      ]
+    },
+    {
+      section_name: "Part 3: Synonyms & Antonyms",
+      questions: [
+        { id: 21, type: 'synonym', question: "SYNONYM: treating people **unfairly** based on race.", options: ["discrimination", "equality", "respect", "justice"], answer: "discrimination", explanation: "Discrimination means unfair treatment." },
+        { id: 22, type: 'synonym', question: "SYNONYM: a **safe place** for homeless people.", options: ["shelter", "house", "hotel", "office"], answer: "shelter", explanation: "Shelter is a place protecting people." },
+        { id: 23, type: 'synonym', question: "SYNONYM: **extremely poor**.", options: ["poverty-stricken", "wealthy", "healthy", "greedy"], answer: "poverty-stricken", explanation: "Poverty-stricken means extremely poor." },
+        { id: 24, type: 'antonym', question: "ANTONYM: **rural** areas.", options: ["urban", "countryside", "remote", "natural"], answer: "urban", explanation: "Rural (nông thôn) >< Urban (thành thị)." },
+        { id: 25, type: 'antonym', question: "ANTONYM: **majority** of people.", options: ["minority", "most", "bulk", "plenty"], answer: "minority", explanation: "Majority (đa số) >< Minority (thiểu số)." }
+      ]
+    },
+    {
+      section_name: "Part 4: Reading Comprehension",
+      questions: [
+        { id: 26, type: 'multiple_choice', question: "The government is launching a campaign against poverty. This means they want to ______ poverty.", options: ["reduce", "increase", "ignore", "promote"], answer: "reduce", explanation: "Campaign against something means to fight/reduce it." },
+        { id: 27, type: 'multiple_choice', question: "She insisted on paying for the meal. -> She said: '______'", options: ["I must pay", "You must pay", "Let him pay", "Nobody pays"], answer: "I must pay", explanation: "Insist on paying means strongly wanting to pay." },
+        { id: 28, type: 'multiple_choice', question: "He suggested going to the cinema. -> He said: '______'", options: ["Let's go to the cinema", "Do you go to the cinema?", "I go to the cinema", "We went to the cinema"], answer: "Let's go to the cinema", explanation: "Suggest + V-ing often corresponds to 'Let's...'." },
+        { id: 29, type: 'multiple_choice', question: "Choose the correct sentence: ", options: ["I look forward to seeing you.", "I look forward to see you.", "I look forward seeing you.", "I looking forward to see you."], answer: "I look forward to seeing you.", explanation: "Look forward to + V-ing." },
+        { id: 30, type: 'multiple_choice', question: "Choose the correct sentence: ", options: ["She denied having stolen the bag.", "She denied to steal the bag.", "She denied steal the bag.", "She denied stole the bag."], answer: "She denied having stolen the bag.", explanation: "Deny + V-ing/Perfect Gerund." }
+      ]
+    }
+  ]
+};
 export const UNIT7_PRACTICE_TEST: PracticeTestData = { module_id: "u7_practice_test", title: "Unit 7: Elite Challenge", unit_context: "Unit 7: Healthy Lifestyle", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
 export const UNIT8_PRACTICE_TEST: PracticeTestData = { module_id: "u8_practice_test", title: "Unit 8: Elite Challenge", unit_context: "Unit 8: Health & Life", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
 
@@ -593,7 +674,30 @@ export const UNIT5_GRAMMAR_CHALLENGE: GrammarChallengeData = {
     { id: 15, type: 'multiple_choice', question: "It is ______ that smart cities will become common worldwide.", options: ["likely", "maybe", "probably", "definite"], answer: "likely", explanation: "Cấu trúc: 'It is likely that + clause'. 'Maybe/probably' là trạng từ, 'definite' không phù hợp ngữ cảnh." }
   ]
 };
-export const UNIT6_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u6_challenge", title: "Unit 6: Grammar Master", unit_context: "Unit 6", description: "Structure Placeholder", total_questions: 0, questions: [] };
+export const UNIT6_GRAMMAR_CHALLENGE: GrammarChallengeData = {
+  module_id: "u6_challenge",
+  title: "Unit 6: Grammar Master",
+  unit_context: "Unit 6",
+  description: "Master Gerunds & Question Tags.",
+  total_questions: 15,
+  questions: [
+    { id: 1, type: 'multiple_choice', question: "______ helps poor communities improve their living standards.", options: ["Volunteer", "To volunteer", "Volunteering", "Voluntarily"], answer: "Volunteering", explanation: "Gerund (V-ing) acts as the subject of the sentence." },
+    { id: 2, type: 'multiple_choice', question: "She enjoys ______ with children at the orphanage.", options: ["working", "to work", "work", "worked"], answer: "working", explanation: "Verb 'enjoy' is followed by a Gerund (V-ing)." },
+    { id: 3, type: 'multiple_choice', question: "They decided to focus on ______ funds for the charity.", options: ["raise", "raising", "to raise", "raised"], answer: "raising", explanation: "After preposition 'on', use Gerund (V-ing)." },
+    { id: 4, type: 'multiple_choice', question: "He admitted ______ the mistake during the project.", options: ["make", "to make", "making", "having made"], answer: "having made", explanation: "Perfect Gerund emphasizing the action happened before the main verb 'admitted'." },
+    { id: 5, type: 'multiple_choice', question: "I look forward to ______ you at the community event.", options: ["see", "seeing", "saw", "seen"], answer: "seeing", explanation: "High frequency phrase 'look forward to' + V-ing." },
+    { id: 6, type: 'multiple_choice', question: "She denied ______ the rules of the organization.", options: ["break", "to break", "breaking", "having broken"], answer: "having broken", explanation: "Perfect Gerund 'having broken' emphasizes the past action." },
+    { id: 7, type: 'multiple_choice', question: "We suggest ______ a fundraising campaign next month.", options: ["organise", "to organise", "organising", "organised"], answer: "organising", explanation: "Verb 'suggest' is followed by V-ing." },
+    { id: 8, type: 'multiple_choice', question: "He apologised for ______ late to the meeting.", options: ["being", "be", "to be", "been"], answer: "being", explanation: "After preposition 'for', use Gerund (V-ing)." },
+    { id: 9, type: 'multiple_choice', question: "You are a volunteer, ______?", options: ["aren't you", "don't you", "are you", "haven't you"], answer: "aren't you", explanation: "Main verb 'are' (+) -> Tag 'aren't' (-)." },
+    { id: 10, type: 'multiple_choice', question: "She doesn't work at the shelter, ______?", options: ["does she", "doesn't she", "is she", "isn't she"], answer: "does she", explanation: "Main verb 'doesn't work' (-) -> Tag 'does' (+)." },
+    { id: 11, type: 'multiple_choice', question: "Let's join the clean-up campaign, ______?", options: ["will we", "shall we", "don't we", "do we"], answer: "shall we", explanation: "Special case: 'Let's' -> Tag 'shall we?'." },
+    { id: 12, type: 'multiple_choice', question: "Everyone can help the community, ______?", options: ["can't they", "can they", "don't they", "do they"], answer: "can't they", explanation: "Indefinite pronoun 'Everyone' -> Tag pronoun 'they'. 'can' (+) -> 'can't' (-)." },
+    { id: 13, type: 'multiple_choice', question: "Don't drop litter here, ______?", options: ["do you", "don't you", "will you", "won't you"], answer: "will you", explanation: "Imperative (Command/Request) -> Tag 'will you?'." },
+    { id: 14, type: 'multiple_choice', question: "I am right about the project plan, ______?", options: ["am I", "aren't I", "amn't I", "don't I"], answer: "aren't I", explanation: "Special case: 'I am' -> Tag 'aren't I?'." },
+    { id: 15, type: 'multiple_choice', question: "Nobody knew the answer, ______?", options: ["did they", "didn't they", "do they", "don't they"], answer: "did they", explanation: "'Nobody' is negative, so tag is positive. 'knew' is past simple -> 'did'. Pronoun 'they'." }
+  ]
+};
 export const UNIT7_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u7_challenge", title: "Unit 7: Grammar Master", unit_context: "Unit 7", description: "Structure Placeholder", total_questions: 0, questions: [] };
 export const UNIT8_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u8_challenge", title: "Unit 8: Grammar Master", unit_context: "Unit 8", description: "Structure Placeholder", total_questions: 0, questions: [] };
 
@@ -1292,14 +1396,14 @@ export const COURSE_DATA: UnitData[] = [
     title: 'Unit 6: Social Issues',
     vocab: UNIT6_VOCAB,
     grammar: {
-      topic: 'Linking Words',
-      questions: [],
+      topic: 'Gerunds & Question Tags',
+      questions: UNIT6_GRAMMAR_CHALLENGE.questions.map(q => ({ id: q.id, question: q.question, options: q.options || [], correctIndex: q.options ? q.options.indexOf(q.answer || '') : 0, explanation: q.explanation })),
       games: []
     },
     speaking: { drills: [], interview: [] },
     writing: {
       topic: 'Social Issues',
-      prompt: 'Discuss a social issue in your community.',
+      prompt: 'Discuss a social issue in your community and how to solve it.',
       preWriting: [],
       sampleEssay: { title: "Sample", content: "Content pending." }
     },
