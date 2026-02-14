@@ -12,7 +12,7 @@ interface Question {
 }
 
 interface Phase {
-  id: string; 
+  id: string;
   title: string;
   description: string;
   questions: Question[];
@@ -473,7 +473,118 @@ const PHASES: Phase[] = [
       }
     ]
   },
-  { id: 'u5', title: 'Forbidden Library (Unit 5)', description: 'Questions coming soon.', questions: [] },
+  {
+    id: 'u5',
+    title: 'Forbidden Library (Unit 5)',
+    description: '15 Questions on Cities and Education in the Future.',
+    questions: [
+      {
+        id: 1,
+        question: "A ______ is a bridge that connects two buildings high above the ground.",
+        options: ["moving walkway", "skybridge", "underground motorway", "vertical farm"],
+        correct_answer: "skybridge",
+        explanation: "Definition: 'Skybridge' (cầu nối trên cao). A bridge connecting buildings at height. (Skybridge là cầu nối giữa hai tòa nhà ở trên cao)."
+      },
+      {
+        id: 2,
+        question: "A ______ is a road built below the surface of the ground.",
+        options: ["digital road", "skybridge", "underground motorway", "solar window"],
+        correct_answer: "underground motorway",
+        explanation: "Definition: 'Underground motorway' (đường cao tốc ngầm). A road constructed beneath the ground. (Đường cao tốc ngầm là đường được xây dựng bên dưới mặt đất)."
+      },
+      {
+        id: 3,
+        question: "A ______ can detect changes in temperature, movement or light.",
+        options: ["sensor", "drone", "hologram", "mirror"],
+        correct_answer: "sensor",
+        explanation: "Definition: 'Sensor' (cảm biến). A device that detects physical changes. (Cảm biến là thiết bị phát hiện thay đổi về nhiệt độ, chuyển động hoặc ánh sáng)."
+      },
+      {
+        id: 4,
+        question: "A ______ is a house built using 3D printing technology.",
+        options: ["floating building", "solar window", "3D printed house", "foldable house"],
+        correct_answer: "3D printed house",
+        explanation: "Definition: '3D printed house' (nhà in 3D). A house constructed using 3D printing. (Nhà in 3D là nhà được xây dựng bằng công nghệ in 3D)."
+      },
+      {
+        id: 5,
+        question: "A ______ delivers packages without a human pilot.",
+        options: ["flying vehicle", "drone delivery", "vacuum tube train", "digital classroom"],
+        correct_answer: "drone delivery",
+        explanation: "Definition: 'Drone delivery' (giao hàng bằng drone). Packages delivered by unmanned aerial vehicles. (Giao hàng bằng drone là dùng máy bay không người lái để vận chuyển hàng hóa)."
+      },
+      {
+        id: 6,
+        question: "A ______ is a farm that grows crops in tall buildings.",
+        options: ["floating building", "vertical farm", "smart mirror", "moving walkway"],
+        correct_answer: "vertical farm",
+        explanation: "Definition: 'Vertical farm' (nông trại thẳng đứng). A farm inside a tall building. (Nông trại thẳng đứng là mô hình trồng trọt trong các tòa nhà cao tầng)."
+      },
+      {
+        id: 7,
+        question: "A ______ is a very fast train that travels in a special tube.",
+        options: ["underground motorway", "drone delivery", "vacuum tube train", "flying vehicle"],
+        correct_answer: "vacuum tube train",
+        explanation: "Definition: 'Vacuum tube train' (tàu ống chân không). A high-speed train in a tube. (Tàu ống chân không là loại tàu siêu tốc di chuyển trong ống đặc biệt)."
+      },
+      {
+        id: 8,
+        question: "A ______ is a classroom that uses advanced technology and digital devices.",
+        options: ["digital classroom", "home schooling", "social classroom", "foldable classroom"],
+        correct_answer: "digital classroom",
+        explanation: "Definition: 'Digital classroom' (lớp học số). A classroom with advanced tech. (Lớp học số là lớp học sử dụng công nghệ tiên tiến và thiết bị kỹ thuật số)."
+      },
+      {
+        id: 9,
+        question: "A ______ projects three-dimensional images.",
+        options: ["sensor", "hologram device", "smart mirror", "solar window"],
+        correct_answer: "hologram device",
+        explanation: "Definition: 'Hologram device' (thiết bị chiếu hologram). A device that projects 3D images. (Thiết bị hologram chiếu hình ảnh ba chiều)."
+      },
+      {
+        id: 10,
+        question: "______ means education that takes place at home instead of at school.",
+        options: ["Digital classroom", "Virtual learning", "Home schooling", "Social education"],
+        correct_answer: "Home schooling",
+        explanation: "Definition: 'Home schooling' (học tại nhà). Education at home rather than school. (Học tại nhà là hình thức giáo dục diễn ra tại nhà thay vì ở trường)."
+      },
+      {
+        id: 11,
+        question: "If a car ______, it stops working.",
+        options: ["breaks up", "breaks down", "takes off", "turns on"],
+        correct_answer: "breaks down",
+        explanation: "Phrasal verb: 'Break down' (hỏng/hư). To stop functioning. (Break down nghĩa là ngừng hoạt động, bị hỏng)."
+      },
+      {
+        id: 12,
+        question: "To ______ means to measure the size, amount or degree of something.",
+        options: ["exchange", "socialise", "measure", "fold"],
+        correct_answer: "measure",
+        explanation: "Vocabulary: 'Measure' (đo lường). To find the size or amount. (Measure nghĩa là đo kích thước, số lượng hoặc mức độ của một thứ gì đó)."
+      },
+      {
+        id: 13,
+        question: "Something ______ can be folded easily.",
+        options: ["floating", "foldable", "valuable", "vertical"],
+        correct_answer: "foldable",
+        explanation: "Vocabulary: 'Foldable' (có thể gập lại). Able to be folded. (Foldable nghĩa là có thể gập lại được một cách dễ dàng)."
+      },
+      {
+        id: 14,
+        question: "A ______ allows people to walk without moving their legs much because it moves automatically.",
+        options: ["moving walkway", "skybridge", "digital road", "solar window"],
+        correct_answer: "moving walkway",
+        explanation: "Definition: 'Moving walkway' (lối đi tự động). A slow-moving conveyor for pedestrians. (Lối đi tự động là băng chuyền giúp người đi bộ di chuyển mà không cần bước nhiều)."
+      },
+      {
+        id: 15,
+        question: "If something is ______, it is extremely useful or valuable.",
+        options: ["social", "valuable", "invaluable", "measurable"],
+        correct_answer: "invaluable",
+        explanation: "Vocabulary: 'Invaluable' (vô giá). Extremely useful or important. Note: 'invaluable' ≠ 'not valuable'. (Invaluable nghĩa là cực kỳ quý giá, hữu ích — không phải 'không có giá trị')."
+      }
+    ]
+  },
   { id: 'u6', title: 'Forbidden Library (Unit 6)', description: 'Questions coming soon.', questions: [] },
   { id: 'u7', title: 'Forbidden Library (Unit 7)', description: 'Questions coming soon.', questions: [] },
   { id: 'u8', title: 'Forbidden Library (Unit 8)', description: 'Questions coming soon.', questions: [] }
@@ -498,10 +609,10 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 1) { 
-          setIsGameOver(true); 
-          onComplete(0); 
-          return 0; 
+        if (prev <= 1) {
+          setIsGameOver(true);
+          onComplete(0);
+          return 0;
         }
         return prev - 1;
       });
@@ -512,14 +623,14 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
   const handleSelect = (answer: string) => {
     if (isAnswered || totalQuestions === 0) return;
     const question = phase.questions[currentQuestionIdx];
-    
+
     setSelectedAnswer(answer);
     setIsAnswered(true);
-    if (answer === question.correct_answer) { 
-      playCorrect(); 
-      setScore(s => s + 1); 
-    } else { 
-      playWrong(); 
+    if (answer === question.correct_answer) {
+      playCorrect();
+      setScore(s => s + 1);
+    } else {
+      playWrong();
     }
   };
 
@@ -551,8 +662,8 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
               "The ancient inscriptions for {phase.title} have been successfully archived. No further challenges remain in this sector."
             </p>
           </div>
-          <button 
-            onClick={onReturn} 
+          <button
+            onClick={onReturn}
             className="w-full bg-amber-600 text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-[0.4em] shadow-xl hover:bg-amber-500 transition-all flex items-center justify-center gap-3 active:scale-95"
           >
             <ArrowLeft size={18} />
@@ -574,8 +685,8 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
         <h2 className="text-2xl font-black mb-4 uppercase tracking-wider">LIBRARY SEALED</h2>
         <p className="text-slate-400 mb-8 text-sm italic font-medium">Knowledge successfully archived.</p>
         <div className="bg-amber-500/10 p-6 rounded-2xl border border-amber-500/20 mb-8">
-           <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">Mastery Score</p>
-           <p className="text-6xl font-black text-amber-500 italic">{Math.round((score/totalQuestions)*100)}%</p>
+          <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">Mastery Score</p>
+          <p className="text-6xl font-black text-amber-500 italic">{Math.round((score / totalQuestions) * 100)}%</p>
         </div>
         <button onClick={onReturn} className="w-full bg-amber-600 text-white py-4 rounded-xl font-bold text-sm uppercase tracking-widest shadow-lg hover:bg-amber-500 transition-all">RETURN TO HUB</button>
       </div>
@@ -595,16 +706,16 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
         <div className="text-right">
           <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">SEAL TIME</p>
           <p className={`text-2xl font-mono font-black ${timeLeft < 60 ? 'text-rose-600' : 'text-amber-400'}`}>
-            {Math.floor(timeLeft/60)}:{(timeLeft%60).toString().padStart(2, '0')}
+            {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
           </p>
         </div>
       </div>
 
       <div className="space-y-12 py-4 relative z-10">
         <div className="bg-black/20 p-8 rounded-[2rem] border border-white/5 shadow-inner">
-           <h4 className="text-xl md:text-2xl font-medium text-[#FFF8E1] text-center italic leading-relaxed">
+          <h4 className="text-xl md:text-2xl font-medium text-[#FFF8E1] text-center italic leading-relaxed">
             "{question.question}"
-           </h4>
+          </h4>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -619,10 +730,10 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
             }
 
             return (
-              <button 
-                key={i} 
-                disabled={isAnswered} 
-                onClick={() => handleSelect(opt)} 
+              <button
+                key={i}
+                disabled={isAnswered}
+                onClick={() => handleSelect(opt)}
                 className={`p-6 rounded-[2rem] font-bold text-left transition-all flex items-center shadow-xl group relative overflow-hidden whitespace-normal break-words ${styles}`}
               >
                 <div className="absolute left-6 top-1/2 -translate-y-1/2">
@@ -642,8 +753,8 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
               <h5 className="text-[10px] font-black text-amber-500/50 uppercase tracking-[0.4em] mb-4">LIBRARIAN'S NOTES</h5>
               <p className="text-base text-slate-300 font-medium italic">"{question.explanation}"</p>
             </div>
-            <button 
-              onClick={handleNext} 
+            <button
+              onClick={handleNext}
               className="w-full bg-[#FFF8E1] text-[#2d1f18] py-5 rounded-[2rem] font-bold text-sm shadow-2xl hover:bg-white transition-all flex items-center justify-center space-x-3 uppercase tracking-[0.2em] border-b-8 border-slate-300"
             >
               <span>{currentQuestionIdx === totalQuestions - 1 ? 'REVEAL MASTER SCORE' : 'PROCEED TO THE NEXT QUESTION ➝'}</span>

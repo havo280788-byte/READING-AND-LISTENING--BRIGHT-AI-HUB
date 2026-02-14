@@ -251,14 +251,14 @@ export const UNIT2_PRACTICE_TEST: PracticeTestData = {
   ]
 };
 
-export const UNIT3_PRACTICE_TEST: PracticeTestData = { 
-  module_id: "u3_practice_test", 
-  title: "Unit 3: Elite Challenge", 
-  unit_context: "Unit 3: Global Warming", 
-  type: "gamified_test", 
-  total_questions: 10, 
-  time_limit_minutes: 15, 
-  description: "Ecosystems and Present Perfect.", 
+export const UNIT3_PRACTICE_TEST: PracticeTestData = {
+  module_id: "u3_practice_test",
+  title: "Unit 3: Elite Challenge",
+  unit_context: "Unit 3: Global Warming",
+  type: "gamified_test",
+  total_questions: 10,
+  time_limit_minutes: 15,
+  description: "Ecosystems and Present Perfect.",
   sections: [
     {
       section_name: "Environment Protection",
@@ -275,17 +275,17 @@ export const UNIT3_PRACTICE_TEST: PracticeTestData = {
         { id: 10, type: 'multiple_choice', question: "Livestock farming produces a significant amount of ______.", options: ["oxygen", "methane", "water", "nitrogen"], answer: "methane", explanation: "Methane is a potent greenhouse gas from livestock." }
       ]
     }
-  ] 
+  ]
 };
 
-export const UNIT4_PRACTICE_TEST: PracticeTestData = { 
-  module_id: "u4_practice_test", 
-  title: "Unit 4: Elite Challenge", 
-  unit_context: "Unit 4: World Heritage", 
-  type: "gamified_test", 
-  total_questions: 10, 
-  time_limit_minutes: 15, 
-  description: "Preservation and Conjunctions.", 
+export const UNIT4_PRACTICE_TEST: PracticeTestData = {
+  module_id: "u4_practice_test",
+  title: "Unit 4: Elite Challenge",
+  unit_context: "Unit 4: World Heritage",
+  type: "gamified_test",
+  total_questions: 10,
+  time_limit_minutes: 15,
+  description: "Preservation and Conjunctions.",
   sections: [
     {
       section_name: "Heritage Preservation",
@@ -302,10 +302,60 @@ export const UNIT4_PRACTICE_TEST: PracticeTestData = {
         { id: 10, type: 'multiple_choice', question: "UNESCO ______ sites with outstanding universal value.", options: ["forgets", "recognizes", "buys", "sells"], answer: "recognizes", explanation: "Recognize means to identify and acknowledge officially." }
       ]
     }
-  ] 
+  ]
 };
 
-export const UNIT5_PRACTICE_TEST: PracticeTestData = { module_id: "u5_practice_test", title: "Unit 5: Elite Challenge", unit_context: "Unit 5: Cities of the Future", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
+export const UNIT5_PRACTICE_TEST: PracticeTestData = {
+  module_id: "u5_practice_test",
+  title: "Unit 5: Elite Challenge",
+  unit_context: "Unit 5: Cities of the Future",
+  type: "gamified_test",
+  total_questions: 30,
+  time_limit_minutes: 15,
+  description: "Full Grammar & Vocab Challenge – Future Forms, Cities and Education",
+  sections: [
+    {
+      section_name: "Part A: Grammar – Future Forms",
+      questions: [
+        { id: 1, type: 'grammar', question: "I think people ______ flying cars in the future.", options: ["are going to drive", "will drive", "drive", "drove"], answer: "will drive", explanation: "Dùng 'will' cho dự đoán mang tính ý kiến cá nhân (I think)." },
+        { id: 2, type: 'grammar', question: "Look at those clouds! It ______ soon.", options: ["will rain", "rains", "is going to rain", "raining"], answer: "is going to rain", explanation: "Dùng 'be going to' khi có bằng chứng hiện tại (Look at those clouds)." },
+        { id: 3, type: 'grammar', question: "People ______ live on Mars, but scientists aren't sure.", options: ["will definitely", "may", "are certain", "definitely"], answer: "may", explanation: "Dùng 'may + V' để diễn tả khả năng không chắc chắn." },
+        { id: 4, type: 'grammar', question: "It is likely that robots ______ teachers in some schools.", options: ["replace", "will replace", "replaced", "replacing"], answer: "will replace", explanation: "Cấu trúc: 'It is likely that + S + will + V'." },
+        { id: 5, type: 'grammar', question: "We ______ probably use cash in the future.", options: ["won't", "don't", "aren't", "not"], answer: "won't", explanation: "'Probably' đứng trước 'won't'. Ngữ cảnh phủ định: sẽ không dùng tiền mặt." },
+        { id: 6, type: 'grammar', question: "She ______ start an online course next week. She has already enrolled.", options: ["will", "may", "is going to", "might"], answer: "is going to", explanation: "Dùng 'be going to' cho kế hoạch đã được quyết định (đã đăng ký rồi)." },
+        { id: 7, type: 'grammar', question: "Cars will ______ be driverless in big cities.", options: ["maybe", "definitely", "likely", "possible"], answer: "definitely", explanation: "'Definitely' là trạng từ chắc chắn, đứng sau 'will'." },
+        { id: 8, type: 'grammar', question: "Maybe students ______ in virtual classrooms in 2050.", options: ["study", "will study", "studied", "studying"], answer: "will study", explanation: "'Maybe' đứng đầu câu + 'will + V' diễn tả khả năng tương lai." },
+        { id: 9, type: 'grammar', question: "It ______ snow. The temperature is 20°C.", options: ["will", "may", "isn't going to", "probably"], answer: "isn't going to", explanation: "Dùng 'be going to' phủ định khi có bằng chứng hiện tại (nhiệt độ 20°C)." },
+        { id: 10, type: 'grammar', question: "Robots are likely ______ humans in dangerous jobs.", options: ["replace", "to replace", "replacing", "replaced"], answer: "to replace", explanation: "Cấu trúc: 'S + be likely + to V'." },
+        { id: 11, type: 'grammar', question: "I believe cities ______ greener in the future.", options: ["are going to be", "will be", "being", "been"], answer: "will be", explanation: "Dùng 'will' cho dự đoán dựa trên niềm tin cá nhân (I believe)." },
+        { id: 12, type: 'grammar', question: "We will ______ not need petrol cars soon.", options: ["maybe", "probably", "likely", "possible"], answer: "probably", explanation: "'Probably' đứng giữa 'will' và 'not'." },
+        { id: 13, type: 'grammar', question: "It is ______ that smart homes will become common.", options: ["maybe", "likely", "probably", "possible"], answer: "likely", explanation: "Cấu trúc: 'It is likely that + clause'. 'Maybe/probably' là trạng từ." },
+        { id: 14, type: 'grammar', question: "The drone looks unstable. It ______ crash.", options: ["will", "is going to", "might to", "likely"], answer: "is going to", explanation: "Dùng 'be going to' khi có bằng chứng quan sát được (looks unstable)." },
+        { id: 15, type: 'grammar', question: "I'm sure technology ______ education completely.", options: ["will change", "changes", "is changing", "changed"], answer: "will change", explanation: "Dùng 'will' cho dự đoán chắc chắn (I'm sure)." }
+      ]
+    },
+    {
+      section_name: "Part B: Vocabulary – Cities & Education",
+      questions: [
+        { id: 16, type: 'multiple_choice', question: "A bridge connecting two buildings high above the street is called a ______.", options: ["moving walkway", "skybridge", "digital road", "underground motorway"], answer: "skybridge", explanation: "'Skybridge' (cầu nối trên cao) – cầu nối giữa hai tòa nhà ở trên cao." },
+        { id: 17, type: 'multiple_choice', question: "A road built below the surface is an ______.", options: ["underground motorway", "skybridge", "vertical farm", "solar window"], answer: "underground motorway", explanation: "'Underground motorway' (đường cao tốc ngầm) – đường xây bên dưới mặt đất." },
+        { id: 18, type: 'multiple_choice', question: "A device that detects changes in temperature or movement is a ______.", options: ["sensor", "drone", "mirror", "exchange"], answer: "sensor", explanation: "'Sensor' (cảm biến) – thiết bị phát hiện thay đổi nhiệt độ, chuyển động." },
+        { id: 19, type: 'multiple_choice', question: "A ______ delivers goods without a human pilot.", options: ["flying vehicle", "drone delivery", "vertical farm", "solar window"], answer: "drone delivery", explanation: "'Drone delivery' (giao hàng bằng drone) – vận chuyển hàng hóa không người lái." },
+        { id: 20, type: 'multiple_choice', question: "A ______ grows crops inside tall buildings.", options: ["floating building", "foldable house", "vertical farm", "smart mirror"], answer: "vertical farm", explanation: "'Vertical farm' (nông trại thẳng đứng) – trồng trọt trong tòa nhà cao tầng." },
+        { id: 21, type: 'multiple_choice', question: "A very fast train in a special tube is a ______.", options: ["digital road", "vacuum tube train", "skybridge", "drone"], answer: "vacuum tube train", explanation: "'Vacuum tube train' (tàu ống chân không) – tàu siêu tốc trong ống đặc biệt." },
+        { id: 22, type: 'multiple_choice', question: "If a car ______, it stops working.", options: ["breaks up", "breaks down", "takes off", "folds up"], answer: "breaks down", explanation: "Phrasal verb: 'Break down' (hỏng/hư) – ngừng hoạt động." },
+        { id: 23, type: 'multiple_choice', question: "To ______ means to measure something.", options: ["exchange", "socialise", "measure", "sense"], answer: "measure", explanation: "'Measure' (đo lường) – đo kích thước, số lượng hoặc mức độ." },
+        { id: 24, type: 'multiple_choice', question: "Something ______ can be folded easily.", options: ["floating", "foldable", "vertical", "valuable"], answer: "foldable", explanation: "'Foldable' (có thể gập lại) – có thể gập lại được dễ dàng." },
+        { id: 25, type: 'multiple_choice', question: "Education at home is called ______.", options: ["digital classroom", "social education", "home schooling", "virtual learning"], answer: "home schooling", explanation: "'Home schooling' (học tại nhà) – giáo dục diễn ra tại nhà thay vì ở trường." },
+        { id: 26, type: 'multiple_choice', question: "A classroom using advanced technology is a ______.", options: ["digital classroom", "floating building", "vertical farm", "skybridge"], answer: "digital classroom", explanation: "'Digital classroom' (lớp học số) – lớp học sử dụng công nghệ tiên tiến." },
+        { id: 27, type: 'multiple_choice', question: "A device that projects 3D images is a ______.", options: ["smart mirror", "hologram device", "solar window", "sensor"], answer: "hologram device", explanation: "'Hologram device' (thiết bị hologram) – chiếu hình ảnh ba chiều." },
+        { id: 28, type: 'multiple_choice', question: "If something is extremely useful, it is ______.", options: ["valuable", "invaluable", "social", "digital"], answer: "invaluable", explanation: "'Invaluable' (vô giá) – cực kỳ quý giá. Lưu ý: invaluable ≠ not valuable." },
+        { id: 29, type: 'multiple_choice', question: "To ______ means to interact socially.", options: ["measure", "socialise", "exchange", "fold"], answer: "socialise", explanation: "'Socialise' (giao lưu xã hội) – tương tác và kết nối với người khác." },
+        { id: 30, type: 'multiple_choice', question: "A ______ allows people to walk without moving much because it moves automatically.", options: ["moving walkway", "skybridge", "digital road", "underground motorway"], answer: "moving walkway", explanation: "'Moving walkway' (lối đi tự động) – băng chuyền giúp di chuyển tự động." }
+      ]
+    }
+  ]
+};
 export const UNIT6_PRACTICE_TEST: PracticeTestData = { module_id: "u6_practice_test", title: "Unit 6: Elite Challenge", unit_context: "Unit 6: Social Issues", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
 export const UNIT7_PRACTICE_TEST: PracticeTestData = { module_id: "u7_practice_test", title: "Unit 7: Elite Challenge", unit_context: "Unit 7: Healthy Lifestyle", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
 export const UNIT8_PRACTICE_TEST: PracticeTestData = { module_id: "u8_practice_test", title: "Unit 8: Elite Challenge", unit_context: "Unit 8: Health & Life", type: "gamified_test", total_questions: 0, time_limit_minutes: 15, description: "Structure Placeholder", sections: [] };
@@ -335,17 +385,38 @@ export const UNIT5_ERROR_CORRECTION: ErrorCorrectionData = {
   questions: [
     {
       id: 1,
-      sentence: "[A] In the future , people [B] will to use [C] flying vehicles to [D] reduce traffic congestion.",
-      error_part: "B",
-      correction: "will use",
-      explanation: "Sửa thành: 'will use'. Sau 'will' là động từ nguyên mẫu không 'to'."
+      sentence: "I think people [A] are going to live on Mars in 2050 because technology [B] will improve and life [C] will become easier in space [D] in the future.",
+      error_part: "A",
+      correction: "will live",
+      explanation: "Sửa thành: 'will live'. Dùng 'will' cho dự đoán mang tính ý kiến cá nhân (I think). 'Be going to' dùng khi có bằng chứng hiện tại."
     },
     {
       id: 2,
-      sentence: "[A] Look at [B] that drone ! It [C] will going to land [D] on the roof .",
-      error_part: "C",
-      correction: "is going to land",
-      explanation: "Sửa thành: 'is going to land'. Dùng 'be going to' cho dự đoán có căn cứ hiện tại."
+      sentence: "Look at those dark clouds! It [A] will rain very soon, so we [B] should stay inside and [C] close all the windows [D] quickly.",
+      error_part: "A",
+      correction: "is going to rain",
+      explanation: "Sửa thành: 'is going to rain'. Dùng 'be going to' cho dự đoán dựa trên bằng chứng hiện tại (dark clouds)."
+    },
+    {
+      id: 3,
+      sentence: "People [A] will maybe use flying cars in the future when cities [B] become more modern and technology [C] develops further [D] worldwide.",
+      error_part: "A",
+      correction: "may use",
+      explanation: "Sửa thành: 'may use'. 'Maybe' là trạng từ đứng đầu câu, không đứng sau 'will'. Để diễn tả khả năng, dùng 'may/might + V nguyên mẫu'."
+    },
+    {
+      id: 4,
+      sentence: "[A] It is likely people will travel to other planets [B] in the future as space technology [C] becomes more advanced and affordable [D] for everyone.",
+      error_part: "A",
+      correction: "It is likely that",
+      explanation: "Sửa thành: 'It is likely that people will travel...'. Cấu trúc đúng: 'It is likely that + clause'. Thiếu 'that' sau 'likely'."
+    },
+    {
+      id: 5,
+      sentence: "She [A] probably won't to buy a petrol car next year because electric vehicles [B] will be cheaper and more environmentally [C] friendly [D] than before.",
+      error_part: "A",
+      correction: "probably won't buy",
+      explanation: "Sửa thành: 'probably won't buy'. Sau 'won't' là động từ nguyên mẫu không 'to'."
     }
   ]
 };
@@ -383,12 +454,12 @@ export const UNIT1_GRAMMAR_CHALLENGE: GrammarChallengeData = {
   ]
 };
 
-export const UNIT2_GRAMMAR_CHALLENGE: GrammarChallengeData = { 
-  module_id: "u2_challenge", 
-  title: "Unit 2: Grammar Master", 
-  unit_context: "Unit 2", 
-  description: "Master past tenses and cleft sentences.", 
-  total_questions: 15, 
+export const UNIT2_GRAMMAR_CHALLENGE: GrammarChallengeData = {
+  module_id: "u2_challenge",
+  title: "Unit 2: Grammar Master",
+  unit_context: "Unit 2",
+  description: "Master past tenses and cleft sentences.",
+  total_questions: 15,
   questions: [
     { id: 1, type: 'multiple_choice', question: "It was my mother ______ taught me how to respect traditional values.", options: ["which", "who", "whom", "whose"], answer: "who", explanation: "In a cleft sentence emphasizing a person, use 'who' or 'that'." },
     { id: 2, type: 'multiple_choice', question: "While I ______ for the ASEAN quiz, the power suddenly went out.", options: ["studied", "was studying", "am studying", "were studying"], answer: "was studying", explanation: "Use past continuous for a background action interrupted by a shorter past action." },
@@ -405,15 +476,15 @@ export const UNIT2_GRAMMAR_CHALLENGE: GrammarChallengeData = {
     { id: 13, type: 'multiple_choice', question: "She ______ a book when she heard a strange noise outside.", options: ["is reading", "was reading", "read", "reads"], answer: "was reading", explanation: "Past continuous for background action." },
     { id: 14, type: 'multiple_choice', question: "It was the teacher ______ gave us the ASEAN quiz.", options: ["which", "who", "whom", "whose"], answer: "who", explanation: "In a cleft sentence emphasizing a person, use 'who' or 'that'." },
     { id: 15, type: 'multiple_choice', question: "Where ______ she during the cultural exchange program?", options: ["is", "was", "were", "did"], answer: "was", explanation: "Past simple of 'be' for singular subject." }
-  ] 
+  ]
 };
 
-export const UNIT3_GRAMMAR_CHALLENGE: GrammarChallengeData = { 
-  module_id: "u3_challenge", 
-  title: "Unit 3: Grammar Master", 
-  unit_context: "Unit 3", 
-  description: "Master present perfect vs past simple.", 
-  total_questions: 15, 
+export const UNIT3_GRAMMAR_CHALLENGE: GrammarChallengeData = {
+  module_id: "u3_challenge",
+  title: "Unit 3: Grammar Master",
+  unit_context: "Unit 3",
+  description: "Master present perfect vs past simple.",
+  total_questions: 15,
   questions: [
     { id: 1, type: 'multiple_choice', question: "The volunteers ______ ten sea turtles so far this month.", options: ["saved", "have saved", "are saving", "save"], answer: "have saved", explanation: "Use present perfect with 'so far' to describe actions continuing up to now." },
     { id: 2, type: 'multiple_choice', question: "Last week, the local community ______ the whole beach.", options: ["cleaned", "has cleaned", "was cleaning", "clean"], answer: "cleaned", explanation: "Use past simple for actions completed at a specific time (last week)." },
@@ -430,15 +501,15 @@ export const UNIT3_GRAMMAR_CHALLENGE: GrammarChallengeData = {
     { id: 13, type: 'multiple_choice', question: "She ______ the environmental report yet.", options: ["didn't finish", "hasn't finished", "doesn't finish", "not finish"], answer: "hasn't finished", explanation: "Present perfect with 'yet' in negative sentence." },
     { id: 14, type: 'multiple_choice', question: "It ______ since this morning.", options: ["rained", "has rained", "rains", "is raining"], answer: "has rained", explanation: "Present perfect for action starting in the past and continuing." },
     { id: 15, type: 'multiple_choice', question: "How many times ______ Ha Long Bay?", options: ["did you visit", "have you visited", "you visit", "do you visit"], answer: "have you visited", explanation: "Present perfect to ask about frequency of experience." }
-  ] 
+  ]
 };
 
-export const UNIT4_GRAMMAR_CHALLENGE: GrammarChallengeData = { 
-  module_id: "u4_challenge", 
-  title: "Unit 4: Grammar Master", 
-  unit_context: "Unit 4", 
-  description: "Master paired conjunctions and compound nouns.", 
-  total_questions: 15, 
+export const UNIT4_GRAMMAR_CHALLENGE: GrammarChallengeData = {
+  module_id: "u4_challenge",
+  title: "Unit 4: Grammar Master",
+  unit_context: "Unit 4",
+  description: "Master paired conjunctions and compound nouns.",
+  total_questions: 15,
   questions: [
     { id: 1, type: 'multiple_choice', question: "______ his brother and his sister are famous historians.", options: ["Either", "Neither", "Both", "Not only"], answer: "Both", explanation: "Use 'Both... and' to connect two people or things." },
     { id: 2, type: 'multiple_choice', question: "Neither the teacher nor the students ______ prepared for the field trip.", options: ["is", "are", "was", "be"], answer: "are", explanation: "With 'Neither... nor', the verb agrees with the closer subject (students - plural)." },
@@ -455,10 +526,33 @@ export const UNIT4_GRAMMAR_CHALLENGE: GrammarChallengeData = {
     { id: 13, type: 'multiple_choice', question: "She likes ______ coffee ______ tea; she only drinks water.", options: ["neither / nor", "either / or", "both / and", "not only / but also"], answer: "neither / nor", explanation: "Negative choice between two options." },
     { id: 14, type: 'multiple_choice', question: "Please go to the ______ and get some rest.", options: ["room bed", "bedroom", "bed-room", "rooms bed"], answer: "bedroom", explanation: "Bedroom is a one-word compound noun." },
     { id: 15, type: 'multiple_choice', question: "You can choose ______ the ancient town ______ the citadel.", options: ["both / or", "either / or", "neither / and", "not only / or"], answer: "either / or", explanation: "Choice between two alternatives." }
-  ] 
+  ]
 };
 
-export const UNIT5_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u5_challenge", title: "Unit 5: Grammar Master", unit_context: "Unit 5", description: "Structure Placeholder", total_questions: 0, questions: [] };
+export const UNIT5_GRAMMAR_CHALLENGE: GrammarChallengeData = {
+  module_id: "u5_challenge",
+  title: "Unit 5: Grammar Master",
+  unit_context: "Unit 5",
+  description: "Master future forms: will, be going to, may/might, be likely to.",
+  total_questions: 15,
+  questions: [
+    { id: 1, type: 'multiple_choice', question: "I think cities ______ more environmentally friendly in the future.", options: ["are going to become", "will become", "becoming", "became"], answer: "will become", explanation: "Dùng 'will' cho dự đoán mang tính ý kiến cá nhân (I think)." },
+    { id: 2, type: 'multiple_choice', question: "Look at that drone! It ______ on the rooftop.", options: ["will land", "lands", "is going to land", "landing"], answer: "is going to land", explanation: "Dùng 'be going to' cho dự đoán dựa trên bằng chứng hiện tại (Look at...)." },
+    { id: 3, type: 'multiple_choice', question: "People ______ live on other planets, but scientists are not sure yet.", options: ["definitely", "will definitely", "may", "are likely"], answer: "may", explanation: "Dùng 'may + V nguyên mẫu' để diễn tả khả năng không chắc chắn." },
+    { id: 4, type: 'multiple_choice', question: "It is likely that technology ______ education completely.", options: ["changes", "will change", "is changing", "changed"], answer: "will change", explanation: "Cấu trúc: 'It is likely that + S + will + V' cho dự đoán có xác suất cao." },
+    { id: 5, type: 'multiple_choice', question: "We ______ probably use paper money in the future. Everything will be digital.", options: ["will", "won't", "are going to", "aren't going to"], answer: "won't", explanation: "'Probably' đứng sau 'will' nhưng trước 'won't'. Ngữ cảnh phủ định: sẽ không dùng tiền giấy." },
+    { id: 6, type: 'multiple_choice', question: "Maybe students ______ hologram teachers in digital classrooms.", options: ["will have", "have", "are having", "had"], answer: "will have", explanation: "'Maybe' đứng đầu câu + 'will + V' để diễn tả khả năng trong tương lai." },
+    { id: 7, type: 'multiple_choice', question: "She ______ start an online course next month. She has already registered.", options: ["will", "may", "is going to", "might"], answer: "is going to", explanation: "Dùng 'be going to' cho kế hoạch đã được quyết định trước (đã đăng ký rồi)." },
+    { id: 8, type: 'multiple_choice', question: "Cars will ______ be driverless in the next 30 years.", options: ["definitely", "maybe", "likely", "possible"], answer: "definitely", explanation: "'Definitely' là trạng từ chắc chắn, đứng sau 'will'. 'Maybe/likely/possible' không đứng ở vị trí này." },
+    { id: 9, type: 'multiple_choice', question: "I believe people ______ travel by flying taxis soon.", options: ["are going to", "will", "may to", "are likely"], answer: "will", explanation: "Dùng 'will' cho dự đoán dựa trên niềm tin cá nhân (I believe)." },
+    { id: 10, type: 'multiple_choice', question: "It ______ rain. The sky is completely clear.", options: ["will", "may", "isn't going to", "probably"], answer: "isn't going to", explanation: "Dùng 'be going to' phủ định khi có bằng chứng hiện tại (trời quang đãng)." },
+    { id: 11, type: 'multiple_choice', question: "Robots are likely ______ teachers in some schools.", options: ["replace", "to replace", "replacing", "replaced"], answer: "to replace", explanation: "Cấu trúc: 'S + be likely + to V' (xác suất cao)." },
+    { id: 12, type: 'multiple_choice', question: "We will ______ not need traditional classrooms in the future.", options: ["maybe", "probably", "likely", "possible"], answer: "probably", explanation: "'Probably' là trạng từ đứng giữa 'will' và 'not'. 'Maybe/likely/possible' không dùng ở vị trí này." },
+    { id: 13, type: 'multiple_choice', question: "I'm sure people ______ definitely explore more distant planets.", options: ["are going to", "will", "may", "might"], answer: "will", explanation: "Dùng 'will + definitely' cho dự đoán chắc chắn (I'm sure)." },
+    { id: 14, type: 'multiple_choice', question: "Look at those students! They ______ take an online exam right now.", options: ["will", "are going to", "may", "likely"], answer: "are going to", explanation: "Dùng 'be going to' cho dự đoán dựa trên bằng chứng quan sát được (Look at...)." },
+    { id: 15, type: 'multiple_choice', question: "It is ______ that smart cities will become common worldwide.", options: ["likely", "maybe", "probably", "definite"], answer: "likely", explanation: "Cấu trúc: 'It is likely that + clause'. 'Maybe/probably' là trạng từ, 'definite' không phù hợp ngữ cảnh." }
+  ]
+};
 export const UNIT6_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u6_challenge", title: "Unit 6: Grammar Master", unit_context: "Unit 6", description: "Structure Placeholder", total_questions: 0, questions: [] };
 export const UNIT7_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u7_challenge", title: "Unit 7: Grammar Master", unit_context: "Unit 7", description: "Structure Placeholder", total_questions: 0, questions: [] };
 export const UNIT8_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u8_challenge", title: "Unit 8: Grammar Master", unit_context: "Unit 8", description: "Structure Placeholder", total_questions: 0, questions: [] };
@@ -651,7 +745,59 @@ export const UNIT4_READING_DATA: ReadingData = {
   ]
 };
 
-export const UNIT5_READING_DATA: ReadingData = { module_id: "u5_reading", title: "Reading: Future Cities", unit_context: "Unit 5", reading_text: { title: "Smart Cities", content: "Content coming soon..." }, tasks: [] };
+export const UNIT5_READING_DATA: ReadingData = {
+  module_id: "u5_reading",
+  title: "Reading: Smart Cities and Future Education",
+  unit_context: "Unit 5",
+  reading_text: {
+    title: "Smart Cities and Future Education",
+    content: `In the future, cities are expected to become smarter, greener and more connected. Many governments are already investing in technology to improve transportation, housing and education. Experts believe that driverless cars will reduce traffic accidents and make roads safer. In some large cities, underground motorways are being planned to decrease traffic congestion on the surface.
+
+Another important development is the rise of vertical farms. These farms grow vegetables and fruit inside tall buildings, using less land and water than traditional farming. As cities continue to grow, this solution may help provide fresh food for millions of people.
+
+Buildings in future cities will also be more environmentally friendly. Some architects are designing floating buildings for areas affected by climate change and rising sea levels. In addition, smart homes will use sensors to measure temperature, air quality and energy use. This technology can help families save money and protect the environment.
+
+Education is likely to change significantly as well. Many schools are introducing digital classrooms equipped with hologram devices and virtual reality headsets. These tools allow students to experience lessons in a more interactive way. However, most experts agree that technology will not completely replace teachers. Human interaction remains essential for developing communication and social skills.
+
+Overall, future cities may look very different from today's cities, but their main goal will remain the same: to improve people's quality of life.`
+  },
+  tasks: [
+    {
+      task_id: "u5_r_t1",
+      type: 'true_false',
+      instruction: "Task 1: Read and write T (True) or F (False).",
+      questions: [
+        { id: 1, question: "Underground motorways are designed to reduce traffic on the surface.", answer: true, explanation: "The passage says 'underground motorways are being planned to decrease traffic congestion on the surface'." },
+        { id: 2, question: "Vertical farms require more land than traditional farms.", answer: false, explanation: "The passage says vertical farms use 'less land and water than traditional farming'." },
+        { id: 3, question: "Smart homes can help families save energy.", answer: true, explanation: "The passage says 'This technology can help families save money and protect the environment'." },
+        { id: 4, question: "Technology will completely replace teachers in the future.", answer: false, explanation: "The passage says 'technology will not completely replace teachers'." }
+      ]
+    },
+    {
+      task_id: "u5_r_t2",
+      type: 'fill_in_blanks',
+      instruction: "Task 2: Fill in the gaps with words from the passage. (NO MORE THAN TWO WORDS)",
+      questions: [
+        { id: 5, sentence: "Governments are investing in technology to improve transportation, housing and ______.", answer: "education", explanation: "'transportation, housing and education' – paragraph 1.", hint: "e_ _ _ _ _ _ _ _" },
+        { id: 6, sentence: "Vertical farms grow vegetables inside tall ______.", answer: "buildings", explanation: "'inside tall buildings' – paragraph 2.", hint: "b_ _ _ _ _ _ _ _" },
+        { id: 7, sentence: "Some buildings are designed to float because of rising sea ______.", answer: "levels", explanation: "'rising sea levels' – paragraph 3.", hint: "l_ _ _ _ _" },
+        { id: 8, sentence: "Human interaction helps develop communication and ______ skills.", answer: "social", explanation: "'communication and social skills' – paragraph 4.", hint: "s_ _ _ _ _" }
+      ]
+    },
+    {
+      task_id: "u5_r_t3",
+      type: 'multiple_choice',
+      instruction: "Task 3: Choose the best answer.",
+      questions: [
+        { id: 9, question: "What is the main purpose of driverless cars?", options: ["To reduce traffic accidents", "To increase traffic", "To replace public transport", "To save fuel only"], answer: "To reduce traffic accidents", explanation: "The passage says 'driverless cars will reduce traffic accidents and make roads safer'." },
+        { id: 10, question: "Why are vertical farms important?", options: ["They use more water.", "They provide fresh food in cities.", "They are cheaper than houses.", "They replace schools."], answer: "They provide fresh food in cities.", explanation: "The passage says they 'may help provide fresh food for millions of people'." },
+        { id: 11, question: "What can sensors in smart homes measure?", options: ["Students' grades", "Air quality and energy use", "Traffic congestion", "Sea levels"], answer: "Air quality and energy use", explanation: "The passage says 'sensors to measure temperature, air quality and energy use'." },
+        { id: 12, question: "What does the passage suggest about teachers?", options: ["They will not be needed anymore.", "They will teach only online.", "They will still play an important role.", "They will work underground."], answer: "They will still play an important role.", explanation: "The passage says 'Human interaction remains essential for developing communication and social skills'." },
+        { id: 13, question: "What is the main idea of the passage?", options: ["The problems of modern cities", "How cities and education may change in the future", "The history of transportation", "The disadvantages of technology"], answer: "How cities and education may change in the future", explanation: "The entire passage discusses future changes in cities and education." }
+      ]
+    }
+  ]
+};
 export const UNIT6_READING_DATA: ReadingData = { module_id: "u6_reading", title: "Reading: Social Issues", unit_context: "Unit 6", reading_text: { title: "Community Problems", content: "Content coming soon..." }, tasks: [] };
 export const UNIT7_READING_DATA: ReadingData = { module_id: "u7_reading", title: "Reading: Healthy Living", unit_context: "Unit 7", reading_text: { title: "Health Tips", content: "Content coming soon..." }, tasks: [] };
 export const UNIT8_READING_DATA: ReadingData = { module_id: "u8_reading", title: "Reading: Life Expectancy", unit_context: "Unit 8", reading_text: { title: "Living Longer", content: "Content coming soon..." }, tasks: [] };
@@ -749,7 +895,7 @@ export const UNIT2_LISTENING_DATA: ListeningData = {
   module_id: "u2_listening",
   title: "Listening: Vietnam and ASEAN",
   unit_context: "Unit 2: Vietnam and ASEAN",
-  audio_source: "", 
+  audio_source: "",
   transcript: {
     title: "Vietnam in ASEAN: A Journey of Integration",
     speakers: ["Narrator"],
@@ -908,7 +1054,58 @@ These sites don't just belong to us; they belong to future generations. It is ou
   ]
 };
 
-export const UNIT5_LISTENING_DATA: ListeningData = { module_id: "u5_listening", title: "Listening: Education", unit_context: "Unit 5", audio_source: "", transcript: { title: "Future Classrooms", speakers: [], content: "" }, tasks: [] };
+export const UNIT5_LISTENING_DATA: ListeningData = {
+  module_id: "u5_listening",
+  title: "Listening: Life in Future Smart Cities",
+  unit_context: "Unit 5",
+  audio_source: "",
+  transcript: {
+    title: "Life in Future Smart Cities",
+    speakers: ["Narrator"],
+    content: `In the next few decades, cities around the world are likely to change dramatically. Experts believe that technology will transform the way we live, travel and study. Many scientists predict that most cars will be driverless, and people may use flying vehicles to travel short distances. This will probably reduce traffic accidents and make transportation safer.
+
+In addition, some cities are going to build underground motorways to solve the problem of traffic congestion. Instead of expanding roads on the surface, engineers will design smart transport systems below the ground. At the same time, we might see more vertical farms in city centers. These farms will grow vegetables and fruit inside tall buildings, helping cities become more environmentally friendly and less dependent on food transported from far away.
+
+Buildings in the future are also likely to be more advanced. For example, floating buildings may be built in areas affected by rising sea levels. Many homes will have smart mirrors and sensors that measure temperature, air quality and energy use.
+
+Education will change significantly as well. Students will probably study in digital classrooms equipped with hologram devices and virtual reality headsets. Some children may even choose home schooling supported by online platforms. However, experts say that teachers will not disappear. Although technology will support learning, human interaction will remain essential for developing communication and social skills.
+
+Overall, life in future cities will be smarter, greener and more connected than ever before.`
+  },
+  tasks: [
+    {
+      task_id: "u5_l_t1",
+      type: 'true_false',
+      instruction: "Task 1: Listen and write T (True) or F (False).",
+      questions: [
+        { id: 1, question: "Experts believe that driverless cars will help reduce traffic accidents.", answer: true, explanation: "The transcript says 'This will probably reduce traffic accidents and make transportation safer.'" },
+        { id: 2, question: "Cities will expand roads on the surface instead of building underground motorways.", answer: false, explanation: "The transcript says 'Instead of expanding roads on the surface, engineers will design smart transport systems below the ground.'" },
+        { id: 3, question: "Vertical farms will help cities become more environmentally friendly.", answer: true, explanation: "The transcript says 'helping cities become more environmentally friendly'." },
+        { id: 4, question: "Teachers will completely disappear in the future.", answer: false, explanation: "The transcript says 'experts say that teachers will not disappear'." }
+      ]
+    },
+    {
+      task_id: "u5_l_t2",
+      type: 'fill_in_blanks',
+      instruction: "Task 2: Fill in the gaps with words from the audio. (NO MORE THAN TWO WORDS)",
+      questions: [
+        { id: 5, sentence: "Cities are likely to change dramatically in the next few ______.", answer: "decades", explanation: "'In the next few decades' – opening sentence.", hint: "d_ _ _ _ _ _" },
+        { id: 6, sentence: "Engineers will design smart transport systems below the ______.", answer: "ground", explanation: "'below the ground' – paragraph 2.", hint: "g_ _ _ _ _" },
+        { id: 7, sentence: "Smart mirrors and sensors can measure temperature and air ______.", answer: "quality", explanation: "'air quality' – paragraph 3.", hint: "q_ _ _ _ _ _" },
+        { id: 8, sentence: "Human interaction is essential for developing communication and ______ skills.", answer: "social", explanation: "'communication and social skills' – paragraph 4.", hint: "s_ _ _ _ _" }
+      ]
+    },
+    {
+      task_id: "u5_l_t3",
+      type: 'multiple_choice',
+      instruction: "Task 3: Choose the best answer.",
+      questions: [
+        { id: 9, question: "Why might cities build underground motorways?", options: ["To grow vegetables underground", "To solve traffic congestion", "To increase surface roads", "To reduce air pollution directly"], answer: "To solve traffic congestion", explanation: "The transcript says 'build underground motorways to solve the problem of traffic congestion'." },
+        { id: 10, question: "What does the speaker say about education in the future?", options: ["All students will study at home.", "Technology will completely replace teachers.", "Digital classrooms will use advanced devices.", "Schools will close permanently."], answer: "Digital classrooms will use advanced devices.", explanation: "The transcript says 'digital classrooms equipped with hologram devices and virtual reality headsets'." }
+      ]
+    }
+  ]
+};
 export const UNIT6_LISTENING_DATA: ListeningData = { module_id: "u6_listening", title: "Listening: Social Issues", unit_context: "Unit 6", audio_source: "", transcript: { title: "Community Problems", speakers: [], content: "" }, tasks: [] };
 export const UNIT7_LISTENING_DATA: ListeningData = { module_id: "u7_listening", title: "Listening: Healthy Lifestyle", unit_context: "Unit 7", audio_source: "", transcript: { title: "Wellness", speakers: [], content: "" }, tasks: [] };
 export const UNIT8_LISTENING_DATA: ListeningData = { module_id: "u8_listening", title: "Listening: Life Expectancy", unit_context: "Unit 8", audio_source: "", transcript: { title: "Living Longer", speakers: [], content: "" }, tasks: [] };
@@ -1037,7 +1234,7 @@ export const COURSE_DATA: UnitData[] = [
     vocab: UNIT5_VOCAB,
     grammar: {
       topic: 'Future Forms',
-      questions: [],
+      questions: UNIT5_GRAMMAR_CHALLENGE.questions.map(q => ({ id: q.id, question: q.question, options: q.options || [], correctIndex: q.options ? q.options.indexOf(q.answer || '') : 0, explanation: q.explanation })),
       games: []
     },
     speaking: { drills: [], interview: [] },
