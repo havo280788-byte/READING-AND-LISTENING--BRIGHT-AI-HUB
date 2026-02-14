@@ -424,56 +424,51 @@ export const UNIT6_PRACTICE_TEST: PracticeTestData = {
   type: "gamified_test",
   total_questions: 30,
   time_limit_minutes: 20,
-  description: "Comprehensive test on Social Issues, Gerunds, and Question Tags.",
+  description: "Comprehensive test on Social Issues",
   sections: [
     {
-      section_name: "Part 1: Phonetics",
+      section_name: "Part 1: Vocabulary & Social Issues",
       questions: [
-        { id: 1, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. p_o_verty B. h_o_meless C. s_o_cial D. gl_o_bal", options: ["A", "B", "C", "D"], answer: "B", explanation: "'poverty' /o/, 'homeless' /əʊ/, 'social' /əʊ/, 'global' /əʊ/." },
-        { id: 2, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. den_ie_s B. tr_ie_s C. stud_ie_s D. repl_ie_s", options: ["A", "B", "C", "D"], answer: "A", explanation: "Checks -es ending sounds." },
-        { id: 3, type: 'multiple_choice', question: "Choose the word with different stress: A. charity B. poverty C. community D. quality", options: ["A", "B", "C", "D"], answer: "C", explanation: "'community' stress on 2nd syllable, others on 1st." },
-        { id: 4, type: 'multiple_choice', question: "Choose the word with different stress: A. volunteer B. engineer C. committee D. referee", options: ["A", "B", "C", "D"], answer: "C", explanation: "'committee' stress on 2nd, others on 3rd (suffix -eer/-ee)." },
-        { id: 5, type: 'multiple_choice', question: "Choose the word whose underlined part is pronounced differently: A. camp_ai_gn B. r_ai_n C. br_ai_n D. mount_ai_n", options: ["A", "B", "C", "D"], answer: "D", explanation: "'mountain' /ɪn/, others /eɪ/." }
+        { id: 1, type: 'multiple_choice', question: "Many families live in ______ because they don't earn enough money.", options: ["equality", "poverty", "shelter", "crisis"], answer: "poverty", explanation: "Poverty means the state of being extremely poor." },
+        { id: 2, type: 'multiple_choice', question: "The government is trying to reduce youth ______ by creating more jobs.", options: ["employment", "unemployment", "funding", "racism"], answer: "unemployment", explanation: "Unemployment refers to the number of people without jobs." },
+        { id: 3, type: 'multiple_choice', question: "Discrimination based on skin colour is called ______.", options: ["crime", "bullying", "racism", "hunger"], answer: "racism", explanation: "Racism is prejudice based on race or ethnicity." },
+        { id: 4, type: 'multiple_choice', question: "After the earthquake, thousands of people needed emergency ______.", options: ["depression", "humanitarian aid", "obesity", "profit"], answer: "humanitarian aid", explanation: "Humanitarian aid provides relief to people in crisis." },
+        { id: 5, type: 'multiple_choice', question: "A serious disease that spreads through the air is called an infectious ______.", options: ["crisis", "shelter", "disease", "funding"], answer: "disease", explanation: "An infectious disease spreads from person to person." },
+        { id: 6, type: 'multiple_choice', question: "Many children suffer from ______ because they don't get enough nutrients.", options: ["pollution", "malnutrition", "obesity", "depression"], answer: "malnutrition", explanation: "Malnutrition is a condition caused by lack of proper nutrition." },
+        { id: 7, type: 'multiple_choice', question: "A(n) ______ organisation works to help people, not to make money.", options: ["profitable", "non-profit", "economic", "commercial"], answer: "non-profit", explanation: "Non-profit organizations operate for social benefit, not profit." },
+        { id: 8, type: 'multiple_choice', question: "The rise in food prices has caused a national ______.", options: ["war", "crisis", "disease", "equality"], answer: "crisis", explanation: "A crisis is a time of intense difficulty or danger." },
+        { id: 9, type: 'multiple_choice', question: "Online ______ is becoming more common among teenagers.", options: ["cooperation", "bullying", "funding", "nutrition"], answer: "bullying", explanation: "Bullying refers to aggressive behavior, often online (cyberbullying)." },
+        { id: 10, type: 'multiple_choice', question: "Dirty factories cause serious air ______.", options: ["poverty", "pollution", "hunger", "crime"], answer: "pollution", explanation: "Pollution is the introduction of harmful materials into the environment." },
+        { id: 11, type: 'multiple_choice', question: "The city built a new ______ for homeless families.", options: ["funding", "crisis", "shelter", "racism"], answer: "shelter", explanation: "A shelter provides temporary housing for homeless people." },
+        { id: 12, type: 'multiple_choice', question: "Doctors are conducting research into mental ______.", options: ["obesity", "depression", "hunger", "race"], answer: "depression", explanation: "Depression is a common mental health condition." },
+        { id: 13, type: 'multiple_choice', question: "Many young graduates are still ______ after finishing university.", options: ["employed", "equal", "unemployed", "profitable"], answer: "unemployed", explanation: "Unemployed means without a job." },
+        { id: 14, type: 'multiple_choice', question: "Gender ______ is still a problem in some workplaces.", options: ["equality", "inequality", "employment", "cooperation"], answer: "inequality", explanation: "Inequality refers to the lack of equality or fair treatment." },
+        { id: 15, type: 'multiple_choice', question: "The charity depends on international ______ to continue its projects.", options: ["funding", "hunger", "racism", "crime"], answer: "funding", explanation: "Funding is money provided for a particular purpose." }
       ]
     },
     {
-      section_name: "Part 2: Vocabulary & Grammar",
+      section_name: "Part 2: Grammar - Gerunds",
       questions: [
-        { id: 6, type: 'multiple_choice', question: "Many families in this area live in abject ______.", options: ["poverty", "wealth", "health", "safety"], answer: "poverty", explanation: "Context: 'live in abject poverty' (nghèo cùng cực)." },
-        { id: 7, type: 'multiple_choice', question: "The government has launched a ______ against domestic violence.", options: ["campaign", "camp", "war", "battle"], answer: "campaign", explanation: "Launch a campaign (phát động chiến dịch)." },
-        { id: 8, type: 'multiple_choice', question: "______ violence is a serious problem in many societies.", options: ["Domestic", "Foreign", "School", "Social"], answer: "Domestic", explanation: "Domestic violence (bạo lực gia đình)." },
-        { id: 9, type: 'multiple_choice', question: "We should respect the cultural ______ of ethnic minorities.", options: ["differences", "shocks", "gaps", "conflicts"], answer: "differences", explanation: "Cultural differences (sự khác biệt văn hóa)." },
-        { id: 10, type: 'multiple_choice', question: "Discrimination based on gender is called ______ discrimination.", options: ["gender", "race", "age", "class"], answer: "gender", explanation: "Gender discrimination (phân biệt giới tính)." },
-        { id: 11, type: 'multiple_choice', question: "She denied ______ the vase.", options: ["breaking", "to break", "break", "broken"], answer: "breaking", explanation: "Deny + V-ing." },
-        { id: 12, type: 'multiple_choice', question: "I look forward to ______ from you soon.", options: ["hearing", "hear", "heard", "be heard"], answer: "hearing", explanation: "Look forward to + V-ing." },
-        { id: 13, type: 'multiple_choice', question: "Let's go for a walk, ______?", options: ["shall we", "will we", "do we", "don't we"], answer: "shall we", explanation: "Let's -> shall we." },
-        { id: 14, type: 'multiple_choice', question: "You haven't seen Mary today, ______?", options: ["have you", "haven't you", "do you", "did you"], answer: "have you", explanation: "Negative statement -> Positive tag." },
-        { id: 15, type: 'multiple_choice', question: "Don't forget to lock the door, ______?", options: ["will you", "shall you", "do you", "don't you"], answer: "will you", explanation: "Imperative -> will you." },
-        { id: 16, type: 'multiple_choice', question: "He admitted ______ a mistake.", options: ["making", "to make", "made", "make"], answer: "making", explanation: "Admit + V-ing." },
-        { id: 17, type: 'multiple_choice', question: "He apologised ______ being late.", options: ["for", "of", "to", "about"], answer: "for", explanation: "Apologies for + V-ing." },
-        { id: 18, type: 'multiple_choice', question: "She is used to ______ up early.", options: ["getting", "get", "got", "to get"], answer: "getting", explanation: "Be used to + V-ing (quen với việc gì)." },
-        { id: 19, type: 'multiple_choice', question: "It's no use ______ to persuade him.", options: ["trying", "to try", "try", "tried"], answer: "trying", explanation: "It's no use + V-ing (vô ích khi làm gì)." },
-        { id: 20, type: 'multiple_choice', question: "Nobody works on Sunday, ______?", options: ["do they", "does he", "don't they", "doesn't he"], answer: "do they", explanation: "Nobody -> they. Question tag is positive." }
+        { id: 16, type: 'multiple_choice', question: "She enjoys ______ at the community centre.", options: ["volunteer", "to volunteer", "volunteering", "volunteered"], answer: "volunteering", explanation: "Verb 'enjoy' is followed by a Gerund (V-ing)." },
+        { id: 17, type: 'multiple_choice', question: "They succeeded in ______ enough money for the shelter.", options: ["raise", "to raise", "raising", "raised"], answer: "raising", explanation: "After prepositions (in), use Gerund (V-ing)." },
+        { id: 18, type: 'multiple_choice', question: "He denied ______ the rules.", options: ["break", "to break", "breaking", "broke"], answer: "breaking", explanation: "Verb 'deny' is followed by Gerund (V-ing)." },
+        { id: 19, type: 'multiple_choice', question: "She apologised for ______ late to the meeting.", options: ["arrive", "arriving", "to arrive", "arrived"], answer: "arriving", explanation: "After prepositions (for), use Gerund (V-ing)." },
+        { id: 20, type: 'multiple_choice', question: "I look forward to ______ you at the charity event.", options: ["see", "seeing", "to see", "seen"], answer: "seeing", explanation: "'Look forward to' is followed by Gerund (V-ing)." },
+        { id: 21, type: 'multiple_choice', question: "The children admitted ______ the food without permission.", options: ["take", "taking", "having taken", "to take"], answer: "having taken", explanation: "Admit + Gerund/Perfect Gerund. 'Having taken' emphasizes the past action." },
+        { id: 22, type: 'multiple_choice', question: "Having ______ the research, they published the results.", options: ["complete", "completed", "completing", "completes"], answer: "completed", explanation: "Perfect Participle structure: Having + V3/ed." },
+        { id: 23, type: 'multiple_choice', question: "She saw him ______ money into the donation box.", options: ["put", "putting", "to put", "puts"], answer: "putting", explanation: "See + O + V-ing implies witnessing an action in progress." }
       ]
     },
     {
-      section_name: "Part 3: Synonyms & Antonyms",
+      section_name: "Part 3: Grammar - Question Tags",
       questions: [
-        { id: 21, type: 'synonym', question: "SYNONYM: treating people **unfairly** based on race.", options: ["discrimination", "equality", "respect", "justice"], answer: "discrimination", explanation: "Discrimination means unfair treatment." },
-        { id: 22, type: 'synonym', question: "SYNONYM: a **safe place** for homeless people.", options: ["shelter", "house", "hotel", "office"], answer: "shelter", explanation: "Shelter is a place protecting people." },
-        { id: 23, type: 'synonym', question: "SYNONYM: **extremely poor**.", options: ["poverty-stricken", "wealthy", "healthy", "greedy"], answer: "poverty-stricken", explanation: "Poverty-stricken means extremely poor." },
-        { id: 24, type: 'antonym', question: "ANTONYM: **rural** areas.", options: ["urban", "countryside", "remote", "natural"], answer: "urban", explanation: "Rural (nông thôn) >< Urban (thành thị)." },
-        { id: 25, type: 'antonym', question: "ANTONYM: **majority** of people.", options: ["minority", "most", "bulk", "plenty"], answer: "minority", explanation: "Majority (đa số) >< Minority (thiểu số)." }
-      ]
-    },
-    {
-      section_name: "Part 4: Reading Comprehension",
-      questions: [
-        { id: 26, type: 'multiple_choice', question: "The government is launching a campaign against poverty. This means they want to ______ poverty.", options: ["reduce", "increase", "ignore", "promote"], answer: "reduce", explanation: "Campaign against something means to fight/reduce it." },
-        { id: 27, type: 'multiple_choice', question: "She insisted on paying for the meal. -> She said: '______'", options: ["I must pay", "You must pay", "Let him pay", "Nobody pays"], answer: "I must pay", explanation: "Insist on paying means strongly wanting to pay." },
-        { id: 28, type: 'multiple_choice', question: "He suggested going to the cinema. -> He said: '______'", options: ["Let's go to the cinema", "Do you go to the cinema?", "I go to the cinema", "We went to the cinema"], answer: "Let's go to the cinema", explanation: "Suggest + V-ing often corresponds to 'Let's...'." },
-        { id: 29, type: 'multiple_choice', question: "Choose the correct sentence: ", options: ["I look forward to seeing you.", "I look forward to see you.", "I look forward seeing you.", "I looking forward to see you."], answer: "I look forward to seeing you.", explanation: "Look forward to + V-ing." },
-        { id: 30, type: 'multiple_choice', question: "Choose the correct sentence: ", options: ["She denied having stolen the bag.", "She denied to steal the bag.", "She denied steal the bag.", "She denied stole the bag."], answer: "She denied having stolen the bag.", explanation: "Deny + V-ing/Perfect Gerund." }
+        { id: 24, type: 'multiple_choice', question: "She volunteers at the shelter, ______?", options: ["does she", "doesn't she", "is she", "isn't she"], answer: "doesn't she", explanation: "Positive sentence (volunteers) -> Negative tag (doesn't)." },
+        { id: 25, type: 'multiple_choice', question: "They haven't donated yet, ______?", options: ["have they", "haven't they", "do they", "did they"], answer: "have they", explanation: "Negative sentence (haven't donated) -> Positive tag (have)." },
+        { id: 26, type: 'multiple_choice', question: "Let's support the campaign, ______?", options: ["will we", "shall we", "don't we", "do we"], answer: "shall we", explanation: "'Let's' -> shall we." },
+        { id: 27, type: 'multiple_choice', question: "Nobody complained about the service, ______?", options: ["didn't they", "did they", "do they", "don't they"], answer: "did they", explanation: "'Nobody' is negative -> Positive tag. Past tense (complained) -> did." },
+        { id: 28, type: 'multiple_choice', question: "There are many social problems today, ______?", options: ["are there", "aren't there", "do there", "don't there"], answer: "aren't there", explanation: "'There are' -> aren't there." },
+        { id: 29, type: 'multiple_choice', question: "You don't support racism, ______?", options: ["do you", "don't you", "are you", "aren't you"], answer: "do you", explanation: "Negative sentence (don't support) -> Positive tag (do)." },
+        { id: 30, type: 'multiple_choice', question: "I'm responsible for the project, ______?", options: ["am I", "aren't I", "am not I", "don't I"], answer: "aren't I", explanation: "'I am' -> aren't I." }
       ]
     }
   ]
@@ -942,7 +937,57 @@ Overall, future cities may look very different from today's cities, but their ma
     }
   ]
 };
-export const UNIT6_READING_DATA: ReadingData = { module_id: "u6_reading", title: "Reading: Social Issues", unit_context: "Unit 6", reading_text: { title: "Community Problems", content: "Content coming soon..." }, tasks: [] };
+export const UNIT6_READING_DATA: ReadingData = {
+  module_id: 'u6-reading',
+  title: 'Social Issues in Today\'s World',
+  unit_context: 'Unit 6',
+  reading_text: {
+    title: 'Social Issues in Today\'s World',
+    content: `Social issues are problems that affect many people in society. Some of the most common issues today include poverty, unemployment, racism and homelessness. These problems often connect with each other. For example, when people lose their jobs, they may not earn enough money to support their families. As a result, they can fall into poverty or even become homeless.
+    
+    Another serious issue is gender inequality. Although many countries have laws that promote equality, women in some places are still paid less than men for doing the same work. Racism is also a major concern. Discrimination based on race or skin colour can create conflict and prevent communities from living together peacefully.
+    
+    Health problems are closely linked to social conditions. In poorer regions, malnutrition remains a serious challenge because people lack access to nutritious food and proper healthcare. On the other hand, in more developed countries, obesity is increasing due to unhealthy eating habits and a lack of exercise. Mental health issues such as depression are also becoming more common, especially among young people.
+    
+    To address these problems, governments and non-profit organisations provide funding, healthcare services and humanitarian aid. Volunteers also play an important role in supporting shelters and organising awareness campaigns. Although social issues cannot be solved immediately, cooperation between individuals and communities can help build a fairer and stronger society.`
+  },
+  tasks: [
+    {
+      task_id: 'task1',
+      type: 'true_false',
+      instruction: 'Decide if the following statements are True or False.',
+      questions: [
+        { id: 1, sentence: "Poverty and unemployment are often connected.", answer: true },
+        { id: 2, sentence: "Gender inequality has completely disappeared in all countries.", answer: false },
+        { id: 3, sentence: "Malnutrition is mainly a problem in wealthy countries.", answer: false },
+        { id: 4, sentence: "Volunteers help organise awareness campaigns.", answer: true }
+      ]
+    },
+    {
+      task_id: 'task2',
+      type: 'fill_in_blanks',
+      instruction: 'Fill in the missing word. (NO MORE THAN TWO WORDS)',
+      questions: [
+        { id: 5, sentence: "When people lose their jobs, they may fall into ______.", answer: "poverty" },
+        { id: 6, sentence: "Racism can prevent communities from living ______ together.", answer: "peacefully" },
+        { id: 7, sentence: "Malnutrition happens when people lack access to ______ food.", answer: "nutritious" },
+        { id: 8, sentence: "Cooperation can help build a fairer and stronger ______.", answer: "society" }
+      ]
+    },
+    {
+      task_id: 'task3',
+      type: 'multiple_choice',
+      instruction: 'Choose the best answer (A, B, C or D).',
+      questions: [
+        { id: 9, question: "What is one possible result of unemployment?", options: ["Increased equality", "Poverty", "Better healthcare", "Higher salaries"], answer: "Poverty" },
+        { id: 10, question: "What does the passage say about gender inequality?", options: ["It no longer exists anywhere", "It only affects men", "It still exists in some places", "It is not a serious problem"], answer: "It still exists in some places" },
+        { id: 11, question: "Why does malnutrition occur in poorer regions?", options: ["People eat too much junk food", "People lack nutritious food and healthcare", "There are too many hospitals", "People exercise too little"], answer: "People lack nutritious food and healthcare" },
+        { id: 12, question: "Which of the following is mentioned as a growing problem in developed countries?", options: ["Hunger", "Obesity", "War", "Tuberculosis"], answer: "Obesity" },
+        { id: 13, question: "What is the main idea of the passage?", options: ["The causes of war", "The importance of education", "Major social issues and possible solutions", "The history of healthcare systems"], answer: "Major social issues and possible solutions" }
+      ]
+    }
+  ]
+};
 export const UNIT7_READING_DATA: ReadingData = { module_id: "u7_reading", title: "Reading: Healthy Living", unit_context: "Unit 7", reading_text: { title: "Health Tips", content: "Content coming soon..." }, tasks: [] };
 export const UNIT8_READING_DATA: ReadingData = { module_id: "u8_reading", title: "Reading: Life Expectancy", unit_context: "Unit 8", reading_text: { title: "Living Longer", content: "Content coming soon..." }, tasks: [] };
 
@@ -1250,7 +1295,58 @@ Overall, life in future cities will be smarter, greener and more connected than 
     }
   ]
 };
-export const UNIT6_LISTENING_DATA: ListeningData = { module_id: "u6_listening", title: "Listening: Social Issues", unit_context: "Unit 6", audio_source: "", transcript: { title: "Community Problems", speakers: [], content: "" }, tasks: [] };
+export const UNIT6_LISTENING_DATA: ListeningData = {
+  module_id: 'u6-listening',
+  title: 'Tackling Social Issues in Modern Society',
+  unit_context: 'Unit 6',
+  audio_source: '', // Placeholder for actual audio file URL
+  transcript: {
+    title: 'Tackling Social Issues in Modern Society',
+    speakers: ['Speaker'],
+    content: `Social issues are becoming more serious in many countries around the world. Problems such as poverty, unemployment and homelessness affect millions of people every year. When people do not have stable jobs, they may struggle to provide food and shelter for their families. As a result, poverty often leads to other problems such as crime and depression.
+    
+    Another major issue is racism and gender inequality. Although many governments promote equality, discrimination still exists in workplaces and schools. Campaigns are being organised to raise awareness and encourage cooperation among different communities.
+    
+    Health-related problems are also increasing. In some regions, people suffer from malnutrition because they do not have access to nutritious food. In others, obesity is becoming more common due to unhealthy diets and lack of exercise. In addition, mental health problems such as depression are affecting more teenagers than ever before.
+    
+    To deal with these challenges, many non-profit organisations provide humanitarian aid and funding for education and healthcare projects. Volunteers play an important role in supporting shelters, conducting research and raising money for those in need.
+    
+    Although social issues cannot be solved overnight, cooperation between governments, organisations and individuals can help create a more equal and supportive society.`
+  },
+  tasks: [
+    {
+      task_id: 'task1',
+      type: 'true_false',
+      instruction: 'Decide if the following statements are True or False.',
+      questions: [
+        { id: 1, sentence: "Poverty can sometimes lead to crime and depression.", answer: true },
+        { id: 2, sentence: "Racism and gender inequality no longer exist today.", answer: false },
+        { id: 3, sentence: "Obesity is mainly caused by a lack of nutritious food.", answer: false },
+        { id: 4, sentence: "Non-profit organisations provide support through funding and humanitarian aid.", answer: true }
+      ]
+    },
+    {
+      task_id: 'task2',
+      type: 'fill_in_blanks',
+      instruction: 'Fill in the missing word. (NO MORE THAN TWO WORDS)',
+      questions: [
+        { id: 5, sentence: "Unemployment can make it difficult for families to provide food and ______.", answer: "shelter" },
+        { id: 6, sentence: "Campaigns are organised to raise ______ about discrimination.", answer: "awareness" },
+        { id: 7, sentence: "Many people suffer from malnutrition because they lack access to ______ food.", answer: "nutritious" },
+        { id: 8, sentence: "Volunteers help by conducting research and raising ______.", answer: "money" }
+      ]
+    },
+    {
+      task_id: 'task3',
+      type: 'multiple_choice',
+      instruction: 'Choose the best answer (A, B, C or D).',
+      questions: [
+        { id: 9, question: "What is one effect of unemployment mentioned in the talk?", options: ["It improves education", "It increases equality", "It may lead to poverty", "It reduces crime"], answer: "It may lead to poverty" },
+        { id: 10, question: "What is the main message of the speaker?", options: ["Social problems are impossible to solve", "Governments alone can solve social issues", "Cooperation can help improve society", "Only volunteers are responsible for change"], answer: "Cooperation can help improve society" }
+      ]
+    }
+  ]
+};
 export const UNIT7_LISTENING_DATA: ListeningData = { module_id: "u7_listening", title: "Listening: Healthy Lifestyle", unit_context: "Unit 7", audio_source: "", transcript: { title: "Wellness", speakers: [], content: "" }, tasks: [] };
 export const UNIT8_LISTENING_DATA: ListeningData = { module_id: "u8_listening", title: "Listening: Life Expectancy", unit_context: "Unit 8", audio_source: "", transcript: { title: "Living Longer", speakers: [], content: "" }, tasks: [] };
 
