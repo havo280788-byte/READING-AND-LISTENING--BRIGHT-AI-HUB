@@ -79,27 +79,60 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
   const progressPercentage = Math.round((stats.completedModules / totalModules) * 100);
   const isEnrolledUnit = stats.selectedUnitId === `u${activeUnitId}`;
 
-  // Build XP ranking from all students' localStorage data
+  // Build XP ranking from ALL 53 class students
   const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
+
+  const normalizeName = (str: string) => {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+      .replace(/đ/g, "d").replace(/Đ/g, "D")
+      .toUpperCase();
+  };
+
+  const CLASS_NAMES_RAW = [
+    "Hòa Quang An", "Phạm Quỳnh Anh", "Hà Thị Minh Anh", "Cao Nguyễn Quỳnh Anh", "Trần Nguyệt Ánh",
+    "Hòa Gia Bình", "Hoàng Văn Công Chính", "Nguyễn Mạnh Cường", "Trần Thị Dung", "Nguyễn Thành Đạt",
+    "Nguyễn Phúc Điền", "Nguyễn Trung Đức", "Nguyễn Lê Gia Hân", "Nguyễn Phương Hiền", "Nguyễn Hoàng Gia Huynh",
+    "Dương Gia Hưng", "Đinh Văn Hưng", "Lê Đình Khôi", "Nguyễn Thị Ngọc Lan", "Huỳnh Đặng Khánh Linh",
+    "Phạm Vũ Thùy Linh", "Nguyễn Bùi Yến Linh", "Đặng Hoàng Long", "Nguyễn Khánh Ly", "Trần Hoàng Minh",
+    "Trần Nữ Nguyệt Nga", "Trần Như Ngọc", "Lê Thị Như Ngọc", "Trần Nữ Bảo Ngọc", "Trần Hoàng Nguyên",
+    "Nguyễn Thảo Nguyên", "Phan Duy Nguyễn", "Nguyễn Thị Thanh Nhàn", "Bùi Thiện Nhân", "Nguyễn Ngọc Uyển Nhi",
+    "Vũ Nguyễn Tuệ Nhi", "Nguyễn Hoàng Tâm Như", "Lê Kim Phát", "Nguyễn Bá Phi", "Đinh Xuân Hoàng Phúc",
+    "Tạ Phạm Minh Phúc", "Trần Hữu Quang", "Nguyễn Tiến Sang", "Trần Minh Thông", "Vũ Lê Phương Thùy",
+    "Võ Bảo Thùy", "Nguyễn Anh Thư", "Lê Trịnh Anh Thư", "Phạm Anh Thư", "Nguyễn Thùy Tiên",
+    "Nguyễn Phương Uyên", "Vũ Thị Hà Vy", "Nguyen Thi Thu Ha"
+  ];
+
+  const ALL_STUDENTS = CLASS_NAMES_RAW.map((rawName, index) => ({
+    username: `student${(index + 1).toString().padStart(2, '0')}`,
+    name: normalizeName(rawName)
+  }));
+
   const { rankedStudents, currentUserRank } = useMemo(() => {
-    const students: { name: string; username: string; xp: number; completedModules: number }[] = [];
+    // Read saved data from localStorage for each student
+    const savedDataMap: Record<string, { xp: number; completedModules: number }> = {};
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key && key.startsWith(STORAGE_KEY_PREFIX + '_')) {
         try {
           const data = JSON.parse(localStorage.getItem(key) || '{}');
-          if (data.name && typeof data.xp === 'number') {
-            students.push({
-              name: data.name,
-              username: data.username || key.replace(STORAGE_KEY_PREFIX + '_', ''),
-              xp: data.xp,
-              completedModules: data.completedModules || 0
-            });
-          }
-        } catch (e) { /* skip invalid entries */ }
+          const uname = data.username || key.replace(STORAGE_KEY_PREFIX + '_', '');
+          savedDataMap[uname] = {
+            xp: data.xp || 0,
+            completedModules: data.completedModules || 0
+          };
+        } catch (e) { /* skip */ }
       }
     }
-    students.sort((a, b) => b.xp - a.xp);
+
+    // Merge all 53 students with their saved data (default to 0 XP)
+    const students = ALL_STUDENTS.map(s => ({
+      name: s.name,
+      username: s.username,
+      xp: savedDataMap[s.username]?.xp || 0,
+      completedModules: savedDataMap[s.username]?.completedModules || 0
+    }));
+
+    students.sort((a, b) => b.xp - a.xp || a.name.localeCompare(b.name));
     const ranked = students.map((s, i) => ({ ...s, rank: i + 1 }));
     const myRank = ranked.find(s => s.username === stats.username);
     return { rankedStudents: ranked, currentUserRank: myRank };
@@ -234,8 +267,8 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
               )}
             </div>
 
-            <div className="space-y-2">
-              {rankedStudents.slice(0, 10).map((student) => {
+            <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2" style={{ scrollbarWidth: 'thin', scrollbarColor: '#d1d5db transparent' }}>
+              {rankedStudents.map((student) => {
                 const isMe = student.username === stats.username;
                 const rankBg = student.rank === 1 ? 'bg-amber-400 text-amber-950'
                   : student.rank === 2 ? 'bg-slate-300 text-slate-700'
@@ -247,8 +280,8 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                   <div
                     key={student.username}
                     className={`flex items-center justify-between p-4 rounded-2xl transition-all ${isMe
-                        ? 'bg-green-50 border-2 border-[#27AE60]/40 shadow-md ring-2 ring-[#27AE60]/10'
-                        : 'bg-slate-50/50 border border-slate-100 hover:border-green-200'
+                      ? 'bg-green-50 border-2 border-[#27AE60]/40 shadow-md ring-2 ring-[#27AE60]/10'
+                      : 'bg-slate-50/50 border border-slate-100 hover:border-green-200'
                       }`}
                   >
                     <div className="flex items-center gap-4">
@@ -262,45 +295,18 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                         <p className={`text-sm font-bold ${isMe ? 'text-[#27AE60]' : 'text-[#2D3748]'}`}>
                           {student.name} {isMe && <span className="text-[10px] font-black text-[#2ECC71] uppercase ml-1">(You)</span>}
                         </p>
-                        <p className="text-[10px] text-slate-400">{student.completedModules} modules completed</p>
+                        <p className="text-[10px] text-slate-400">
+                          {student.xp === 0 ? 'Chưa bắt đầu' : `${student.completedModules} modules completed`}
+                        </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className={`text-lg font-black ${isMe ? 'text-[#27AE60]' : 'text-[#2D3748]'}`}>{student.xp}</span>
+                      <span className={`text-lg font-black ${student.xp > 0 ? (isMe ? 'text-[#27AE60]' : 'text-[#2D3748]') : 'text-slate-300'}`}>{student.xp}</span>
                       <p className="text-[10px] font-bold text-slate-400 uppercase">XP</p>
                     </div>
                   </div>
                 );
               })}
-
-              {/* Show current user if outside top 10 */}
-              {currentUserRank && currentUserRank.rank > 10 && (
-                <>
-                  <div className="flex items-center justify-center py-2">
-                    <span className="text-xs text-slate-300 font-bold">• • •</span>
-                  </div>
-                  <div className="flex items-center justify-between p-4 rounded-2xl bg-green-50 border-2 border-[#27AE60]/40 shadow-md ring-2 ring-[#27AE60]/10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-9 h-9 rounded-xl flex items-center justify-center font-black text-xs bg-green-100 text-[#27AE60]">
-                        #{currentUserRank.rank}
-                      </div>
-                      <div className="w-9 h-9 rounded-full bg-[#27AE60] text-white flex items-center justify-center font-black text-sm shadow-sm">
-                        {currentUserRank.name.charAt(0)}
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-[#27AE60]">
-                          {currentUserRank.name} <span className="text-[10px] font-black text-[#2ECC71] uppercase ml-1">(You)</span>
-                        </p>
-                        <p className="text-[10px] text-slate-400">{currentUserRank.completedModules} modules completed</p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-lg font-black text-[#27AE60]">{currentUserRank.xp}</span>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase">XP</p>
-                    </div>
-                  </div>
-                </>
-              )}
             </div>
           </div>
           <div className="absolute top-0 right-0 w-48 h-48 bg-amber-400/5 rounded-full blur-[60px] -mr-24 -mt-24"></div>
