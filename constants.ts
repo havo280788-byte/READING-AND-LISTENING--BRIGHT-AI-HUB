@@ -256,7 +256,7 @@ export const UNIT3_PRACTICE_TEST: PracticeTestData = {
   title: "Unit 3: Elite Challenge",
   unit_context: "Unit 3: Global Warming",
   type: "gamified_test",
-  total_questions: 10,
+  total_questions: 30,
   time_limit_minutes: 15,
   description: "Ecosystems and Present Perfect.",
   sections: [
@@ -272,7 +272,27 @@ export const UNIT3_PRACTICE_TEST: PracticeTestData = {
         { id: 7, type: 'multiple_choice', question: "Global ______ is causing the polar ice caps to melt.", options: ["cooling", "warming", "freezing", "shifting"], answer: "warming", explanation: "Global warming is the rise in Earth's temperature." },
         { id: 8, type: 'multiple_choice', question: "Severe floods are one of the ______ of climate change.", options: ["causes", "solutions", "consequences", "benefits"], answer: "consequences", explanation: "Consequences are the results or outcomes." },
         { id: 9, type: 'multiple_choice', question: "Pollution can destroy the delicate balance of an ______.", options: ["economy", "ecosystem", "education", "election"], answer: "ecosystem", explanation: "An ecosystem is a community of interacting organisms." },
-        { id: 10, type: 'multiple_choice', question: "Livestock farming produces a significant amount of ______.", options: ["oxygen", "methane", "water", "nitrogen"], answer: "methane", explanation: "Methane is a potent greenhouse gas from livestock." }
+        { id: 10, type: 'multiple_choice', question: "Livestock farming produces a significant amount of ______.", options: ["oxygen", "methane", "water", "nitrogen"], answer: "methane", explanation: "Methane is a potent greenhouse gas from livestock." },
+        { id: 11, type: 'multiple_choice', question: "Global warming can result ______ rising sea levels and extreme weather.", options: ["from", "in", "on", "at"], answer: "in", explanation: "'Result in' means 'cause' or 'lead to'. 'Result from' means 'be caused by'." },
+        { id: 12, type: 'multiple_choice', question: "Many animals have become ______ because of habitat destruction.", options: ["marine", "extinct", "extreme", "organic"], answer: "extinct", explanation: "'Extinct' means no longer existing as a species." },
+        { id: 13, type: 'multiple_choice', question: "The Australian wildfires ______ millions of hectares of forest in 2020.", options: ["destroy", "have destroyed", "destroyed", "are destroying"], answer: "destroyed", explanation: "Past simple for a completed event at a specific time (in 2020)." },
+        { id: 14, type: 'multiple_choice', question: "In recent years, hurricanes ______ more frequent due to climate change.", options: ["become", "became", "have become", "will become"], answer: "have become", explanation: "Present perfect with 'in recent years' for actions continuing up to now." },
+        { id: 15, type: 'multiple_choice', question: "Sea ______ are rising faster than scientists predicted.", options: ["floods", "levels", "swamps", "ponds"], answer: "levels", explanation: "'Sea levels' is the standard collocation for measuring ocean height." },
+        { id: 16, type: 'multiple_choice', question: "We should use reusable bags to reduce plastic ______.", options: ["drought", "waste", "flood", "heatwave"], answer: "waste", explanation: "'Plastic waste' means plastic rubbish or garbage." },
+        { id: 17, type: 'multiple_choice', question: "They ______ more than 5,000 trees so far.", options: ["plant", "planted", "have planted", "are planting"], answer: "have planted", explanation: "Present perfect with 'so far' for actions up to the present." },
+        { id: 18, type: 'multiple_choice', question: "The government has taken action to deal with food ______.", options: ["waste", "desert", "ecosystem", "drought"], answer: "waste", explanation: "'Food waste' means food that is thrown away or not used." },
+        { id: 19, type: 'multiple_choice', question: "A long period without rain is called a ______.", options: ["flood", "hurricane", "drought", "wildfire"], answer: "drought", explanation: "A 'drought' is an extended period of abnormally low rainfall." },
+        { id: 20, type: 'multiple_choice', question: "Someone ______ into our house last night.", options: ["has broken", "broke", "breaks", "is breaking"], answer: "broke", explanation: "Past simple for a completed action at a specific time (last night)." },
+        { id: 21, type: 'multiple_choice', question: "Global warming has ______ many marine ecosystems.", options: ["affected", "effected", "affect", "effect"], answer: "affected", explanation: "'Affected' (verb, past participle) means 'had an impact on'. 'Effect' is usually a noun." },
+        { id: 22, type: 'multiple_choice', question: "We haven't seen such an extreme ______ before.", options: ["weather", "heatwave", "marine", "conditionally"], answer: "heatwave", explanation: "A 'heatwave' is an extreme weather event with unusually high temperatures." },
+        { id: 23, type: 'multiple_choice', question: "The ice caps ______ dramatically over the last decade.", options: ["melt", "melted", "have melted", "are melting"], answer: "have melted", explanation: "Present perfect with 'over the last decade' for a period up to now." },
+        { id: 24, type: 'multiple_choice', question: "Farmers are worried about the ______ caused by heavy rain.", options: ["drought", "flood", "desert", "grassland"], answer: "flood", explanation: "A 'flood' is an overflow of water, often caused by heavy rain." },
+        { id: 25, type: 'multiple_choice', question: "I have never ______ such a powerful hurricane before.", options: ["see", "saw", "seen", "seeing"], answer: "seen", explanation: "Present perfect: have/has + V3 (past participle). 'Seen' is the past participle of 'see'." },
+        { id: 26, type: 'multiple_choice', question: "Many species are under threat of ______.", options: ["extinction", "extinct", "extincted", "existing"], answer: "extinction", explanation: "'Extinction' (noun) is used after 'of'. 'Extinct' is an adjective." },
+        { id: 27, type: 'multiple_choice', question: "Overfishing has seriously damaged ocean ______.", options: ["jungles", "ecosystems", "deserts", "ponds"], answer: "ecosystems", explanation: "'Ecosystems' refers to biological communities of interacting organisms." },
+        { id: 28, type: 'multiple_choice', question: "They ______ the environmental campaign last year.", options: ["carry out", "have carried out", "carried out", "are carrying out"], answer: "carried out", explanation: "Past simple for a completed action at a specific time (last year)." },
+        { id: 29, type: 'multiple_choice', question: "We should get rid ______ plastic bags to protect the environment.", options: ["from", "of", "with", "by"], answer: "of", explanation: "'Get rid of' is a fixed phrase meaning 'to eliminate or remove'." },
+        { id: 30, type: 'multiple_choice', question: "Scientists have warned that extreme weather events ______ more common recently.", options: ["became", "have become", "become", "becoming"], answer: "have become", explanation: "Present perfect with 'recently' for actions/changes up to the present." }
       ]
     }
   ]
@@ -283,7 +303,7 @@ export const UNIT4_PRACTICE_TEST: PracticeTestData = {
   title: "Unit 4: Elite Challenge",
   unit_context: "Unit 4: World Heritage",
   type: "gamified_test",
-  total_questions: 10,
+  total_questions: 30,
   time_limit_minutes: 15,
   description: "Preservation and Conjunctions.",
   sections: [
@@ -299,7 +319,27 @@ export const UNIT4_PRACTICE_TEST: PracticeTestData = {
         { id: 7, type: 'multiple_choice', question: "Trang An is famous for its stunning limestone ______.", options: ["city", "landscape", "road", "factory"], answer: "landscape", explanation: "Landscape refers to visible features of land." },
         { id: 8, type: 'multiple_choice', question: "The Thang Long Imperial ______ is located in the heart of Hanoi.", options: ["Tower", "Citadel", "Bridge", "Gate"], answer: "Citadel", explanation: "A citadel is a fortress dominating a city." },
         { id: 9, type: 'multiple_choice', question: "Vietnam has many traditional styles of ______ singing.", options: ["pop", "rock", "folk", "rap"], answer: "folk", explanation: "Folk singing originates in traditional culture." },
-        { id: 10, type: 'multiple_choice', question: "UNESCO ______ sites with outstanding universal value.", options: ["forgets", "recognizes", "buys", "sells"], answer: "recognizes", explanation: "Recognize means to identify and acknowledge officially." }
+        { id: 10, type: 'multiple_choice', question: "UNESCO ______ sites with outstanding universal value.", options: ["forgets", "recognizes", "buys", "sells"], answer: "recognizes", explanation: "Recognize means to identify and acknowledge officially." },
+        { id: 11, type: 'multiple_choice', question: "The Taj Mahal is made of white ______.", options: ["steel", "marble", "clay", "concrete"], answer: "marble", explanation: "The Taj Mahal is famous for its white marble architecture." },
+        { id: 12, type: 'multiple_choice', question: "The Eiffel Tower is one of the most famous ______ in the world.", options: ["statues", "tombs", "landmarks", "caves"], answer: "landmarks", explanation: "A landmark is a recognizable feature or building." },
+        { id: 13, type: 'multiple_choice', question: "We should raise people’s awareness of ______ cultural heritage.", options: ["preserving", "preserve", "preservation", "preserved"], answer: "preserving", explanation: "Preposition 'of' + V-ing/Noun. 'Preserving' fits the context of action." },
+        { id: 14, type: 'multiple_choice', question: "The monument was built ______ a symbol of peace.", options: ["about", "like", "as", "from"], answer: "as", explanation: "'Build as' indicates the function or role." },
+        { id: 15, type: 'multiple_choice', question: "Huế was ______ the political ______ the cultural centre under the Nguyen dynasty.", options: ["either / or", "both / and", "neither / nor", "not only / but"], answer: "both / and", explanation: "Correlative conjunction 'both... and' connects two equal elements." },
+        { id: 16, type: 'multiple_choice', question: "The temple, ______ was built in the 11th century, attracts many visitors.", options: ["who", "whose", "which", "where"], answer: "which", explanation: "Relative pronoun 'which' refers to things (the temple) in a non-defining clause." },
+        { id: 17, type: 'multiple_choice', question: "Not only the students but also the teacher ______ excited about the field trip.", options: ["are", "were", "is", "be"], answer: "is", explanation: "With 'not only... but also', the verb agrees with the subject closer to it (the teacher - singular)." },
+        { id: 18, type: 'multiple_choice', question: "Visitors can ______ go on a guided tour ______ explore the site on their own.", options: ["neither / nor", "both / and", "either / or", "not only / but also"], answer: "either / or", explanation: "'Either... or' presents a choice between two options." },
+        { id: 19, type: 'multiple_choice', question: "The Sydney Opera House ______ as an arts centre since 1973.", options: ["serves", "served", "has served", "is serving"], answer: "has served", explanation: "Present perfect ('since 1973') for an action continuing from past to present." },
+        { id: 20, type: 'multiple_choice', question: "Many ancient buildings are made of stone and ______.", options: ["glass", "coral", "jungle", "dune"], answer: "glass", explanation: "Though unusual for ancient buildings generally, some use stained glass. In context, 'glass' is the only material listed." },
+        { id: 21, type: 'multiple_choice', question: "It was the ancient citadel ______ attracted tourists from all over the world.", options: ["who", "where", "that", "whose"], answer: "that", explanation: "Cleft sentence structure emphasizing a thing (citadel) uses 'that' or 'which'." },
+        { id: 22, type: 'multiple_choice', question: "The museum has displayed many historical ______.", options: ["ruins", "statues", "deserts", "ecosystems"], answer: "statues", explanation: "Statues are common historical artifacts displayed in museums." },
+        { id: 23, type: 'multiple_choice', question: "Both the castle and the lighthouse ______ located near the coast.", options: ["is", "was", "are", "be"], answer: "are", explanation: "'Both... and' subjects are always plural." },
+        { id: 24, type: 'multiple_choice', question: "This World Heritage Site is famous for its ______ architecture.", options: ["marine", "historic", "organic", "extreme"], answer: "historic", explanation: "'Historic' means famous or important in history." },
+        { id: 25, type: 'multiple_choice', question: "The local government plans to ______ the old bridge next year.", options: ["recycle", "replace", "preserve", "threaten"], answer: "preserve", explanation: "To keep something safe from harm or destruction." },
+        { id: 26, type: 'multiple_choice', question: "The old town is well known for its picturesque streets and ______ buildings.", options: ["traditional", "extreme", "narrowest", "desert"], answer: "traditional", explanation: "Traditional buildings fit the context of an old town." },
+        { id: 27, type: 'multiple_choice', question: "Neither the guide nor the tourists ______ aware of the new rules.", options: ["was", "were", "is", "be"], answer: "were", explanation: "With 'neither... nor', verb agrees with the closer subject (tourists - plural)." },
+        { id: 28, type: 'multiple_choice', question: "The Great Wall of China is an important cultural ______.", options: ["ecosystem", "heritage", "hurricane", "dune"], answer: "heritage", explanation: "Cultural heritage refers to monuments, groups of buildings, and sites with historical value." },
+        { id: 29, type: 'multiple_choice', question: "The pagoda was built in the 12th century and has been carefully ______.", options: ["destroying", "preserved", "preserving", "preserve"], answer: "preserved", explanation: "Passive voice (has been + V3) to describe the action done to the pagoda." },
+        { id: 30, type: 'multiple_choice', question: "Not only ______ beautiful, but it is also historically significant.", options: ["the monument is", "is the monument", "does the monument", "the monument does"], answer: "is the monument", explanation: "Inversion is required after 'Not only' at the beginning of a sentence." }
       ]
     }
   ]
