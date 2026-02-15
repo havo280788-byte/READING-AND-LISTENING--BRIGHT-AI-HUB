@@ -450,59 +450,459 @@ export const UNIT1_ERROR_CORRECTION: ErrorCorrectionData = {
   title: "Unit 1: Error Lab",
   description: "Identify family life grammar errors.",
   questions: [
-    { id: 1, sentence: "My parents [A] is [B] very [C] strict [D] with me.", error_part: "A", correction: "are", explanation: "Plural subject 'parents' requires the verb 'are' in the present tense." },
-    { id: 2, sentence: "I [A] am knowing [B] that [C] you want [D] privacy.", error_part: "A", correction: "know", explanation: "'Know' is a stative verb and is rarely used in the continuous form." }
-  ]
-};
-
-export const UNIT2_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u2_error", title: "Unit 2: Error Lab", description: "Identify ASEAN and past tense errors.", questions: [] };
-export const UNIT3_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u3_error", title: "Unit 3: Error Lab", description: "Identify global warming grammar errors.", questions: [] };
-export const UNIT4_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u4_error", title: "Unit 4: Error Lab", description: "Identify heritage and conjunction errors.", questions: [] };
-
-export const UNIT5_ERROR_CORRECTION: ErrorCorrectionData = {
-  module_id: "u5_error",
-  title: "Unit 5: Error Lab",
-  description: "Identify future forms errors.",
-  questions: [
     {
       id: 1,
-      sentence: "I think people [A] are going to live on Mars in 2050 because technology [B] will improve and life [C] will become easier in space [D] in the future.",
+      sentence: "My parents [A] are believing that teenagers [B] need more freedom [C] to develop [D] their independence.",
       error_part: "A",
-      correction: "will live",
-      explanation: "Sửa thành: 'will live'. Dùng 'will' cho dự đoán mang tính ý kiến cá nhân (I think). 'Be going to' dùng khi có bằng chứng hiện tại."
+      correction: "believe",
+      explanation: "Sửa thành 'believe'. Động từ 'believe' (tin tưởng) là động từ trạng thái (stative verb), không dùng ở thì tiếp diễn."
     },
     {
       id: 2,
-      sentence: "Look at those dark clouds! It [A] will rain very soon, so we [B] should stay inside and [C] close all the windows [D] quickly.",
+      sentence: "She [A] is appearing very confident in class, although she [B] feels nervous [C] inside [D] her heart.",
       error_part: "A",
-      correction: "is going to rain",
-      explanation: "Sửa thành: 'is going to rain'. Dùng 'be going to' cho dự đoán dựa trên bằng chứng hiện tại (dark clouds)."
+      correction: "appears",
+      explanation: "Sửa thành 'appears'. 'Appear' mang nghĩa 'có vẻ như' (seem) là động từ trạng thái, không dùng tiếp diễn."
     },
     {
       id: 3,
-      sentence: "People [A] will maybe use flying cars in the future when cities [B] become more modern and technology [C] develops further [D] worldwide.",
-      error_part: "A",
-      correction: "may use",
-      explanation: "Sửa thành: 'may use'. 'Maybe' là trạng từ đứng đầu câu, không đứng sau 'will'. Để diễn tả khả năng, dùng 'may/might + V nguyên mẫu'."
+      sentence: "These days, many young people [A] prefer living alone because they [B] are wanting [C] to be [D] independent.",
+      error_part: "B",
+      correction: "want",
+      explanation: "Sửa thành 'want'. Động từ 'want' (muốn) là động từ trạng thái chỉ mong muốn, không dùng tiếp diễn."
     },
     {
       id: 4,
-      sentence: "[A] It is likely people will travel to other planets [B] in the future as space technology [C] becomes more advanced and affordable [D] for everyone.",
-      error_part: "A",
-      correction: "It is likely that",
-      explanation: "Sửa thành: 'It is likely that people will travel...'. Cấu trúc đúng: 'It is likely that + clause'. Thiếu 'that' sau 'likely'."
+      sentence: "I [A] think that your attitude [B] is seeming quite rude [C] at the moment [D] to everyone.",
+      error_part: "B",
+      correction: "seems",
+      explanation: "Sửa thành 'seems'. Động từ 'seem' (có vẻ) là động từ nối (linking verb), không dùng ở thì tiếp diễn."
     },
     {
       id: 5,
-      sentence: "She [A] probably won't to buy a petrol car next year because electric vehicles [B] will be cheaper and more environmentally [C] friendly [D] than before.",
+      sentence: "Teenagers [A] are often complaining that their parents [B] don’t listen [C] to [D] their opinions.",
       error_part: "A",
-      correction: "probably won't buy",
-      explanation: "Sửa thành: 'probably won't buy'. Sau 'won't' là động từ nguyên mẫu không 'to'."
+      correction: "often complain",
+      explanation: "Sửa thành 'often complain'. Trạng từ 'often' diễn tả thói quen lặp lại, dùng thì Hiện tại đơn."
+    },
+    {
+      id: 6,
+      sentence: "My brother [A] is having a part-time job and [B] studies [C] hard [D] to earn pocket money.",
+      error_part: "A",
+      correction: "has",
+      explanation: "Sửa thành 'has'. Động từ 'have' mang nghĩa sở hữu (có) là động từ trạng thái."
+    },
+    {
+      id: 7,
+      sentence: "What [A] are you thinking about your [B] parents’ [C] decision [D] right now?",
+      error_part: "A",
+      correction: "do you think",
+      explanation: "Sửa thành 'do you think'. Khi hỏi về quan điểm/ý kiến (opinion), 'think' là động từ trạng thái."
+    },
+    {
+      id: 8,
+      sentence: "She usually [A] doesn’t get along with her sister, but today they [B] talk [C] calmly [D] together.",
+      error_part: "B",
+      correction: "are talking",
+      explanation: "Sửa thành 'are talking'. 'Today' diễn tả hành động tạm thời đang diễn ra khác với thường lệ -> dùng Hiện tại tiếp diễn."
+    },
+    {
+      id: 9,
+      sentence: "He [A] looks angry, but I [B] am knowing that he [C] doesn’t mean [D] to be strict.",
+      error_part: "B",
+      correction: "know",
+      explanation: "Sửa thành 'know'. Động từ 'know' (biết) liên quan đến nhận thức, là động từ trạng thái."
+    },
+    {
+      id: 10,
+      sentence: "My parents [A] always worry about my future career because they [B] are loving [C] me [D] very much.",
+      error_part: "B",
+      correction: "love",
+      explanation: "Sửa thành 'love'. Động từ 'love' chỉ cảm xúc là động từ trạng thái, không dùng tiếp diễn."
     }
   ]
 };
 
-export const UNIT6_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u6_error", title: "Unit 6: Error Lab", description: "Identify linking words errors.", questions: [] };
+export const UNIT2_ERROR_CORRECTION: ErrorCorrectionData = {
+  module_id: "u2_error",
+  title: "Unit 2: Error Lab",
+  description: "Identify past tense & cleft sentence errors in a story about Hội An.",
+  questions: [
+    {
+      id: 1,
+      sentence: "Last year, my family [A] decide to visit [B] Hội An [C] Ancient Town [D] in Vietnam.",
+      error_part: "A",
+      correction: "decided",
+      explanation: "Sửa thành 'decided'. 'Last year' là dấu hiệu nhận biết thì Quá khứ đơn."
+    },
+    {
+      id: 2,
+      sentence: "It [A] is one of [B] the most famous [C] tourist attractions [D] in Vietnam.",
+      error_part: "A",
+      correction: "was",
+      explanation: "Sửa thành 'was'. Câu chuyện kể về quá khứ nên cần chia động từ ở quá khứ."
+    },
+    {
+      id: 3,
+      sentence: "When we arrived, the streets [A] were crowded with [B] visitors who [C] was taking photos [D] of lanterns.",
+      error_part: "C",
+      correction: "were taking",
+      explanation: "Sửa thành 'were taking'. Chủ ngữ là 'visitors' (số nhiều) nên động từ 'be' chia là 'were'."
+    },
+    {
+      id: 4,
+      sentence: "While we [A] walked along [B] the narrow streets, [C] our guide [D] was telling us stories.",
+      error_part: "A",
+      correction: "were walking",
+      explanation: "Sửa thành 'were walking'. Dùng Quá khứ tiếp diễn để diễn tả hành động đang xảy ra song song hoặc làm nền."
+    },
+    {
+      id: 5,
+      sentence: "It was [A] the Japanese Bridge [B] which impressed [C] me [D] the most.",
+      error_part: "B",
+      correction: "that",
+      explanation: "Sửa thành 'that'. Trong câu chẻ (cleft sentence) nhấn mạnh sự vật, dùng 'that' phổ biến hơn 'which'."
+    },
+    {
+      id: 6,
+      sentence: "The guide said [A] it [B] builded in [C] the 16th century [D] by Japanese traders.",
+      error_part: "B",
+      correction: "was built",
+      explanation: "Sửa thành 'was built'. Câu bị động ở thì Quá khứ đơn: was/were + V3/ed (built)."
+    },
+    {
+      id: 7,
+      sentence: "In the afternoon, my parents [A] were shopping [B] while I [C] was explore [D] the local market.",
+      error_part: "C",
+      correction: "was exploring",
+      explanation: "Sửa thành 'was exploring'. Cấu trúc Quá khứ tiếp diễn: was + V-ing."
+    },
+    {
+      id: 8,
+      sentence: "Not only [A] the architecture [B] were beautiful, but also [C] the atmosphere [D] was peaceful.",
+      error_part: "B",
+      correction: "was",
+      explanation: "Sửa thành 'was'. Động từ chia theo chủ ngữ gần nhất trong cấu trúc đảo ngữ hoặc theo chủ ngữ chính (architecture - số ít)."
+    },
+    {
+      id: 9,
+      sentence: "When we left [A] the town, I realised [B] that it was this trip [C] where [D] helped me understand culture.",
+      error_part: "C",
+      correction: "that",
+      explanation: "Sửa thành 'that'. Câu chẻ (cleft sentence) nhấn mạnh chủ ngữ chỉ vật/sự việc, dùng 'that'."
+    }
+  ]
+};
+export const UNIT3_ERROR_CORRECTION: ErrorCorrectionData = {
+  module_id: "u3_error",
+  title: "Unit 3: Error Lab",
+  description: "Identify global warming & present perfect errors.",
+  questions: [
+    {
+      id: 1,
+      sentence: "Global temperatures [A] have increased rapidly [B] since the [C] last [D] decade.",
+      error_part: "B",
+      correction: "for",
+      explanation: "Sửa thành 'for'. 'The last decade' là khoảng thời gian (duration), dùng 'for'. 'Since' dùng cho mốc thời gian."
+    },
+    {
+      id: 2,
+      sentence: "Many animal species [A] have become extinct [B] since recent [C] years [D] due to habitat loss.",
+      error_part: "B",
+      correction: "in",
+      explanation: "Sửa thành 'in'. Cụm từ 'in recent years' (trong những năm gần đây) thường dùng với thì Hiện tại hoàn thành."
+    },
+    {
+      id: 3,
+      sentence: "Last year, severe floods [A] have destroyed thousands of [B] homes [C] in the [D] region.",
+      error_part: "A",
+      correction: "destroyed",
+      explanation: "Sửa thành 'destroyed'. 'Last year' là mốc thời gian trong quá khứ, dùng thì Quá khứ đơn."
+    },
+    {
+      id: 4,
+      sentence: "Scientists [A] warned about [B] climate [C] change for [D] many years.",
+      error_part: "A",
+      correction: "have warned",
+      explanation: "Sửa thành 'have warned'. Dấu hiệu 'for many years' diễn tả hành động kéo dài từ quá khứ đến hiện tại."
+    },
+    {
+      id: 5,
+      sentence: "The government [A] has built new dams [B] two years ago to [C] prevent [D] flooding.",
+      error_part: "A",
+      correction: "built",
+      explanation: "Sửa thành 'built'. 'Two years ago' là thời gian cụ thể trong quá khứ, dùng thì Quá khứ đơn."
+    },
+    {
+      id: 6,
+      sentence: "Sea levels [A] rises significantly [B] over the [C] past [D] decade.",
+      error_part: "A",
+      correction: "have risen",
+      explanation: "Sửa thành 'have risen'. 'Over the past decade' diễn tả sự thay đổi trong một khoảng thời gian đến nay."
+    },
+    {
+      id: 7,
+      sentence: "We [A] didn’t see such an extreme [B] heatwave since [C] 2010 [D] until now.",
+      error_part: "A",
+      correction: "haven't seen",
+      explanation: "Sửa thành 'haven't seen'. 'Since 2010' yêu cầu thì Hiện tại hoàn thành (phủ định)."
+    },
+    {
+      id: 8,
+      sentence: "Plastic waste [A] has caused serious damage to [B] marine ecosystems [C] last [D] year.",
+      error_part: "A",
+      correction: "caused",
+      explanation: "Sửa thành 'caused'. 'Last year' là thời gian xác định trong quá khứ."
+    },
+    {
+      id: 9,
+      sentence: "Environmental groups [A] have worked hard to protect wildlife, [B] didn’t they?",
+      error_part: "B",
+      correction: "haven't they",
+      explanation: "Sửa thành 'haven't they'. Câu hỏi đuôi (Tag question) dùng trợ động từ 'have' của mệnh đề chính."
+    },
+    {
+      id: 10,
+      sentence: "Many countries [A] have reduced carbon emissions [B] from five [C] years [D] now.",
+      error_part: "B",
+      correction: "for",
+      explanation: "Sửa thành 'for'. Dùng 'for' + khoảng thời gian (for five years)."
+    }
+  ]
+};
+export const UNIT4_ERROR_CORRECTION: ErrorCorrectionData = {
+  module_id: "u4_error",
+  title: "Unit 4: Error Lab",
+  description: "Identify paired conjunctions & cleft sentence errors.",
+  questions: [
+    {
+      id: 1,
+      sentence: "Both the ancient citadel [A] as well as [B] the royal tombs [C] attracts thousands of [D] tourists every year.",
+      error_part: "A",
+      correction: "and",
+      explanation: "Sửa thành 'and'. Cấu trúc 'both... and' (cả... và...). 'As well as' không dùng trong cấu trúc này."
+    },
+    {
+      id: 2,
+      sentence: "It was the Imperial City [A] where [B] impressed me the [C] most [D] during the trip.",
+      error_part: "A",
+      correction: "that",
+      explanation: "Sửa thành 'that'. Câu chẻ (cleft sentence) nhấn mạnh sự vật/chủ ngữ, dùng 'that' (hoặc 'which')."
+    },
+    {
+      id: 3,
+      sentence: "Not only the architecture [A] was impressive, but also the atmosphere [B] were [C] peaceful [D] and relaxing.",
+      error_part: "B",
+      correction: "was",
+      explanation: "Sửa thành 'was'. Chủ ngữ 'atmosphere' là danh từ số ít nên động từ 'be' chia là 'was'."
+    },
+    {
+      id: 4,
+      sentence: "Either the museum [A] or the art gallery [B] are [C] open [D] today.",
+      error_part: "B",
+      correction: "is",
+      explanation: "Sửa thành 'is'. Trong cấu trúc 'either... or', động từ chia theo chủ ngữ gần nhất (the art gallery - số ít)."
+    },
+    {
+      id: 5,
+      sentence: "The old town [A] is famous for both its lantern festival [B] but also [C] its traditional [D] houses.",
+      error_part: "B",
+      correction: "and",
+      explanation: "Sửa thành 'and'. Cấu trúc 'both... and'. 'But also' chỉ dùng trong cấu trúc 'not only... but also'."
+    },
+    {
+      id: 6,
+      sentence: "It was in Hội An [A] which [B] we bought [C] those beautiful [D] lanterns.",
+      error_part: "A",
+      correction: "that",
+      explanation: "Sửa thành 'that'. Câu chẻ nhấn mạnh trạng ngữ chỉ nơi chốn (in Hội An), dùng 'that'."
+    },
+    {
+      id: 7,
+      sentence: "Neither the guide nor the tourists [A] was [B] aware of the [C] new entrance [D] fee.",
+      error_part: "A",
+      correction: "were",
+      explanation: "Sửa thành 'were'. Trong cấu trúc 'neither... nor', động từ chia theo chủ ngữ gần nhất (the tourists - số nhiều)."
+    },
+    {
+      id: 8,
+      sentence: "Not only the monument [A] attracts visitors, but it [B] also is [C] a symbol [D] of national pride.",
+      error_part: "B",
+      correction: "is also",
+      explanation: "Sửa thành 'is also'. Trạng từ 'also' thường đứng sau động từ to be."
+    },
+    {
+      id: 9,
+      sentence: "Both the temple [A] and the pagoda [B] was built [C] hundreds of [D] years ago.",
+      error_part: "B",
+      correction: "were built",
+      explanation: "Sửa thành 'were built'. 'Both... and' nối hai chủ ngữ tạo thành chủ ngữ số nhiều."
+    },
+    {
+      id: 10,
+      sentence: "It was the tour guide [A] which [B] explained the history [C] of the [D] ancient bridge.",
+      error_part: "A",
+      correction: "who",
+      explanation: "Sửa thành 'who' (hoặc 'that'). Nhấn mạnh danh từ chỉ người (tour guide) trong câu chẻ."
+    }
+  ]
+};
+
+export const UNIT5_ERROR_CORRECTION: ErrorCorrectionData = {
+  module_id: "u5_error",
+  title: "Unit 5: Error Lab",
+  description: "Identify future prediction grammar errors.",
+  questions: [
+    {
+      id: 1,
+      sentence: "Look at those dark clouds! It [A] will rain in [B] a few [C] minutes.",
+      error_part: "A",
+      correction: "is going to rain",
+      explanation: "Sửa thành 'is going to rain'. Dự đoán tương lai gần dựa trên bằng chứng hiện tại (dark clouds)."
+    },
+    {
+      id: 2,
+      sentence: "I think people [A] are going to use flying cars [B] in the [C] future.",
+      error_part: "A",
+      correction: "will use",
+      explanation: "Sửa thành 'will use'. Dự đoán dựa trên quan điểm cá nhân (I think), dùng 'will'."
+    },
+    {
+      id: 3,
+      sentence: "Perhaps students [A] will definitely study [B] in [C] digital [D] classrooms in 2050.",
+      error_part: "A",
+      correction: "will",
+      explanation: "Sửa thành 'will'. 'Perhaps' chỉ khả năng (50%), không đi cùng trạng từ chỉ sự chắc chắn 'definitely'."
+    },
+    {
+      id: 4,
+      sentence: "It is likely that cities [A] are become smarter [B] in the [C] next [D] decade.",
+      error_part: "A",
+      correction: "will become",
+      explanation: "Sửa thành 'will become'. Mệnh đề sau 'It is likely that' dùng thì tương lai."
+    },
+    {
+      id: 5,
+      sentence: "All vehicles [A] will probably not run on [B] fossil fuels in [C] the [D] future.",
+      error_part: "A",
+      correction: "probably won't",
+      explanation: "Sửa thành 'probably won't'. Trạng từ 'probably' đứng trước 'won'. 'will probably not' ít dùng hơn."
+    },
+    {
+      id: 6,
+      sentence: "Maybe people [A] won’t probably use supermarkets [B] anymore.",
+      error_part: "A",
+      correction: "probably won't",
+      explanation: "Sửa thành 'probably won't'. Trạng từ 'probably' đứng trước 'won't' trong câu phủ định."
+    },
+    {
+      id: 7,
+      sentence: "She thinks that online learning [A] will to replace traditional [B] classrooms.",
+      error_part: "A",
+      correction: "will replace",
+      explanation: "Sửa thành 'will replace'. Sau 'will' là động từ nguyên thể không 'to'."
+    },
+    {
+      id: 8,
+      sentence: "Look at that drone! It [A] is going land on [B] the [C] roof.",
+      error_part: "A",
+      correction: "is going to land",
+      explanation: "Sửa thành 'is going to land'. Thiếu 'to' trong cấu trúc 'be going to'."
+    },
+    {
+      id: 9,
+      sentence: "I believe that robots [A] will certainly be part of everyday life, [B] aren’t they?",
+      error_part: "B",
+      correction: "won't they",
+      explanation: "Sửa thành 'won't they'. Câu hỏi đuôi cho mệnh đề 'robots will...' là 'won't they', không dùng 'aren't they'."
+    },
+    {
+      id: 10,
+      sentence: "In the future, students [A] definitely will study from [B] home using hologram devices.",
+      error_part: "A",
+      correction: "will definitely",
+      explanation: "Sửa thành 'will definitely'. Trạng từ 'definitely' đứng sau 'will' trong câu khẳng định."
+    }
+  ]
+};
+
+export const UNIT6_ERROR_CORRECTION: ErrorCorrectionData = {
+  module_id: "u6_error",
+  title: "Unit 6: Error Lab",
+  description: "Identify gerund & question tag errors.",
+  questions: [
+    {
+      id: 1,
+      sentence: "Many volunteers avoid [A] to waste food during [B] charity [C] events.",
+      error_part: "A",
+      correction: "wasting",
+      explanation: "Sửa thành 'wasting'. 'Avoid' + V-ing (tránh làm gì)."
+    },
+    {
+      id: 2,
+      sentence: "She apologised [A] for being late, [B] hasn't she?",
+      error_part: "B",
+      correction: "didn't she",
+      explanation: "Sửa thành 'didn't she'. Mệnh đề chính (she apologised) ở thì Quá khứ đơn, nên câu hỏi đuôi dùng trợ động từ 'did'."
+    },
+    {
+      id: 3,
+      sentence: "He denied [A] having steal the [B] donated [C] money.",
+      error_part: "A",
+      correction: "having stolen",
+      explanation: "Sửa thành 'having stolen'. Cấu trúc 'deny + having + V3' (phủ nhận đã làm gì)."
+    },
+    {
+      id: 4,
+      sentence: "We succeeded [A] to raise enough [B] funding for the [C] shelter.",
+      error_part: "A",
+      correction: "in raising",
+      explanation: "Sửa thành 'in raising'. Cấu trúc 'succeed in doing something' (thành công trong việc gì)."
+    },
+    {
+      id: 5,
+      sentence: "I look forward to [A] meet the [B] organisers [C] next [D] week.",
+      error_part: "A",
+      correction: "meeting",
+      explanation: "Sửa thành 'meeting'. 'Look forward to' + V-ing."
+    },
+    {
+      id: 6,
+      sentence: "Nobody supported the campaign, [A] didn’t they?",
+      error_part: "A",
+      correction: "did they",
+      explanation: "Sửa thành 'did they'. Chủ ngữ 'Nobody' mang nghĩa phủ định -> câu hỏi đuôi khẳng định."
+    },
+    {
+      id: 7,
+      sentence: "Let’s organise a fundraising event, [A] will we?",
+      error_part: "A",
+      correction: "shall we",
+      explanation: "Sửa thành 'shall we'. Câu mời mọc với 'Let's' dùng câu hỏi đuôi 'shall we'."
+    },
+    {
+      id: 8,
+      sentence: "She enjoys [A] helping homeless people, [B] does she?",
+      error_part: "B",
+      correction: "doesn't she",
+      explanation: "Sửa thành 'doesn't she'. Câu khẳng định thì Hiện tại đơn -> câu hỏi đuôi phủ định."
+    },
+    {
+      id: 9,
+      sentence: "They haven’t finished the project yet, [A] haven’t they?",
+      error_part: "A",
+      correction: "have they",
+      explanation: "Sửa thành 'have they'. Câu phủ định (haven't) -> câu hỏi đuôi khẳng định."
+    },
+    {
+      id: 10,
+      sentence: "He admitted [A] to break the [B] school [C] rules during the [D] campaign.",
+      error_part: "A",
+      correction: "breaking",
+      explanation: "Sửa thành 'breaking'. 'Admit' + (to) + V-ing."
+    }
+  ]
+};
 export const UNIT7_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u7_error", title: "Unit 7: Error Lab", description: "Identify modals errors.", questions: [] };
 export const UNIT8_ERROR_CORRECTION: ErrorCorrectionData = { module_id: "u8_error", title: "Unit 8: Error Lab", description: "Identify reported speech errors.", questions: [] };
 
@@ -641,21 +1041,21 @@ export const UNIT6_GRAMMAR_CHALLENGE: GrammarChallengeData = {
   description: "Master Gerunds & Question Tags.",
   total_questions: 15,
   questions: [
-    { id: 1, type: 'multiple_choice', question: "______ helps poor communities improve their living standards.", options: ["Volunteer", "To volunteer", "Volunteering", "Voluntarily"], answer: "Volunteering", explanation: "Gerund (V-ing) acts as the subject of the sentence." },
-    { id: 2, type: 'multiple_choice', question: "She enjoys ______ with children at the orphanage.", options: ["working", "to work", "work", "worked"], answer: "working", explanation: "Verb 'enjoy' is followed by a Gerund (V-ing)." },
-    { id: 3, type: 'multiple_choice', question: "They decided to focus on ______ funds for the charity.", options: ["raise", "raising", "to raise", "raised"], answer: "raising", explanation: "After preposition 'on', use Gerund (V-ing)." },
-    { id: 4, type: 'multiple_choice', question: "He admitted ______ the mistake during the project.", options: ["make", "to make", "making", "having made"], answer: "having made", explanation: "Perfect Gerund emphasizing the action happened before the main verb 'admitted'." },
-    { id: 5, type: 'multiple_choice', question: "I look forward to ______ you at the community event.", options: ["see", "seeing", "saw", "seen"], answer: "seeing", explanation: "High frequency phrase 'look forward to' + V-ing." },
-    { id: 6, type: 'multiple_choice', question: "She denied ______ the rules of the organization.", options: ["break", "to break", "breaking", "having broken"], answer: "having broken", explanation: "Perfect Gerund 'having broken' emphasizes the past action." },
-    { id: 7, type: 'multiple_choice', question: "We suggest ______ a fundraising campaign next month.", options: ["organise", "to organise", "organising", "organised"], answer: "organising", explanation: "Verb 'suggest' is followed by V-ing." },
-    { id: 8, type: 'multiple_choice', question: "He apologised for ______ late to the meeting.", options: ["being", "be", "to be", "been"], answer: "being", explanation: "After preposition 'for', use Gerund (V-ing)." },
-    { id: 9, type: 'multiple_choice', question: "You are a volunteer, ______?", options: ["aren't you", "don't you", "are you", "haven't you"], answer: "aren't you", explanation: "Main verb 'are' (+) -> Tag 'aren't' (-)." },
-    { id: 10, type: 'multiple_choice', question: "She doesn't work at the shelter, ______?", options: ["does she", "doesn't she", "is she", "isn't she"], answer: "does she", explanation: "Main verb 'doesn't work' (-) -> Tag 'does' (+)." },
-    { id: 11, type: 'multiple_choice', question: "Let's join the clean-up campaign, ______?", options: ["will we", "shall we", "don't we", "do we"], answer: "shall we", explanation: "Special case: 'Let's' -> Tag 'shall we?'." },
-    { id: 12, type: 'multiple_choice', question: "Everyone can help the community, ______?", options: ["can't they", "can they", "don't they", "do they"], answer: "can't they", explanation: "Indefinite pronoun 'Everyone' -> Tag pronoun 'they'. 'can' (+) -> 'can't' (-)." },
-    { id: 13, type: 'multiple_choice', question: "Don't drop litter here, ______?", options: ["do you", "don't you", "will you", "won't you"], answer: "will you", explanation: "Imperative (Command/Request) -> Tag 'will you?'." },
-    { id: 14, type: 'multiple_choice', question: "I am right about the project plan, ______?", options: ["am I", "aren't I", "amn't I", "don't I"], answer: "aren't I", explanation: "Special case: 'I am' -> Tag 'aren't I?'." },
-    { id: 15, type: 'multiple_choice', question: "Nobody knew the answer, ______?", options: ["did they", "didn't they", "do they", "don't they"], answer: "did they", explanation: "'Nobody' is negative, so tag is positive. 'knew' is past simple -> 'did'. Pronoun 'they'." }
+    { id: 1, type: 'multiple_choice', question: "Many volunteers enjoy ______ homeless people in their community.", options: ["to help", "helping", "help", "helped"], answer: "helping", explanation: "Sau động từ 'enjoy' dùng V-ing (danh động từ)." },
+    { id: 2, type: 'multiple_choice', question: "She apologised for ______ late to the charity event.", options: ["to arrive", "arrive", "arriving", "arrived"], answer: "arriving", explanation: "Sau giới từ 'for' dùng V-ing." },
+    { id: 3, type: 'multiple_choice', question: "He denied ______ the donated money.", options: ["to take", "taking", "to taking", "took"], answer: "taking", explanation: "Sau động từ 'deny' dùng V-ing (phủ nhận đã làm gì)." },
+    { id: 4, type: 'multiple_choice', question: "They succeeded in ______ enough funding for the shelter.", options: ["raise", "to raise", "raising", "raised"], answer: "raising", explanation: "Sau giới từ 'in' (trong cụm succeed in) dùng V-ing." },
+    { id: 5, type: 'multiple_choice', question: "I look forward to ______ you at the fundraising event.", options: ["see", "seeing", "to see", "seen"], answer: "seeing", explanation: "Cấu trúc 'look forward to' + V-ing (mong chờ làm gì)." },
+    { id: 6, type: 'multiple_choice', question: "She admitted ______ the rules during the campaign.", options: ["breaking", "to break", "break", "broke"], answer: "breaking", explanation: "Sau 'admit' dùng V-ing (thừa nhận đã làm gì)." },
+    { id: 7, type: 'multiple_choice', question: "He denied ______ the message before the meeting.", options: ["receiving", "having received", "to receive", "receive"], answer: "having received", explanation: "Dùng Perfect Gerund (having V3) để nhấn mạnh hành động đã xảy ra trong quá khứ." },
+    { id: 8, type: 'multiple_choice', question: "Nobody supported the proposal, ______?", options: ["did they", "didn’t they", "do they", "don’t they"], answer: "did they", explanation: "Chủ ngữ 'Nobody' mang nghĩa phủ định, câu hỏi đuôi ở thể khẳng định. Động từ chính 'supported' (quá khứ đơn) -> trợ động từ 'did'." },
+    { id: 9, type: 'multiple_choice', question: "Let’s organise another charity event, ______?", options: ["will we", "shall we", "don’t we", "do we"], answer: "shall we", explanation: "Câu đề nghị với 'Let's' có câu hỏi đuôi là 'shall we'." },
+    { id: 10, type: 'multiple_choice', question: "She volunteers at the shelter every weekend, ______?", options: ["does she", "doesn’t she", "is she", "isn’t she"], answer: "doesn’t she", explanation: "Câu khẳng định thì hiện tại đơn (volunteers) -> câu hỏi đuôi phủ định (doesn't she)." },
+    { id: 11, type: 'multiple_choice', question: "They haven’t finished the report yet, ______?", options: ["haven’t they", "have they", "did they", "don’t they"], answer: "have they", explanation: "Câu phủ định (haven't finished) -> câu hỏi đuôi khẳng định (have they)." },
+    { id: 12, type: 'multiple_choice', question: "We can reduce poverty by ______ education and healthcare services.", options: ["improve", "improving", "to improve", "improved"], answer: "improving", explanation: "Sau giới từ 'by' (bằng cách) dùng V-ing." },
+    { id: 13, type: 'multiple_choice', question: "He avoided ______ about his personal problems.", options: ["to talk", "talk", "talking", "talked"], answer: "talking", explanation: "Sau động từ 'avoid' dùng V-ing (tránh làm gì)." },
+    { id: 14, type: 'multiple_choice', question: "She is interested in ______ for a non-profit organisation.", options: ["work", "working", "to work", "worked"], answer: "working", explanation: "Sau tính từ + giới từ (interested in) dùng V-ing." },
+    { id: 15, type: 'multiple_choice', question: "They suggested ______ a campaign to fight gender inequality.", options: ["start", "to start", "starting", "started"], answer: "starting", explanation: "Sau động từ 'suggest' dùng V-ing (gợi ý làm gì)." }
   ]
 };
 export const UNIT7_GRAMMAR_CHALLENGE: GrammarChallengeData = { module_id: "u7_challenge", title: "Unit 7: Grammar Master", unit_context: "Unit 7", description: "Structure Placeholder", total_questions: 0, questions: [] };
