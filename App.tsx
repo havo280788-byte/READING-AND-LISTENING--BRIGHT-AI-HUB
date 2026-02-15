@@ -215,6 +215,10 @@ const App: React.FC = () => {
             selectedUnitId: remoteData.selectedUnitId || finalStats.selectedUnitId
           };
         }
+
+        // Push merged data BACK to Firebase (so local-only progress gets synced)
+        await saveStudentProgress(normalizedUser.username, finalStats);
+
         // Refresh leaderboard
         const allData = await loadAllStudentsProgress();
         if (allData) setFirebaseStudents(allData);
