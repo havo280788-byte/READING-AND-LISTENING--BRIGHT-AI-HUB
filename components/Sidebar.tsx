@@ -13,6 +13,8 @@ interface SidebarProps {
   onReset: () => void;
 }
 
+const TEACHER_USERNAME = 'student53';
+
 const Sidebar: React.FC<SidebarProps> = ({
   activeView,
   setActiveView,
@@ -22,6 +24,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   onLogout,
   onReset
 }) => {
+  const isTeacher = user.username === TEACHER_USERNAME;
+
   const menuItems: { id: ViewType; icon: string; label: string }[] = [
     { id: 'dashboard', icon: 'fa-house', label: 'Dashboard' },
     { id: 'vocabulary', icon: 'fa-book', label: 'Vocabulary' },
@@ -29,7 +33,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: 'listening', icon: 'fa-headphones', label: 'Listening' },
     { id: 'reading', icon: 'fa-book-open', label: 'Reading' },
     { id: 'practice_test', icon: 'fa-shield-halved', label: 'Challenge' },
-    { id: 'teacher_dashboard', icon: 'fa-chalkboard-user', label: 'Teacher View' },
+    ...(isTeacher ? [{ id: 'teacher_dashboard' as ViewType, icon: 'fa-chalkboard-user', label: 'Teacher View' }] : []),
   ];
 
   return (

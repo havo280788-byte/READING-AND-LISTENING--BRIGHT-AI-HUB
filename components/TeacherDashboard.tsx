@@ -66,16 +66,57 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
         setTimeout(() => setIsRefreshing(false), 1000);
     };
 
+    const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
+
     const studentData = useMemo(() => {
+        // Read all localStorage data
+        const localDataMap: Record<string, any> = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith(STORAGE_KEY_PREFIX + '_')) {
+                try {
+                    const data = JSON.parse(localStorage.getItem(key) || '{}');
+                    const uname = data.username || key.replace(STORAGE_KEY_PREFIX + '_', '');
+                    localDataMap[uname] = data;
+                } catch (e) { /* skip */ }
+            }
+        }
+
         return ALL_STUDENTS.map(s => {
             const fb = firebaseStudents[s.username];
+            const local = localDataMap[s.username];
+
+            // Merge: take the higher XP and completedModules from either source
+            const fbXp = fb?.xp || 0;
+            const localXp = local?.xp || 0;
+            const fbModules = fb?.completedModules || 0;
+            const localModules = local?.completedModules || 0;
+
+            // Merge moduleProgress: take higher score per key
+            const mergedModuleProgress: Record<string, any> = {};
+            const fbProgress = fb?.moduleProgress || {};
+            const localProgress = local?.moduleProgress || {};
+            const allKeys = new Set([...Object.keys(fbProgress), ...Object.keys(localProgress)]);
+            for (const key of allKeys) {
+                const fbVal = fbProgress[key];
+                const localVal = localProgress[key];
+                if (!fbVal) { mergedModuleProgress[key] = localVal; }
+                else if (!localVal) { mergedModuleProgress[key] = fbVal; }
+                else { mergedModuleProgress[key] = (fbVal.score || 0) >= (localVal.score || 0) ? fbVal : localVal; }
+            }
+
+            const hasData = !!fb || !!local;
+            const xp = Math.max(fbXp, localXp);
+            const completedModules = Math.max(fbModules, localModules);
+
             return {
                 ...s,
-                xp: fb?.xp || 0,
-                completedModules: fb?.completedModules || 0,
-                moduleProgress: fb?.moduleProgress || {},
+                xp,
+                completedModules,
+                moduleProgress: mergedModuleProgress,
                 lastUpdated: fb?.lastUpdated || null,
-                hasData: !!fb
+                hasData,
+                dataSource: fb && local ? 'both' : fb ? 'firebase' : local ? 'local' : 'none'
             };
         }).sort((a, b) => b.xp - a.xp);
     }, [firebaseStudents]);
@@ -247,8 +288,15 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                     <span className={`text-center text-sm font-black ${student.xp > 0 ? 'text-[#27AE60]' : 'text-slate-300'}`}>{student.xp}</span>
                                     <span className={`text-center text-sm font-black ${student.completedModules > 0 ? 'text-blue-600' : 'text-slate-300'}`}>{student.completedModules}</span>
                                     <div className="flex items-center justify-between">
-                                        <span className={`text-xs font-bold px-3 py-1 rounded-full ${student.hasData ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-50 text-slate-400'}`}>
-                                            {student.hasData ? 'Đã sync' : 'Chưa bắt đầu'}
+                                        <span className={`text-xs font-bold px-3 py-1 rounded-full ${student.dataSource === 'both' ? 'bg-emerald-50 text-emerald-600' :
+                                                student.dataSource === 'firebase' ? 'bg-blue-50 text-blue-600' :
+                                                    student.dataSource === 'local' ? 'bg-amber-50 text-amber-600' :
+                                                        'bg-slate-50 text-slate-400'
+                                            }`}>
+                                            {student.dataSource === 'both' ? '🔄 Synced' :
+                                                student.dataSource === 'firebase' ? '☁️ Firebase' :
+                                                    student.dataSource === 'local' ? '💾 Local only' :
+                                                        'Chưa bắt đầu'}
                                         </span>
                                         {isExpanded ? <ChevronUp size={16} className="text-slate-400" /> : <ChevronDown size={16} className="text-slate-400" />}
                                     </div>

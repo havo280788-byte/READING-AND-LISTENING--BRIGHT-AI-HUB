@@ -420,7 +420,7 @@ const App: React.FC = () => {
 
             {activeView === 'dashboard' && <Dashboard stats={stats} unitTitle={currentUnit.title} totalModules={TOTAL_MODULES} onNavigate={setActiveView} firebaseStudents={firebaseStudents} />}
 
-            {activeView === 'teacher_dashboard' && <TeacherDashboard firebaseStudents={firebaseStudents} onRefresh={refreshFirebaseData} />}
+            {activeView === 'teacher_dashboard' && currentUser?.username === 'student53' && <TeacherDashboard firebaseStudents={firebaseStudents} onRefresh={refreshFirebaseData} />}
 
             {activeView === 'vocabulary' && (
               <VocabularyModule
