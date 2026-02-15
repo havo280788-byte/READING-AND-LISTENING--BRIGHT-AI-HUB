@@ -296,4 +296,4 @@ export interface RankingData {
   total_students: number;
 }
 
-export type ViewType = 'dashboard' | 'vocabulary' | 'grammar' | 'speaking' | 'reading' | 'listening' | 'practice_test';
+export type ViewType = 'dashboard' | 'vocabulary' | 'grammar' | 'speaking' | 'reading' | 'listening' | 'practice_test' | 'teacher_dashboard';

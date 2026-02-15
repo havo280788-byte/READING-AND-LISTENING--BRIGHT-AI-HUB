@@ -21,9 +21,10 @@ import ListeningModule from './components/ListeningModule';
 import PracticeTest from './components/PracticeTest';
 import Auth from './components/Auth';
 import ApiKeyModal from './components/ApiKeyModal';
-import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, Shield, LayoutDashboard, Mic, Zap } from 'lucide-react';
+import TeacherDashboard from './components/TeacherDashboard';
+import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, Shield, LayoutDashboard, Mic, Zap, Database, GraduationCap } from 'lucide-react';
 import { syncScoreToSheet, updateModuleStatus, getActiveApiKey } from './services/geminiService';
-import { saveStudentProgress, loadStudentProgress, loadAllStudentsProgress, isFirebaseConfigured } from './services/firebaseService';
+import { saveStudentProgress, loadStudentProgress, loadAllStudentsProgress, isFirebaseConfigured, setFirebaseUrl, getFirebaseUrl } from './services/firebaseService';
 
 const TOTAL_MODULES = 30;
 const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
@@ -101,17 +102,37 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Load shared leaderboard from Firebase on mount
+  // Auto-import Firebase URL from ?fb= query parameter
   useEffect(() => {
-    const loadFirebase = async () => {
-      if (isFirebaseConfigured()) {
+    const params = new URLSearchParams(window.location.search);
+    const fbParam = params.get('fb');
+    if (fbParam && !getFirebaseUrl()) {
+      setFirebaseUrl(fbParam);
+      // Clean URL
+      const url = new URL(window.location.href);
+      url.searchParams.delete('fb');
+      window.history.replaceState({}, '', url.toString());
+    }
+  }, []);
+
+  // Load shared leaderboard from Firebase on mount + auto-refresh every 30s
+  const refreshFirebaseData = async () => {
+    if (isFirebaseConfigured()) {
+      try {
         const allData = await loadAllStudentsProgress();
         if (allData && Object.keys(allData).length > 0) {
           setFirebaseStudents(allData);
         }
+      } catch (e) {
+        console.warn('Firebase refresh failed:', e);
       }
-    };
-    loadFirebase();
+    }
+  };
+
+  useEffect(() => {
+    refreshFirebaseData();
+    const interval = setInterval(refreshFirebaseData, 30000);
+    return () => clearInterval(interval);
   }, []);
 
   // Name Normalization Effect - only depends on currentUser
@@ -352,7 +373,8 @@ const App: React.FC = () => {
                   {activeView === 'listening' && <Headphones size={16} className="text-[#27AE60]" />}
                   {activeView === 'reading' && <BookOpen size={16} className="text-[#27AE60]" />}
                   {activeView === 'practice_test' && <Shield size={16} className="text-[#27AE60]" />}
-                  <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView} Hub</h1>
+                  {activeView === 'teacher_dashboard' && <GraduationCap size={16} className="text-[#27AE60]" />}
+                  <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub</h1>
                 </div>
                 <p className="text-[#2ECC71] font-medium text-sm">Tran Hung Dao High School • {currentUnit.title}</p>
               </div>
@@ -375,6 +397,13 @@ const App: React.FC = () => {
                   </div>
                 </button>
 
+                {/* Firebase Status Indicator */}
+                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-[10px] font-black uppercase tracking-widest ${isFirebaseConfigured() ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
+                  <Database size={12} />
+                  <span className="hidden md:inline">{isFirebaseConfigured() ? 'Firebase ✓' : 'No Firebase'}</span>
+                  <span className={`w-2 h-2 rounded-full ${isFirebaseConfigured() ? 'bg-emerald-500 animate-pulse' : 'bg-red-400'}`} />
+                </div>
+
                 {isSyncing && (
                   <div className="flex items-center gap-2 bg-white/20 text-[#27AE60] px-3 py-1.5 rounded-full border border-[#27AE60]/30 animate-pulse">
                     <CloudSync size={14} />
@@ -390,6 +419,8 @@ const App: React.FC = () => {
             </header>
 
             {activeView === 'dashboard' && <Dashboard stats={stats} unitTitle={currentUnit.title} totalModules={TOTAL_MODULES} onNavigate={setActiveView} firebaseStudents={firebaseStudents} />}
+
+            {activeView === 'teacher_dashboard' && <TeacherDashboard firebaseStudents={firebaseStudents} onRefresh={refreshFirebaseData} />}
 
             {activeView === 'vocabulary' && (
               <VocabularyModule

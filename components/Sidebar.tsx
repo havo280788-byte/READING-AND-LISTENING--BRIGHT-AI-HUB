@@ -29,6 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: 'listening', icon: 'fa-headphones', label: 'Listening' },
     { id: 'reading', icon: 'fa-book-open', label: 'Reading' },
     { id: 'practice_test', icon: 'fa-shield-halved', label: 'Challenge' },
+    { id: 'teacher_dashboard', icon: 'fa-chalkboard-user', label: 'Teacher View' },
   ];
 
   return (

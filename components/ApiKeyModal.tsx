@@ -112,8 +112,8 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                     key={model.id}
                     onClick={() => setSelectedModel(model.id)}
                     className={`relative p-5 rounded-3xl border-2 text-center transition-all duration-200 flex flex-col items-center gap-3 group ${isSelected
-                        ? `border-blue-500 bg-white ring-4 ring-blue-500/10 shadow-xl scale-[1.02] z-10`
-                        : 'border-slate-100 bg-slate-50 hover:border-blue-200 hover:bg-white'
+                      ? `border-blue-500 bg-white ring-4 ring-blue-500/10 shadow-xl scale-[1.02] z-10`
+                      : 'border-slate-100 bg-slate-50 hover:border-blue-200 hover:bg-white'
                       }`}
                   >
                     {model.tag && (
@@ -199,6 +199,23 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
                 <Database size={14} className="text-amber-500 mt-0.5 shrink-0" />
                 <span>Dán URL Firebase để đồng bộ kết quả học sinh giữa các thiết bị. Tạo project miễn phí tại <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" className="text-amber-600 underline">Firebase Console</a></span>
               </p>
+              {firebaseUrl.trim() && (
+                <button
+                  onClick={() => {
+                    const base = window.location.origin + window.location.pathname;
+                    const shareUrl = `${base}?fb=${encodeURIComponent(firebaseUrl.trim())}`;
+                    navigator.clipboard.writeText(shareUrl).then(() => {
+                      alert('✅ Đã sao chép link chia sẻ! Gửi link này cho học sinh để tự động cấu hình Firebase.');
+                    }).catch(() => {
+                      prompt('Copy link bên dưới:', shareUrl);
+                    });
+                  }}
+                  className="mt-3 w-full py-3 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-xl font-bold text-xs flex items-center justify-center gap-2 border border-amber-200 transition-all"
+                >
+                  <Database size={14} />
+                  📋 Copy Link Chia Sẻ (tự động cấu hình Firebase cho thiết bị khác)
+                </button>
+              )}
             </div>
           </div>
 
