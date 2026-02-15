@@ -102,21 +102,39 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Auto-import Firebase URL from ?fb= query parameter
+  // Auto-import Firebase URL from ?fb= query parameter AND sync local data
   useEffect(() => {
+    // Step 1: Import Firebase URL from query params if present
     const params = new URLSearchParams(window.location.search);
     const fbParam = params.get('fb');
-    if (fbParam && !getFirebaseUrl()) {
+    if (fbParam) {
       setFirebaseUrl(fbParam);
       // Clean URL
       const url = new URL(window.location.href);
       url.searchParams.delete('fb');
       window.history.replaceState({}, '', url.toString());
     }
-  }, []);
 
-  // Load shared leaderboard from Firebase on mount + auto-refresh every 30s
-  // Also automatically push local data to Firebase for already-logged-in users
+    // Step 2: Auto-sync local data to Firebase (runs after URL is set above)
+    const syncOnLoad = async () => {
+      if (isFirebaseConfigured() && currentUser && stats) {
+        try {
+          await saveStudentProgress(currentUser.username, stats);
+          console.log('Auto-synced local data to Firebase on load');
+          // Also refresh leaderboard after sync
+          const allData = await loadAllStudentsProgress();
+          if (allData && Object.keys(allData).length > 0) {
+            setFirebaseStudents(allData);
+          }
+        } catch (e) {
+          console.warn('Auto-sync on load failed:', e);
+        }
+      }
+    };
+    syncOnLoad();
+  }, []); // Run once on mount
+
+  // Refresh Firebase leaderboard data
   const refreshFirebaseData = async () => {
     if (isFirebaseConfigured()) {
       try {
@@ -129,21 +147,6 @@ const App: React.FC = () => {
       }
     }
   };
-
-  // Auto-sync local data to Firebase on page load (for already-logged-in users)
-  useEffect(() => {
-    const syncOnLoad = async () => {
-      if (isFirebaseConfigured() && currentUser && stats && stats.xp > 0) {
-        try {
-          await saveStudentProgress(currentUser.username, stats);
-          console.log('Auto-synced local data to Firebase on load');
-        } catch (e) {
-          console.warn('Auto-sync on load failed:', e);
-        }
-      }
-    };
-    syncOnLoad();
-  }, []); // Run once on mount
 
   useEffect(() => {
     refreshFirebaseData();
