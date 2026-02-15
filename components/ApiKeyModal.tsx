@@ -80,9 +80,9 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[1000] flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-[24px] w-full max-w-[650px] shadow-2xl overflow-hidden relative font-sans">
+      <div className="bg-white rounded-[24px] w-full max-w-[650px] max-h-[90vh] shadow-2xl overflow-hidden relative font-sans flex flex-col">
         {/* Header */}
-        <div className="p-6 md:p-8 pb-4 flex justify-between items-start">
+        <div className="p-6 md:p-8 pb-4 flex justify-between items-start shrink-0">
           <div className="flex gap-4 items-center">
             <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-blue-200">
               <Zap size={28} fill="currentColor" />
@@ -100,7 +100,7 @@ const ApiKeyModal: React.FC<ApiKeyModalProps> = ({ isOpen, onClose }) => {
           </button>
         </div>
 
-        <div className="p-8 space-y-8 pt-4">
+        <div className="p-8 space-y-8 pt-4 overflow-y-auto">
           {/* Section 1: Model Selection */}
           <div className="space-y-4">
             <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest ml-1">1. CHỌN MODEL AI</h3>
