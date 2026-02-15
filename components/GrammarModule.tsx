@@ -553,6 +553,7 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
     }
     return <GrammarSecretAdmirer
       currentTopic={grammarData.topic}
+      unitId={unitId}
       onReturn={() => setView('study')}
       onComplete={(s) => {
         // Map 100-scale to 10-scale

@@ -383,11 +383,12 @@ const UNIT8_STORY: StoryLevel[] = [{ id: 1, title: "Longevity", image: "https://
 
 interface GrammarSecretAdmirerProps {
   currentTopic: string;
+  unitId: string;
   onReturn: () => void;
   onComplete: (score: number) => void;
 }
 
-const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopic, onReturn, onComplete }) => {
+const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopic, unitId, onReturn, onComplete }) => {
   const [levelIdx, setLevelIdx] = useState(0);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [validated, setValidated] = useState(false);
@@ -395,6 +396,17 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
   const { playCorrect, playWrong, playPop } = useGameSound();
 
   const storyData = useMemo(() => {
+    // Prioritize unitId mapping
+    if (unitId === 'u1') return UNIT1_STORY;
+    if (unitId === 'u2') return UNIT2_STORY;
+    if (unitId === 'u3') return UNIT3_STORY;
+    if (unitId === 'u4') return UNIT4_STORY;
+    if (unitId === 'u5') return UNIT5_STORY;
+    if (unitId === 'u6') return UNIT6_STORY;
+    if (unitId === 'u7') return UNIT7_STORY;
+    if (unitId === 'u8') return UNIT8_STORY;
+
+    // Fallback to topic string matching
     if (currentTopic.includes("Past Tenses")) return UNIT2_STORY;
     if (currentTopic.includes("Present Perfect")) return UNIT3_STORY;
     if (currentTopic.includes("Paired Conjunctions")) return UNIT4_STORY;
@@ -403,7 +415,7 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
     if (currentTopic.includes("Modals")) return UNIT7_STORY;
     if (currentTopic.includes("Reported Speech")) return UNIT8_STORY;
     return UNIT1_STORY;
-  }, [currentTopic]);
+  }, [currentTopic, unitId]);
 
   const currentLevel = storyData[levelIdx];
 
