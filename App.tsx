@@ -116,6 +116,7 @@ const App: React.FC = () => {
   }, []);
 
   // Load shared leaderboard from Firebase on mount + auto-refresh every 30s
+  // Also automatically push local data to Firebase for already-logged-in users
   const refreshFirebaseData = async () => {
     if (isFirebaseConfigured()) {
       try {
@@ -128,6 +129,21 @@ const App: React.FC = () => {
       }
     }
   };
+
+  // Auto-sync local data to Firebase on page load (for already-logged-in users)
+  useEffect(() => {
+    const syncOnLoad = async () => {
+      if (isFirebaseConfigured() && currentUser && stats && stats.xp > 0) {
+        try {
+          await saveStudentProgress(currentUser.username, stats);
+          console.log('Auto-synced local data to Firebase on load');
+        } catch (e) {
+          console.warn('Auto-sync on load failed:', e);
+        }
+      }
+    };
+    syncOnLoad();
+  }, []); // Run once on mount
 
   useEffect(() => {
     refreshFirebaseData();
