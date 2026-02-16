@@ -30,9 +30,9 @@ async function retryOperation<T>(operation: () => Promise<T>, retries = 2, delay
   try {
     return await operation();
   } catch (error: any) {
-    const isRateLimit = error?.status === 429 || error?.code === 429 || 
-                        (error?.message && (error.message.includes('429') || error.message.includes('quota') || error.message.includes('RESOURCE_EXHAUSTED')));
-    
+    const isRateLimit = error?.status === 429 || error?.code === 429 ||
+      (error?.message && (error.message.includes('429') || error.message.includes('quota') || error.message.includes('RESOURCE_EXHAUSTED')));
+
     if (retries > 0 && isRateLimit) {
       await new Promise(resolve => setTimeout(resolve, delay));
       return retryOperation(operation, retries - 1, delay * 2);
@@ -69,7 +69,7 @@ export const syncScoreToSheet = async (data: {
  */
 export const fetchRemoteProgress = async (studentName: string) => {
   // Return empty or mock data to simulate local-only behavior
-  return []; 
+  return [];
 };
 
 export const fetchClassRanking = async () => {
@@ -91,7 +91,7 @@ export const fetchExternalAudioUrl = async (moduleId: string): Promise<string | 
     // All units now use Gemini TTS to ensure audio matches the text transcripts exactly.
     // Placeholder music files have been removed.
   };
-  return vault[moduleId] || null; 
+  return vault[moduleId] || null;
 };
 
 let globalAudioContext: AudioContext | null = null;
@@ -112,7 +112,7 @@ export const stopAllSpeech = () => {
     try {
       activeTTSBufferSource.stop();
       activeTTSBufferSource.disconnect();
-    } catch (e) {}
+    } catch (e) { }
     activeTTSBufferSource = null;
   }
   if ('speechSynthesis' in window) {
@@ -151,10 +151,10 @@ function createWavBlob(pcmData: Uint8Array, sampleRate: number = 24000): Blob {
 
 function splitTextForTTS(text: string, maxLength: number = 2000): string[] {
   if (text.length <= maxLength) return [text];
-  
+
   const chunks: string[] = [];
   let currentChunk = "";
-  
+
   // Split by sentence endings first
   const sentences = text.match(/[^.!?\n]+[.!?\n]+(\s+|$)/g) || [text];
 
@@ -167,7 +167,7 @@ function splitTextForTTS(text: string, maxLength: number = 2000): string[] {
     }
   }
   if (currentChunk.trim()) chunks.push(currentChunk.trim());
-  
+
   return chunks;
 }
 
@@ -175,7 +175,7 @@ export const generateAudioUrl = async (text: string): Promise<string | null> => 
   const apiKey = getActiveApiKey();
   if (!apiKey) return null;
   const ai = new GoogleGenAI({ apiKey });
-  
+
   const chunks = splitTextForTTS(text);
   const pcmChunks: Uint8Array[] = [];
 
@@ -233,7 +233,7 @@ export const generateAudioBuffer = async (text: string): Promise<AudioBuffer | n
       const response = await retryOperation<GenerateContentResponse>(() => ai.models.generateContent({
         model: "gemini-2.5-flash-preview-tts",
         contents: [{ parts: [{ text: chunk }] }],
-        config: { 
+        config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Kore' } } }
         }
@@ -260,11 +260,11 @@ export const generateAudioBuffer = async (text: string): Promise<AudioBuffer | n
     const channelData = buffer.getChannelData(0);
     for (let i = 0; i < dataInt16.length; i++) channelData[i] = dataInt16[i] / 32768.0;
     return buffer;
-  } catch (error: any) { 
+  } catch (error: any) {
     if (error?.status === 429 || error?.message?.includes('RESOURCE_EXHAUSTED')) {
       console.warn("Gemini TTS Quota Exceeded (Buffer).");
     }
-    return null; 
+    return null;
   }
 };
 
@@ -312,14 +312,15 @@ export const generateVocabImage = async (word: string, customPrompt?: string) =>
   try {
     const prompt = customPrompt || `Simple educational illustration: ${word}`;
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-image',
+      model: 'imagen-3.0-generate-001',
       contents: { parts: [{ text: prompt }] },
     });
     // Safe access to inlineData
     const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
     const data = part?.inlineData;
     return data ? `data:${data.mimeType};base64,${data.data}` : null;
-  } catch (e) {
+  } catch (e: any) {
+    console.error("Image generation failed:", e);
     return null;
   }
 };
@@ -331,14 +332,15 @@ export const getSpeakingFeedback = async (targetSentence: string, audioData: str
   const response = await ai.models.generateContent({
     model: getPreferredModel('gemini-3-flash-preview'),
     contents: [
-      { text: `You are an AI Pronunciation Specialist. 
+      {
+        text: `You are an AI Pronunciation Specialist. 
       Evaluate the student's recording of this sentence: "${targetSentence}"
       Check word stress, final consonants, and flow. 
       If the audio has background noise but the speech is intelligible, grade it based on the speech.
       Provide feedback in JSON.` },
       { inlineData: { mimeType: mimeType, data: audioData } }
     ],
-    config: { 
+    config: {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -375,7 +377,7 @@ export const getInterviewFeedback = async (transcript: string, topic: string) =>
     contents: `Analyze this English speaking interview transcript for the topic "${topic}".
     Transcript:
     ${transcript}`,
-    config: { 
+    config: {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
@@ -424,7 +426,7 @@ export const getWritingFeedback = async (text: string, context: string) => {
     2. "explanation" MUST be in Vietnamese.
     3. If the essay is perfect, the "errors" array can be empty.
     `,
-    config: { 
+    config: {
       responseMimeType: "application/json",
       responseSchema: {
         type: Type.OBJECT,
