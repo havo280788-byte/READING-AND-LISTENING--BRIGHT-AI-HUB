@@ -21,7 +21,7 @@ export const getActiveApiKey = () => {
 };
 
 // Helper to get preferred model or fallback
-export const getPreferredModel = (fallback: string = 'gemini-3-pro-preview') => {
+export const getPreferredModel = (fallback: string = 'gemini-2.0-flash') => {
   return localStorage.getItem('user_gemini_model') || fallback;
 };
 
@@ -184,7 +184,7 @@ export const generateAudioUrl = async (text: string): Promise<string | null> => 
       if (!chunk.trim()) continue;
       // Use retryOperation with explicit generic type
       const response = await retryOperation<GenerateContentResponse>(() => ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
+        model: "gemini-2.0-flash",
         contents: [{ parts: [{ text: chunk }] }],
         config: {
           responseModalities: [Modality.AUDIO],
@@ -231,7 +231,7 @@ export const generateAudioBuffer = async (text: string): Promise<AudioBuffer | n
     for (const chunk of chunks) {
       if (!chunk.trim()) continue;
       const response = await retryOperation<GenerateContentResponse>(() => ai.models.generateContent({
-        model: "gemini-2.5-flash-preview-tts",
+        model: "gemini-2.0-flash",
         contents: [{ parts: [{ text: chunk }] }],
         config: {
           responseModalities: [Modality.AUDIO],
@@ -296,7 +296,7 @@ export const getEnglishDefinition = async (word: string) => {
   const ai = new GoogleGenAI({ apiKey });
   try {
     const response = await ai.models.generateContent({
-      model: getPreferredModel('gemini-3-flash-preview'),
+      model: getPreferredModel('gemini-2.0-flash'),
       contents: `Definition for: "${word}". Max 12 words.`,
     });
     return response.text?.trim() || "";
@@ -373,7 +373,7 @@ export const getInterviewFeedback = async (transcript: string, topic: string) =>
   if (!apiKey) return {};
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: getPreferredModel('gemini-3-pro-preview'),
+    model: getPreferredModel('gemini-2.0-flash'),
     contents: `Analyze this English speaking interview transcript for the topic "${topic}".
     Transcript:
     ${transcript}`,
@@ -400,7 +400,7 @@ export const getWritingFeedback = async (text: string, context: string) => {
   if (!apiKey) return {};
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: getPreferredModel('gemini-3-pro-preview'),
+    model: getPreferredModel('gemini-2.0-flash'),
     contents: `Act as a strict IELTS Examiner and Grammar Coach. Evaluate this Grade 11 English essay.
     Topic: ${context}
     Student Essay: "${text}"
