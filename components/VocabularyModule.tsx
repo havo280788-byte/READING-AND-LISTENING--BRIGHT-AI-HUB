@@ -4,7 +4,7 @@ import { VocabularyWord, ModuleProgress } from '../types';
 import VocabularyEscapeRoom from './VocabularyEscapeRoom';
 import useGameSound from '../hooks/useGameSound';
 import { generateVocabImage, speakText, getEnglishDefinition } from '../services/geminiService';
-import { Sparkles, Image as ImageIcon, Loader2, Volume2, Archive, Brain, Library, ChevronDown, RotateCcw, ChevronRight, HelpCircle, Layers, CheckCircle } from 'lucide-react';
+import { Sparkles, Image as ImageIcon, Loader2, Volume2, Archive, Brain, Library, ChevronDown, RotateCcw, ChevronRight, HelpCircle, Layers, CheckCircle, ShieldAlert } from 'lucide-react';
 import PerformanceCertificate from './PerformanceCertificate';
 
 interface VocabularyModuleProps {
@@ -27,12 +27,12 @@ interface Card {
   isMatched: boolean;
 }
 
-const VocabularyModule: React.FC<VocabularyModuleProps> = ({ 
+const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   studentName,
-  vocabData, 
+  vocabData,
   progress,
   vocabGameId,
-  onGameComplete, 
+  onGameComplete,
   onReturn,
   initialView = 'list',
   onNextStep
@@ -41,7 +41,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   const [view, setView] = useState<'list' | 'visualizer' | 'game' | 'escape' | 'certificate'>(initialView === 'game' ? 'game' : 'list');
   const [certType, setCertType] = useState<'Vocabulary' | 'Forbidden Library'>('Forbidden Library');
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  
+
   // Memory Game State
   const [cards, setCards] = useState<Card[]>([]);
   const [flippedIndices, setFlippedIndices] = useState<number[]>([]);
@@ -57,7 +57,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   const [generatedImage, setGeneratedImage] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
-  
+
   // Scoring
   const [finalScore, setFinalScore] = useState(0);
 
@@ -69,7 +69,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   useEffect(() => {
     // Only re-initialize if not in a sequential flow state that depends on user action
     if (initialView === 'game' && view !== 'game') {
-        setView('game');
+      setView('game');
     }
   }, [initialView]);
 
@@ -115,7 +115,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
     const isExpanding = expandedId !== word.id;
     setExpandedId(isExpanding ? word.id : null);
     handleSpeak(word.english);
-    
+
     if (isExpanding) {
       onGameComplete(`${unitPrefix}_vocab_viewed_${word.id}`, 100);
     }
@@ -125,7 +125,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
     if (isGameOver || flippedIndices.length === 2 || cards[index].isFlipped || cards[index].isMatched) return;
     if (!isActive) setIsActive(true);
     playPop();
-    
+
     setCards(prev => {
       const next = [...prev];
       next[index] = { ...next[index], isFlipped: true };
@@ -138,7 +138,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
     if (newFlipped.length === 2) {
       setMoves(m => m + 1);
       const [firstIdx, secondIdx] = newFlipped;
-      
+
       if (cards[firstIdx].wordId === cards[secondIdx].wordId) {
         setTimeout(() => {
           playCorrect();
@@ -181,7 +181,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
     setCurrentDefinition(null);
     setIsGenerating(true);
     playPop();
-    
+
     onGameComplete(`${unitPrefix}_vocab_viewed_${word.id}`, 100);
 
     try {
@@ -217,12 +217,12 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
       'u4': 'World Heritage'
     };
     const unitTitle = unitTitleMap[unitPrefix] || "Unknown Unit";
-    
+
     // Forbidden Library is the final assessment
     const feedback = `Forbidden Library Assessment Complete. Score: ${finalScore}%. Access granted to advanced modules.`;
 
     return (
-      <PerformanceCertificate 
+      <PerformanceCertificate
         studentName={studentName}
         unitTitle={`Vocabulary Master: ${unitTitle}`}
         type={certType}
@@ -240,7 +240,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
   return (
     <div className="min-h-screen bg-white -m-4 md:-m-8 p-4 md:p-8">
       <div className="max-w-7xl mx-auto space-y-12 pb-20">
-        
+
         {/* Progress Stepper */}
         <div className="flex justify-center items-center space-x-2 md:space-x-4 mb-8 overflow-x-auto">
           {steps.map((label, idx) => (
@@ -264,7 +264,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
               <h2 className="text-5xl font-black text-[#27AE60] uppercase tracking-tighter drop-shadow-sm italic">WORD ARCHIVE</h2>
               <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.6em]">Academic Collection • {unitPrefix.toUpperCase()}</p>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
               {vocabData.map((word) => {
                 const isExpanded = expandedId === word.id;
@@ -288,13 +288,13 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                             <p className="text-xl font-bold text-[#2D3748]">{word.vietnamese}</p>
                           </div>
                           {word.wordFamily && (
-                             <div className="bg-white p-5 rounded-2xl border-2 border-[#27AE60]/10 shadow-sm">
-                               <div className="flex items-center gap-2 mb-3">
-                                 <Layers size={14} className="text-[#27AE60]" />
-                                 <span className="text-[9px] font-black text-[#27AE60] uppercase tracking-[0.2em]">Academic Word Family</span>
-                               </div>
-                               <p className="text-base text-[#2D3748] font-black leading-relaxed tracking-tight">{word.wordFamily}</p>
-                             </div>
+                            <div className="bg-white p-5 rounded-2xl border-2 border-[#27AE60]/10 shadow-sm">
+                              <div className="flex items-center gap-2 mb-3">
+                                <Layers size={14} className="text-[#27AE60]" />
+                                <span className="text-[9px] font-black text-[#27AE60] uppercase tracking-[0.2em]">Academic Word Family</span>
+                              </div>
+                              <p className="text-base text-[#2D3748] font-black leading-relaxed tracking-tight">{word.wordFamily}</p>
+                            </div>
                           )}
                           <div className="relative">
                             <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest block mb-2" onClick={(e) => { e.stopPropagation(); handleSpeak(word.example); }}>Academic Context (Tap to Listen)</span>
@@ -304,8 +304,8 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                       </div>
                       {!isExpanded && (
                         <div className="pt-6 flex items-center justify-between opacity-40 group-hover:opacity-100 transition-opacity">
-                           <span className="text-[9px] font-black text-[#27AE60] uppercase tracking-[0.2em]">Unlock details</span>
-                           <ChevronDown size={14} className="animate-bounce text-[#27AE60]" />
+                          <span className="text-[9px] font-black text-[#27AE60] uppercase tracking-[0.2em]">Unlock details</span>
+                          <ChevronDown size={14} className="animate-bounce text-[#27AE60]" />
                         </div>
                       )}
                     </div>
@@ -315,12 +315,12 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
             </div>
 
             <div className="flex justify-center pt-8">
-               <button 
-                 onClick={() => { setView('visualizer'); playPop(); }}
-                 className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
-               >
-                 PROCEED TO AI VISUALIZER <ChevronRight size={16} />
-               </button>
+              <button
+                onClick={() => { setView('visualizer'); playPop(); }}
+                className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
+              >
+                PROCEED TO AI VISUALIZER <ChevronRight size={16} />
+              </button>
             </div>
           </div>
         )}
@@ -328,39 +328,49 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
         {/* ... Visualizer code ... */}
         {view === 'visualizer' && (
           <div className="animate-fadeIn space-y-12">
-             {/* ... visualizer content preserved ... */}
-             <div className="text-center space-y-4">
+            {/* ... visualizer content preserved ... */}
+            <div className="text-center space-y-4">
               <h2 className="text-5xl font-black text-[#27AE60] uppercase tracking-tighter drop-shadow-sm italic">AI VISUALIZER</h2>
               <p className="text-slate-400 text-[10px] font-black uppercase tracking-[0.6em]">Academic Visualization Lab • Web Compatible</p>
             </div>
-            
+
             <div className="flex flex-col lg:flex-row gap-8 items-start">
-               <div className="lg:w-1/3 w-full bg-white p-6 rounded-[2rem] border border-slate-200 space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar shadow-xl">
-                  {vocabData.map(word => (
-                    <button 
-                      key={word.id} 
-                      onClick={() => handleGenerateImage(word)}
-                      disabled={isGenerating}
-                      className={`w-full p-4 rounded-2xl text-left transition-all border flex items-center justify-between group ${visualizingWord?.id === word.id ? 'bg-[#E8F5E9] border-[#27AE60] text-[#27AE60] shadow-md' : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-white hover:border-[#27AE60]/30'}`}
-                    >
-                      <p className="text-sm font-black tracking-tight uppercase">{word.english}</p>
-                    </button>
-                  ))}
-               </div>
-               <div className="lg:w-2/3 w-full bg-slate-50 rounded-[3rem] border border-slate-200 p-8 flex flex-col items-center justify-center min-h-[500px]">
-                  {/* ... image display logic ... */}
-                  {generatedImage ? <img src={generatedImage} alt="Vis" className="w-full rounded-[2rem] shadow-xl" /> : <p className="text-slate-400 font-bold">Select a word to visualize</p>}
-                  {currentDefinition && <p className="mt-4 text-center text-slate-600 italic font-medium max-w-md">"{currentDefinition}"</p>}
-               </div>
+              <div className="lg:w-1/3 w-full bg-white p-6 rounded-[2rem] border border-slate-200 space-y-4 max-h-[600px] overflow-y-auto custom-scrollbar shadow-xl">
+                {vocabData.map(word => (
+                  <button
+                    key={word.id}
+                    onClick={() => handleGenerateImage(word)}
+                    disabled={isGenerating}
+                    className={`w-full p-4 rounded-2xl text-left transition-all border flex items-center justify-between group ${visualizingWord?.id === word.id ? 'bg-[#E8F5E9] border-[#27AE60] text-[#27AE60] shadow-md' : 'bg-slate-50 border-slate-100 text-slate-500 hover:bg-white hover:border-[#27AE60]/30'}`}
+                  >
+                    <p className="text-sm font-black tracking-tight uppercase">{word.english}</p>
+                  </button>
+                ))}
+              </div>
+              <div className="lg:w-2/3 w-full bg-slate-50 rounded-[3rem] border border-slate-200 p-8 flex flex-col items-center justify-center min-h-[500px]">
+                {/* ... image display logic ... */}
+                {generatedImage === "ERROR_GENERATION_FAILED" ? (
+                  <div className="text-center p-8 bg-amber-50 rounded-2xl border border-amber-200">
+                    <ShieldAlert className="w-12 h-12 text-amber-500 mx-auto mb-4" />
+                    <p className="text-amber-800 font-bold uppercase tracking-wide">Visualization Unavailable</p>
+                    <p className="text-amber-600 text-xs mt-2">The AI visualizer is currently experiencing high traffic. Please try again later.</p>
+                  </div>
+                ) : generatedImage ? (
+                  <img src={generatedImage} alt="Vis" className="w-full rounded-[2rem] shadow-xl" />
+                ) : (
+                  <p className="text-slate-400 font-bold">Select a word to visualize</p>
+                )}
+                {currentDefinition && <p className="mt-4 text-center text-slate-600 italic font-medium max-w-md">"{currentDefinition}"</p>}
+              </div>
             </div>
 
             <div className="flex justify-center pt-8">
-               <button 
-                 onClick={() => { setView('game'); playPop(); }}
-                 className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
-               >
-                 PROCEED TO MEMORY MATCH <ChevronRight size={16} />
-               </button>
+              <button
+                onClick={() => { setView('game'); playPop(); }}
+                className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
+              >
+                PROCEED TO MEMORY MATCH <ChevronRight size={16} />
+              </button>
             </div>
           </div>
         )}
@@ -384,20 +394,20 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                 </div>
               </div>
             </div>
-            
+
             {isGameOver ? (
               <div className="flex flex-col items-center justify-center gap-8 py-20 bg-white rounded-[3rem] shadow-2xl border-4 border-[#27AE60]/20 max-w-2xl mx-auto">
-                 <div className="w-20 h-20 bg-emerald-100 text-[#27AE60] rounded-full flex items-center justify-center mb-2">
-                    <Brain size={40} />
-                 </div>
-                 <h3 className="text-4xl font-black text-[#27AE60] italic tracking-tighter uppercase">Memory Match Complete!</h3>
-                 <p className="text-slate-500 font-bold">Score recorded.</p>
-                 <button 
-                   onClick={() => { setView('escape'); playPop(); }}
-                   className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
-                 >
-                   NEXT: FORBIDDEN LIBRARY <ChevronRight size={16} />
-                 </button>
+                <div className="w-20 h-20 bg-emerald-100 text-[#27AE60] rounded-full flex items-center justify-center mb-2">
+                  <Brain size={40} />
+                </div>
+                <h3 className="text-4xl font-black text-[#27AE60] italic tracking-tighter uppercase">Memory Match Complete!</h3>
+                <p className="text-slate-500 font-bold">Score recorded.</p>
+                <button
+                  onClick={() => { setView('escape'); playPop(); }}
+                  className="px-12 py-5 bg-[#27AE60] text-white rounded-[2rem] font-black uppercase text-xs tracking-[0.3em] shadow-xl hover:bg-[#2ECC71] transition-all flex items-center gap-3 border-b-[6px] border-[#1E8449] active:translate-y-1 active:border-b-0"
+                >
+                  NEXT: FORBIDDEN LIBRARY <ChevronRight size={16} />
+                </button>
               </div>
             ) : (
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -405,8 +415,8 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                   <div key={card.id} onClick={() => handleMemoryClick(index)} className={`aspect-[5/4] perspective-1000 cursor-pointer active:scale-95 transition-transform`}>
                     <div className={`relative w-full h-full duration-500 transform-style-preserve-3d transition-transform ${card.isFlipped || card.isMatched ? 'rotate-y-180' : ''}`}>
                       <div className="absolute inset-0 backface-hidden bg-[#27AE60] rounded-[2rem] flex flex-col items-center justify-center border-4 border-white shadow-xl z-20">
-                         <Brain size={48} className="text-white/20 mb-2" />
-                         <div className="w-12 h-1 bg-white/10 rounded-full"></div>
+                        <Brain size={48} className="text-white/20 mb-2" />
+                        <div className="w-12 h-1 bg-white/10 rounded-full"></div>
                       </div>
                       <div className={`absolute inset-0 backface-hidden rotate-y-180 bg-white rounded-[2rem] flex items-center justify-center p-6 text-center border-2 z-10 ${card.isMatched ? 'border-green-500 bg-green-50 shadow-[0_0_20px_rgba(39,174,96,0.2)]' : 'border-slate-100 shadow-inner'}`}>
                         {(card.isFlipped || card.isMatched) && (
@@ -425,7 +435,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
 
         {view === 'escape' && <VocabularyEscapeRoom unitId={unitPrefix} onComplete={handleEscapeComplete} onReturn={onReturn} />}
       </div>
-      
+
       <style>{`
         @keyframes progress {
           0% { transform: translateX(-100%); }
