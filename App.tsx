@@ -10,7 +10,8 @@ import {
   UNIT5_PRACTICE_TEST,
   UNIT6_PRACTICE_TEST,
   UNIT7_PRACTICE_TEST,
-  UNIT8_PRACTICE_TEST
+  UNIT8_PRACTICE_TEST,
+  normalizeName
 } from './constants';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
@@ -52,11 +53,7 @@ const INITIAL_STATS = (username: string, name: string): UserStats => ({
   }
 });
 
-const normalizeName = (str: string) => {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d").replace(/Đ/g, "D")
-    .toUpperCase();
-};
+// normalizeName moved to constants.ts
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<ViewType>('dashboard');
@@ -397,9 +394,9 @@ const App: React.FC = () => {
                   {activeView === 'reading' && <BookOpen size={16} className="text-[#27AE60]" />}
                   {activeView === 'practice_test' && <Shield size={16} className="text-[#27AE60]" />}
                   {activeView === 'teacher_dashboard' && <GraduationCap size={16} className="text-[#27AE60]" />}
-                  <h1 className="text-xl font-black text-[#27AE60] uppercase tracking-tight shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub</h1>
+                  <h1 className="type-h3 text-[#27AE60] uppercase shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub</h1>
                 </div>
-                <p className="text-[#2ECC71] font-medium text-sm">Tran Hung Dao High School • {currentUnit.title}</p>
+                <p className="type-caption text-[#2ECC71]">Tran Hung Dao High School • {currentUnit.title}</p>
               </div>
 
               <div className="flex items-center space-x-4 w-full md:w-auto">
@@ -411,7 +408,7 @@ const App: React.FC = () => {
                     <Settings size={18} />
                   </div>
                   <div className="flex flex-col items-start">
-                    <span className="text-[10px] font-black uppercase tracking-widest text-slate-500 group-hover:text-blue-600 transition-colors">AI Configuration</span>
+                    <span className="type-caption text-slate-500 group-hover:text-blue-600 transition-colors">AI Configuration</span>
                     {!hasApiKey ? (
                       <span className="text-[9px] font-bold text-rose-500 whitespace-nowrap">Lấy API key để sử dụng app</span>
                     ) : (
@@ -421,7 +418,7 @@ const App: React.FC = () => {
                 </button>
 
                 {/* Firebase Status Indicator */}
-                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border text-[10px] font-black uppercase tracking-widest ${isFirebaseConfigured() ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
+                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border type-caption ${isFirebaseConfigured() ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
                   <Database size={12} />
                   <span className="hidden md:inline">{isFirebaseConfigured() ? 'Firebase ✓' : 'No Firebase'}</span>
                   <span className={`w-2 h-2 rounded-full ${isFirebaseConfigured() ? 'bg-emerald-500 animate-pulse' : 'bg-red-400'}`} />
@@ -430,12 +427,12 @@ const App: React.FC = () => {
                 {isSyncing && (
                   <div className="flex items-center gap-2 bg-white/20 text-[#27AE60] px-3 py-1.5 rounded-full border border-[#27AE60]/30 animate-pulse">
                     <CloudSync size={14} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">Local Saving</span>
+                    <span className="type-caption">Local Saving</span>
                   </div>
                 )}
                 <div className="bg-green-50 text-[#27AE60] px-4 py-2 rounded-2xl font-black flex items-center shadow-lg border border-[#2ECC71]/20 ml-auto md:ml-0">
                   <Zap size={14} className="text-[#27AE60] mr-2" />
-                  <span className="w-5 h-5 rounded-lg bg-[#27AE60] text-white flex items-center justify-center text-[8px] mr-2 uppercase">XP</span> {stats.xp}
+                  <span className="w-5 h-5 rounded-lg bg-[#27AE60] text-white flex items-center justify-center text-[10px] mr-2">XP</span> {stats.xp}
                 </div>
                 <div className="w-10 h-10 rounded-2xl bg-[#27AE60] flex items-center justify-center text-white font-black shadow-lg border-2 border-white">{stats.name.charAt(0)}</div>
               </div>
@@ -521,10 +518,10 @@ const App: React.FC = () => {
       </div>
 
       <div className="fixed bottom-[20px] left-1/2 -translate-x-1/2 z-[1000] pointer-events-none select-none flex flex-col items-center justify-center w-auto animate-fadeIn px-6 py-3 rounded-2xl bg-white/10 backdrop-blur-md shadow-sm border border-black/5">
-        <p className="text-[18px] font-bold text-[#27AE60] uppercase tracking-[0.5px] leading-tight whitespace-nowrap">
+        <p className="type-h4 text-[#27AE60] italic leading-tight whitespace-nowrap">
           ✨ DEVELOPED BY TEACHER VO THI THU HA ✨
         </p>
-        <p className="text-[14px] font-normal text-[#2ECC71] uppercase tracking-[0.5px] leading-tight mt-1">
+        <p className="type-small text-[#2ECC71] leading-tight mt-1">
           🏫 TRAN HUNG DAO HIGH SCHOOL - LAM DONG
         </p>
       </div>

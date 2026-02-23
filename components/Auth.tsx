@@ -125,15 +125,15 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 <i className="fa-solid fa-bolt text-white text-sm"></i>
               </div>
               <div>
-                <h2 className="text-xl font-black text-white tracking-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>ELITE ENG</h2>
-                <p className="text-xs text-blue-200 font-medium">Tran Hung Dao High School</p>
+                <h2 className="type-h3 font-black text-white tracking-tight">ELITE ENG</h2>
+                <p className="type-caption text-blue-200 font-medium">Tran Hung Dao High School</p>
               </div>
             </div>
             <div className="h-px my-6" style={{ background: 'rgba(255,255,255,0.15)' }}></div>
           </div>
 
           <div className="relative z-10">
-            <h1 className="text-3xl font-bold leading-tight mb-6 text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+            <h1 className="type-h2 font-bold leading-tight mb-6 text-white">
               Learn faster with<br /><span style={{ color: '#67E8F9' }}>AI-powered</span> tools.
             </h1>
             <div className="space-y-3">
@@ -146,7 +146,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                   <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
                     <i className={`fa-solid ${f.icon} text-white text-xs`}></i>
                   </div>
-                  <p className="text-sm font-medium text-blue-100">{f.text}</p>
+                  <p className="type-small font-medium text-blue-100">{f.text}</p>
                 </div>
               ))}
             </div>
@@ -163,8 +163,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
             <div className="md:w-1/2 p-8" style={{ borderRight: '1px solid rgba(255,255,255,0.05)' }}>
               <div className="flex justify-between items-center mb-5">
                 <div>
-                  <h3 className="text-base font-bold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>Class 11A1</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>53 Members Active</p>
+                  <h3 className="type-h3 font-bold text-white">Class 11A1</h3> {/* Changed from type-h4 to type-h3 */}
+                  <p className="type-caption font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>53 Members Active</p>
                 </div>
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}>
                   <i className="fa-solid fa-magnifying-glass text-xs"></i>
@@ -218,8 +218,8 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                           {u.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="text-xs font-bold" style={{ color: '#CBD5E1' }}>{u.name}</p>
-                          <p className="text-[10px] uppercase tracking-tighter" style={{ color: '#64748B' }}>ID: {u.username}</p>
+                          <p className="type-small font-bold" style={{ color: '#CBD5E1' }}>{u.name}</p> {/* Changed from text-xs to type-small */}
+                          <p className="type-caption uppercase tracking-tighter" style={{ color: '#64748B' }}>ID: {u.username}</p> {/* Changed from text-[10px] to type-caption */}
                         </div>
                       </div>
                       <i className="fa-solid fa-chevron-right text-xs" style={{ color: '#334155' }}></i>
@@ -237,10 +237,10 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           {/* Manual Auth Form */}
           <div className={`${isLogin ? 'md:w-1/2' : 'w-full'} p-8 md:p-10 flex flex-col justify-center`}>
             <div className="max-w-xs mx-auto w-full">
-              <h2 className="text-2xl font-black mb-1" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>
+              <h2 className="type-h3 font-black mb-1" style={{ color: '#F8FAFC' }}>
                 {isLogin ? 'Manual Entry' : 'Join Elite Eng'}
               </h2>
-              <p className="text-sm mb-8" style={{ color: '#64748B' }}>
+              <p className="type-small mb-8" style={{ color: '#64748B' }}>
                 {isLogin ? 'Sign in with your credentials.' : 'Create a personal account.'}
               </p>
 
@@ -262,7 +262,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 )}
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-1.5 ml-1" style={{ color: '#64748B' }}>Username</label>
+                  <label className="type-caption font-bold uppercase tracking-widest block mb-1.5 ml-1" style={{ color: '#64748B' }}>Username</label>
                   <input
                     type="text"
                     required
@@ -276,7 +276,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-1.5 ml-1" style={{ color: '#64748B' }}>Password</label>
+                  <label className="type-caption font-bold uppercase tracking-widest block mb-1.5 ml-1" style={{ color: '#64748B' }}>Password</label>
                   <input
                     type="password"
                     required
@@ -287,7 +287,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
                     onFocus={(e) => e.target.style.borderColor = '#6366F1'}
                     onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                   />
-                  {isLogin && <p className="mt-2 text-[10px] ml-1" style={{ color: '#475569' }}>Default password: <span style={{ color: '#6366F1', fontWeight: 'bold' }}>123</span></p>}
+                  {isLogin && <p className="type-caption mt-2 ml-1" style={{ color: '#475569' }}>Default password: <span style={{ color: '#6366F1', fontWeight: 'bold' }}>123</span></p>}
                 </div>
 
                 {error && (
@@ -298,7 +298,7 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all duration-200 mt-4"
+                  className="type-button w-full py-3.5 rounded-xl text-white transition-all duration-200 mt-4"
                   style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 4px 15px rgba(99,102,241,0.35)' }}
                   onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(99,102,241,0.5)'; }}
                   onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(99,102,241,0.35)'; }}

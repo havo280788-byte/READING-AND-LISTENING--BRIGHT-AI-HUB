@@ -204,21 +204,21 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="font-black text-[10px] uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>USAGE</h4>
-                <ul className="space-y-3">{activeTopicData.usage.map((u, i) => <li key={i} className="text-sm leading-relaxed flex items-start" style={{ color: '#CBD5E1' }}><span className="mr-2" style={{ color: '#6366F1' }}>•</span>{u}</li>)}</ul>
+                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>USAGE</h4>
+                <ul className="space-y-3">{activeTopicData.usage.map((u, i) => <li key={i} className="type-small leading-relaxed flex items-start" style={{ color: '#CBD5E1' }}><span className="mr-2" style={{ color: '#6366F1' }}>•</span>{u}</li>)}</ul>
               </div>
               <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="font-black text-[10px] uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>FORMULA</h4>
+                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>FORMULA</h4>
                 <div className="space-y-3">{activeTopicData.formula.map((f, i) => <div key={i} className="p-3 rounded-xl text-xs font-bold font-mono" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.12)', color: '#A5B4FC' }}>{f}</div>)}</div>
               </div>
               <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="font-black text-[10px] uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>SIGNALS</h4>
+                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>SIGNALS</h4>
                 <div className="flex flex-wrap gap-2">{activeTopicData.signals.map((s, i) => <span key={i} className="px-3 py-1.5 rounded-lg text-[11px] font-black" style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.15)', color: '#22D3EE' }}>{s}</span>)}</div>
               </div>
             </div>
 
             <div className="flex justify-center pt-4">
-              <button onClick={() => setView('game')} className="px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest flex items-center gap-3 text-white transition-all duration-200"
+              <button onClick={() => setView('game')} className="type-button px-10 py-4 rounded-2xl uppercase flex items-center gap-3 text-white transition-all duration-200"
                 style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 8px 25px rgba(99,102,241,0.4)' }}
                 onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.03)'; e.currentTarget.style.boxShadow = '0 12px 30px rgba(99,102,241,0.55)'; }}
                 onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(99,102,241,0.4)'; }}>
@@ -234,10 +234,10 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
               <>
                 <div className="flex justify-between items-center mb-10 p-6 rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>Challenge Score</p>
-                    <p className="text-4xl font-black italic" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{quizScore} / {questions.length}</p>
+                    <p className="type-caption font-black uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>Challenge Score</p>
+                    <p className="type-h2 font-black italic" style={{ color: '#F8FAFC' }}>{quizScore} / {questions.length}</p>
                   </div>
-                  <p className="text-4xl font-black italic" style={{ color: timer < 5 ? '#EF4444' : '#22D3EE', fontFamily: 'Poppins, sans-serif' }}>{timer}s</p>
+                  <p className="type-h2 font-black italic" style={{ color: timer < 5 ? '#EF4444' : '#22D3EE' }}>{timer}s</p>
                 </div>
 
                 {questions[currentIndex] ? (
@@ -245,7 +245,7 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
                     const cur = questions[currentIndex];
                     return cur.type === 'multiple_choice' ? (
                       <div className="space-y-10">
-                        <h3 className="text-2xl md:text-3xl font-black text-center italic" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>"{cur.question}"</h3>
+                        <h3 className="type-h3 font-black text-center italic" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>"{cur.question}"</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                           {cur.options?.map((opt, i) => {
                             let s: React.CSSProperties = { background: '#243044', border: '2px solid rgba(99,102,241,0.15)', color: '#CBD5E1' };
@@ -255,16 +255,16 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
                               else s = { opacity: 0.3, background: '#1E293B', border: '2px solid rgba(255,255,255,0.04)', color: '#334155' };
                             }
                             return <button key={i} disabled={isAnswered} onClick={() => handleAnswer(i)}
-                              className="p-5 rounded-2xl font-bold text-left transition-all flex items-center space-x-4" style={s}>
+                              className="type-body p-5 rounded-2xl font-bold text-left transition-all flex items-center space-x-4" style={s}>
                               <span className="w-10 h-10 rounded-xl flex items-center justify-center font-black shrink-0" style={{ background: 'rgba(99,102,241,0.1)', color: '#A5B4FC' }}>{String.fromCharCode(65 + i)}</span>
-                              <span className="text-lg">{opt}</span>
+                              <span>{opt}</span>
                             </button>;
                           })}
                         </div>
                       </div>
                     ) : (
                       <div className="space-y-10 text-center">
-                        <div className="text-xl leading-relaxed">
+                        <div className="type-body-reading leading-relaxed">
                           {cur.question.split(/(\[[A-D]\])/).map((part, i) => {
                             const m = part.match(/\[([A-D])\]/);
                             if (m) {
@@ -296,15 +296,15 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
                           {streak > 0 ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
                         </div>
                         <div>
-                          <p className="text-[10px] font-black uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>Analysis</p>
-                          <p className="text-base italic font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
+                          <p className="type-caption font-black uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>Analysis</p>
+                          <p className="type-body italic font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
                             {questions[currentIndex].type === 'error_identification' && <>Error at <span className="font-black" style={{ color: '#A5B4FC' }}>[{questions[currentIndex].error_part}]</span>. Correction: <span className="font-black" style={{ color: '#4ADE80' }}>{questions[currentIndex].correction}</span>. </>}
                             "{questions[currentIndex].explanation}"
                           </p>
                         </div>
                       </div>
                     </div>
-                    <button onClick={nextQuestion} className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-sm text-white transition-all duration-200"
+                    <button onClick={nextQuestion} className="type-button w-full py-5 rounded-2xl uppercase text-white transition-all duration-200"
                       style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 8px 25px rgba(99,102,241,0.4)' }}
                       onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.02)'; }}
                       onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}>

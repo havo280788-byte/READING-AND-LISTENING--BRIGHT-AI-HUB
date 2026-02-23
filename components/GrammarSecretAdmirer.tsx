@@ -462,9 +462,9 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
   if (!currentLevel.segments || currentLevel.segments.length === 0) {
     return (
       <div className="min-h-[50vh] bg-[#050510] rounded-[2.5rem] flex flex-col items-center justify-center p-12 border-4 border-white/5 text-center">
-        <h2 className="text-3xl font-bold text-white uppercase italic tracking-tighter mb-4">Story Coming Soon</h2>
-        <p className="text-slate-400 mb-8">This grammar adventure is currently being written.</p>
-        <button onClick={() => onComplete(100)} className="bg-cyan-500 text-slate-950 px-10 py-4 rounded-2xl font-black uppercase text-sm hover:scale-105 transition-transform">
+        <h2 className="type-h2 text-white uppercase italic tracking-tighter mb-4">Story Coming Soon</h2>
+        <p className="type-body text-slate-400 mb-8">This grammar adventure is currently being written.</p>
+        <button onClick={() => onComplete(100)} className="bg-cyan-500 text-slate-950 px-10 py-4 rounded-2xl type-button transition-transform">
           Skip to Next Stage
         </button>
       </div>
@@ -474,7 +474,7 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
   return (
     <div className="min-h-[80vh] bg-[#050510] rounded-[2.5rem] overflow-hidden flex flex-col p-6 md:p-12 border-4 border-white/5">
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-2xl font-bold text-white uppercase italic tracking-tighter">RECOVERING KNOWLEDGE</h2>
+        <h2 className="type-h3 text-white uppercase italic tracking-tighter">RECOVERING KNOWLEDGE</h2>
         <div className="flex space-x-2">
           {storyData.map((_, i) => (
             <div key={i} className={`w-10 h-2 rounded-full transition-all ${i <= levelIdx ? 'bg-cyan-400' : 'bg-white/10'}`}></div>
@@ -485,11 +485,11 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
         <div className="lg:w-1/3 flex flex-col space-y-6">
           <div className="aspect-[4/5] rounded-[2rem] overflow-hidden border border-white/10 relative group">
             <img src={currentLevel.image} alt={currentLevel.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" />
-            <div className="absolute bottom-6 left-6"><h3 className="text-xl font-bold text-white">{currentLevel.title}</h3></div>
+            <div className="absolute bottom-6 left-6"><h3 className="type-h4 text-white">{currentLevel.title}</h3></div>
           </div>
         </div>
         <div className="lg:w-2/3 bg-white/5 backdrop-blur-xl rounded-[3rem] p-8 md:p-12 border border-white/10 flex flex-col justify-between">
-          <div className="text-lg md:text-xl text-white font-medium leading-[2.2]">
+          <div className="type-body-reading text-white">
             {currentLevel.segments.map((seg, i) => {
               if (seg.type === 'input') {
                 const isWrong = validated && results[i] === false;
@@ -502,9 +502,9 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
                       onChange={(e) => handleInputChange(i, e.target.value)}
                       disabled={allCorrect}
                       placeholder={`(${seg.hint})`}
-                      className={`w-40 bg-transparent border-b-2 text-center outline-none py-1 ${isWrong ? 'border-red-500 text-red-400' : isRight ? 'border-green-500 text-green-400' : 'border-gray-600 focus:border-cyan-400 text-white'}`}
+                      className={`w-40 bg-transparent border-b-2 text-center outline-none py-1 type-body ${isWrong ? 'border-red-500 text-red-400' : isRight ? 'border-green-500 text-green-400' : 'border-gray-600 focus:border-cyan-400 text-white'}`}
                     />
-                    {isWrong && <div className="absolute top-full left-0 bg-red-950 text-red-200 text-[10px] p-2 rounded z-20"><p>{seg.correct}</p><p className="opacity-70">{seg.explanation}</p></div>}
+                    {isWrong && <div className="absolute top-full left-0 bg-red-950 text-red-200 type-caption p-2 rounded z-20"><p>{seg.correct}</p><p className="opacity-70">{seg.explanation}</p></div>}
                   </span>
                 );
               }
@@ -513,9 +513,9 @@ const GrammarSecretAdmirer: React.FC<GrammarSecretAdmirerProps> = ({ currentTopi
           </div>
           <div className="mt-12 flex justify-end">
             {!allCorrect ? (
-              <button onClick={validate} className="bg-cyan-400 text-slate-900 px-8 py-3 rounded-xl font-black uppercase text-xs">VERIFY SEQUENCE</button>
+              <button onClick={validate} className="bg-cyan-400 text-slate-900 px-8 py-3 rounded-xl type-button">VERIFY SEQUENCE</button>
             ) : (
-              <button onClick={nextLevel} className="bg-cyan-500 text-slate-950 px-10 py-4 rounded-2xl font-black uppercase text-sm">
+              <button onClick={nextLevel} className="bg-cyan-500 text-slate-950 px-10 py-4 rounded-2xl type-button">
                 {levelIdx < storyData.length - 1 ? 'NEXT RECORD' : 'MISSION COMPLETE'}
               </button>
             )}

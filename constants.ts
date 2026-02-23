@@ -1851,3 +1851,29 @@ export const unit1GameData: ClozeQuestion[] = [
   { id: 4, sentence: "Arguments about chores can lead to _______ between parents and teens.", options: ["peace", "conflict", "harmony", "agreement"], correctAnswer: "conflict", explanation: "Conflict refers to serious disagreements.", illustrationUrl: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=800" },
   { id: 5, sentence: "Living in an _______ family helps children bond with their grandparents.", options: ["nuclear", "extended", "small", "modern"], correctAnswer: "extended", explanation: "Extended families include grandparents and other relatives.", illustrationUrl: "https://images.unsplash.com/photo-1520850838445-53c48524036e?q=80&w=800" }
 ];
+
+// Added export for shared student data
+export const normalizeName = (str: string) => {
+  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/đ/g, "d").replace(/Đ/g, "D")
+    .toUpperCase();
+};
+
+export const CLASS_NAMES_RAW = [
+  "Hòa Quang An", "Phạm Quỳnh Anh", "Hà Thị Minh Anh", "Cao Nguyễn Quỳnh Anh", "Trần Nguyệt Ánh",
+  "Hòa Gia Bình", "Hoàng Văn Công Chính", "Nguyễn Mạnh Cường", "Trần Thị Dung", "Nguyễn Thành Đạt",
+  "Nguyễn Phúc Điền", "Nguyễn Trung Đức", "Nguyễn Lê Gia Hân", "Nguyễn Phương Hiền", "Nguyễn Hoàng Gia Huynh",
+  "Dương Gia Hưng", "Đinh Văn Hưng", "Lê Đình Khôi", "Nguyễn Thị Ngọc Lan", "Huỳnh Đặng Khánh Linh",
+  "Phạm Vũ Thùy Linh", "Nguyễn Bùi Yến Linh", "Đặng Hoàng Long", "Nguyễn Khánh Ly", "Trần Hoàng Minh",
+  "Trần Nữ Nguyệt Nga", "Trần Như Ngọc", "Lê Thị Như Ngọc", "Trần Nữ Bảo Ngọc", "Trần Hoàng Nguyên",
+  "Nguyễn Thảo Nguyên", "Phan Duy Nguyễn", "Nguyễn Thị Thanh Nhàn", "Bùi Thiện Nhân", "Nguyễn Ngọc Uyển Nhi",
+  "Vũ Nguyễn Tuệ Nhi", "Nguyễn Hoàng Tâm Như", "Lê Kim Phát", "Nguyễn Bá Phi", "Đinh Xuân Hoàng Phúc",
+  "Tạ Phạm Minh Phúc", "Trần Hữu Quang", "Nguyễn Tiến Sang", "Trần Minh Thông", "Vũ Lê Phương Thùy",
+  "Võ Bảo Thùy", "Nguyễn Anh Thư", "Lê Trịnh Anh Thư", "Phạm Anh Thư", "Nguyễn Thùy Tiên",
+  "Nguyễn Phương Uyên", "Vũ Thị Hà Vy", "Nguyen Thi Thu Ha"
+];
+
+export const ALL_STUDENTS = CLASS_NAMES_RAW.map((rawName, index) => ({
+  username: `student${(index + 1).toString().padStart(2, '0')}`,
+  name: normalizeName(rawName)
+}));

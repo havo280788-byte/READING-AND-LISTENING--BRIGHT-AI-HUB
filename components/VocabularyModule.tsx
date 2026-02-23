@@ -220,7 +220,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                   style={idx <= currentStepIndex ? { background: '#6366F1', color: 'white' } : { background: '#1E293B', color: '#475569' }}>
                   {idx + 1}
                 </div>
-                <span className="text-[10px] font-black uppercase tracking-widest whitespace-nowrap">{label}</span>
+                <span className="type-caption font-black uppercase tracking-widest whitespace-nowrap">{label}</span>
               </div>
               {idx < steps.length - 1 && (
                 <div className="w-6 h-px rounded-full" style={{ background: idx < currentStepIndex ? '#6366F1' : '#1E293B' }}></div>
@@ -233,10 +233,10 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
         {view === 'list' && (
           <div className="animate-fadeIn space-y-12">
             <div className="text-center space-y-2">
-              <h2 className="text-5xl font-black uppercase tracking-tighter italic" style={{ background: 'linear-gradient(135deg, #6366F1, #22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', fontFamily: 'Poppins, sans-serif' }}>
+              <h2 className="type-h2 font-black uppercase tracking-tighter italic" style={{ background: 'linear-gradient(135deg, #6366F1, #22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                 WORD ARCHIVE
               </h2>
-              <p className="text-[10px] font-black uppercase tracking-[0.6em]" style={{ color: '#475569' }}>Academic Collection · {unitPrefix.toUpperCase()}</p>
+              <p className="type-caption font-black uppercase tracking-[0.6em]" style={{ color: '#475569' }}>Academic Collection · {unitPrefix.toUpperCase()}</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -266,37 +266,37 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                     </div>
                     <div className="space-y-4">
                       <div className="pr-10">
-                        <span className="text-[10px] font-black uppercase tracking-widest block mb-1" style={{ color: '#475569' }}>Vocabulary</span>
-                        <h3 className="text-2xl font-black tracking-tighter leading-none" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{word.english}</h3>
-                        {word.phonetic && <p className="text-sm font-mono mt-1" style={{ color: '#64748B' }}>{word.phonetic}</p>}
+                        <span className="type-caption font-black uppercase tracking-widest block mb-1" style={{ color: '#475569' }}>Vocabulary</span>
+                        <h3 className="type-h3" style={{ color: '#F8FAFC' }}>{word.english}</h3>
+                        {word.phonetic && <p className="type-small font-mono mt-1" style={{ color: '#64748B' }}>{word.phonetic}</p>}
                       </div>
                       <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
                         <div className="pt-5 border-t space-y-5" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
                           <div className="p-4 rounded-2xl" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.15)' }}>
-                            <span className="text-[9px] font-black uppercase tracking-widest block mb-1" style={{ color: '#64748B' }}>Meaning & POS</span>
-                            <p className="text-lg font-bold" style={{ color: '#F8FAFC' }}>{word.vietnamese}</p>
+                            <span className="type-caption font-black uppercase tracking-widest block mb-1" style={{ color: '#64748B' }}>Meaning & POS</span>
+                            <p className="type-body font-bold" style={{ color: '#F8FAFC' }}>{word.vietnamese}</p>
                           </div>
                           {word.wordFamily && (
                             <div className="p-4 rounded-2xl" style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.1)' }}>
                               <div className="flex items-center gap-2 mb-2">
                                 <Layers size={12} style={{ color: '#22D3EE' }} />
-                                <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: '#22D3EE' }}>Academic Word Family</span>
+                                <span className="type-caption font-black uppercase tracking-[0.2em]" style={{ color: '#22D3EE' }}>Academic Word Family</span>
                               </div>
-                              <p className="text-base font-black leading-relaxed tracking-tight" style={{ color: '#CBD5E1' }}>{word.wordFamily}</p>
+                              <p className="type-body font-black leading-relaxed" style={{ color: '#CBD5E1' }}>{word.wordFamily}</p>
                             </div>
                           )}
                           <div className="relative">
-                            <span className="text-[9px] font-black uppercase tracking-widest block mb-2" style={{ color: '#475569' }}
+                            <span className="type-caption font-black uppercase tracking-widest block mb-2" style={{ color: '#475569' }}
                               onClick={(e) => { e.stopPropagation(); handleSpeak(word.example); }}>
                               Academic Context (Tap to Listen)
                             </span>
-                            <p className="text-sm leading-relaxed font-medium italic pl-4" style={{ color: '#94A3B8', borderLeft: '2px solid rgba(99,102,241,0.3)' }}>"{word.example}"</p>
+                            <p className="type-small leading-relaxed font-medium italic pl-4" style={{ color: '#94A3B8', borderLeft: '2px solid rgba(99,102,241,0.3)' }}>"{word.example}"</p>
                           </div>
                         </div>
                       </div>
                       {!isExpanded && (
                         <div className="pt-5 flex items-center justify-between opacity-40 group-hover:opacity-100 transition-opacity">
-                          <span className="text-[9px] font-black uppercase tracking-[0.2em]" style={{ color: '#6366F1' }}>Unlock details</span>
+                          <span className="type-caption font-black uppercase tracking-[0.2em]" style={{ color: '#6366F1' }}>Unlock details</span>
                           <ChevronDown size={14} className="animate-bounce" style={{ color: '#6366F1' }} />
                         </div>
                       )}

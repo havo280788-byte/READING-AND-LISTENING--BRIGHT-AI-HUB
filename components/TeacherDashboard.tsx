@@ -103,9 +103,9 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                     <div key={i} className="p-6 flex flex-col gap-4 relative overflow-hidden" style={cardStyle}>
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${stat.accent}18`, color: stat.accent }}>{stat.icon}</div>
                         <div>
-                            <p className="text-2xl font-black truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
-                            <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{stat.label}</p>
-                            <p className="text-[10px] mt-0.5" style={{ color: '#475569' }}>{stat.sub}</p>
+                            <p className="type-h2 font-black truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
+                            <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{stat.label}</p>
+                            <p className="type-caption mt-0.5" style={{ color: '#475569' }}>{stat.sub}</p>
                         </div>
                         <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full pointer-events-none" style={{ background: stat.accent, opacity: 0.06, filter: 'blur(10px)' }}></div>
                     </div>
@@ -119,20 +119,20 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                     <input
                         type="text" placeholder="Search by name or username..."
                         value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                        className="w-full pl-9 pr-4 py-3 rounded-xl text-sm outline-none transition-all"
+                        className="type-button flex-1 w-full pl-9 pr-4 py-3 rounded-xl outline-none transition-all"
                         style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)', color: '#CBD5E1' }}
                         onFocus={e => e.target.style.borderColor = '#6366F1'}
                         onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.05)'}
                     />
                 </div>
                 <select value={selectedUnit} onChange={e => setSelectedUnit(e.target.value)}
-                    className="px-4 py-3 rounded-xl text-sm font-bold outline-none cursor-pointer"
+                    className="type-small px-4 py-3 rounded-xl font-bold outline-none cursor-pointer"
                     style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)', color: '#CBD5E1', minWidth: '180px' }}>
                     <option value="all">All Units</option>
                     {UNIT_KEYS.map(u => <option key={u} value={u}>{u.toUpperCase()}</option>)}
                 </select>
                 <button onClick={handleRefresh}
-                    className="px-5 py-3 rounded-xl text-xs font-black uppercase tracking-widest flex items-center gap-2 transition-all"
+                    className="type-caption px-5 py-3 rounded-xl uppercase tracking-widest flex items-center gap-2 transition-all"
                     style={{ background: isRefreshing ? '#6366F1' : 'rgba(99,102,241,0.12)', color: isRefreshing ? 'white' : '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
                     <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
                     {isRefreshing ? 'Syncing...' : 'Sync Firebase'}
@@ -142,7 +142,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
             {/* Student Table */}
             <section className="rounded-2xl overflow-hidden" style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)' }}>
                 {/* Table Header */}
-                <div className="grid grid-cols-12 px-6 py-4 text-[10px] font-black uppercase tracking-[0.2em]" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#475569' }}>
+                <div className="type-caption grid grid-cols-12 px-6 py-4 font-black uppercase tracking-[0.2em]" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#475569' }}>
                     <div className="col-span-1 text-center">#</div>
                     <div className="col-span-4">Student</div>
                     <div className="col-span-2 text-center">Modules</div>
@@ -181,8 +181,8 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                             {student.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="text-xs font-bold" style={{ color: '#CBD5E1' }}>{student.name}</p>
-                                            <p className="text-[10px]" style={{ color: '#475569' }}>{student.username}</p>
+                                            <p className="type-small font-bold" style={{ color: '#CBD5E1' }}>{student.name}</p>
+                                            <p className="type-caption" style={{ color: '#475569' }}>{student.username}</p>
                                         </div>
                                     </div>
                                     <div className="col-span-2 text-center">
@@ -211,14 +211,14 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                 {isExpanded && (
                                     <div className="px-6 pb-6 animate-fadeIn">
                                         <div className="p-6 rounded-2xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                                            <p className="text-[10px] font-black uppercase tracking-[0.3em] mb-5" style={{ color: '#6366F1' }}>Progress by Skill</p>
+                                            <p className="type-caption font-black uppercase tracking-[0.3em] mb-5" style={{ color: '#6366F1' }}>Progress by Skill</p>
                                             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                                 {['vocabulary', 'grammar', 'reading', 'listening', 'challenge'].map(skill => {
                                                     const val = student.progress?.[skill] || 0;
                                                     const colors: Record<string, string> = { vocabulary: '#6366F1', grammar: '#3B82F6', reading: '#22D3EE', listening: '#8B5CF6', challenge: '#F59E0B' };
                                                     return (
                                                         <div key={skill} className="text-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                                                            <p className="text-[9px] font-black uppercase tracking-[0.2em] mb-3" style={{ color: '#475569' }}>{skill}</p>
+                                                            <p className="type-caption font-black uppercase tracking-[0.2em] mb-3" style={{ color: '#475569' }}>{skill}</p>
                                                             <div className="w-full h-1.5 rounded-full overflow-hidden mb-2" style={{ background: '#0F172A' }}>
                                                                 <div className="h-full rounded-full" style={{ width: `${val}%`, background: `linear-gradient(90deg, ${colors[skill]}, ${colors[skill]}88)` }}></div>
                                                             </div>

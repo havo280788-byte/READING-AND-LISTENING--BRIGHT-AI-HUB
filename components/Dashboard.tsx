@@ -2,6 +2,7 @@
 import React, { useState, useMemo } from 'react';
 import { UserStats } from '../types';
 import { Book, Puzzle, Mic, PenTool, CheckCircle2, Zap, ChevronRight, BookOpen, Headphones, Shield, Trophy, Crown, Flame, Star, GraduationCap, BarChart3, Sparkles, TrendingUp, Award } from 'lucide-react';
+import { ALL_STUDENTS } from '../constants';
 
 interface DashboardProps {
   stats: UserStats;
@@ -34,30 +35,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
 
   const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
 
-  const normalizeName = (str: string) => {
-    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-      .replace(/đ/g, "d").replace(/Đ/g, "D")
-      .toUpperCase();
-  };
-
-  const CLASS_NAMES_RAW = [
-    "Hòa Quang An", "Phạm Quỳnh Anh", "Hà Thị Minh Anh", "Cao Nguyễn Quỳnh Anh", "Trần Nguyệt Ánh",
-    "Hòa Gia Bình", "Hoàng Văn Công Chính", "Nguyễn Mạnh Cường", "Trần Thị Dung", "Nguyễn Thành Đạt",
-    "Nguyễn Phúc Điền", "Nguyễn Trung Đức", "Nguyễn Lê Gia Hân", "Nguyễn Phương Hiền", "Nguyễn Hoàng Gia Huynh",
-    "Dương Gia Hưng", "Đinh Văn Hưng", "Lê Đình Khôi", "Nguyễn Thị Ngọc Lan", "Huỳnh Đặng Khánh Linh",
-    "Phạm Vũ Thùy Linh", "Nguyễn Bùi Yến Linh", "Đặng Hoàng Long", "Nguyễn Khánh Ly", "Trần Hoàng Minh",
-    "Trần Nữ Nguyệt Nga", "Trần Như Ngọc", "Lê Thị Như Ngọc", "Trần Nữ Bảo Ngọc", "Trần Hoàng Nguyên",
-    "Nguyễn Thảo Nguyên", "Phan Duy Nguyễn", "Nguyễn Thị Thanh Nhàn", "Bùi Thiện Nhân", "Nguyễn Ngọc Uyển Nhi",
-    "Vũ Nguyễn Tuệ Nhi", "Nguyễn Hoàng Tâm Như", "Lê Kim Phát", "Nguyễn Bá Phi", "Đinh Xuân Hoàng Phúc",
-    "Tạ Phạm Minh Phúc", "Trần Hữu Quang", "Nguyễn Tiến Sang", "Trần Minh Thông", "Vũ Lê Phương Thùy",
-    "Võ Bảo Thùy", "Nguyễn Anh Thư", "Lê Trịnh Anh Thư", "Phạm Anh Thư", "Nguyễn Thùy Tiên",
-    "Nguyễn Phương Uyên", "Vũ Thị Hà Vy", "Nguyen Thi Thu Ha"
-  ];
-
-  const ALL_STUDENTS = CLASS_NAMES_RAW.map((rawName, index) => ({
-    username: `student${(index + 1).toString().padStart(2, '0')}`,
-    name: normalizeName(rawName)
-  }));
+  // Removed local student data to use shared constants
 
   const { rankedStudents, currentUserRank } = useMemo(() => {
     const savedDataMap: Record<string, { xp: number; completedModules: number }> = {};
@@ -117,11 +95,11 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
         <div className="relative z-10">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-8">
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>AI Learning Hub · G11</p>
-              <h2 className="text-3xl font-black mb-1" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>
+              <p className="type-caption font-bold uppercase tracking-widest mb-1" style={{ color: '#6366F1' }}>AI Learning Hub · G11</p>
+              <h2 className="type-h2 font-black mb-1" style={{ color: '#F8FAFC' }}>
                 Hello, {stats.name}! 👋
               </h2>
-              <p className="text-sm" style={{ color: '#94A3B8' }}>
+              <p className="type-small" style={{ color: '#94A3B8' }}>
                 Progress: <span className="font-bold" style={{ color: '#22D3EE' }}>{progressPercentage}%</span> complete
               </p>
             </div>
@@ -129,14 +107,14 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
               <div className="px-5 py-3 rounded-2xl" style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)' }}>
                 <div className="flex items-center gap-1.5 mb-1">
                   <Flame size={12} style={{ color: '#6366F1' }} />
-                  <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#6366F1' }}>XP Points</p>
+                  <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#6366F1' }}>XP Points</p>
                 </div>
                 <p className="text-xl font-black" style={{ background: 'linear-gradient(135deg, #6366F1, #22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{stats.xp}</p>
               </div>
               <div className="px-5 py-3 rounded-2xl" style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.15)' }}>
                 <div className="flex items-center gap-1.5 mb-1">
                   <GraduationCap size={12} style={{ color: '#22D3EE' }} />
-                  <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#22D3EE' }}>Level</p>
+                  <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#22D3EE' }}>Level</p>
                 </div>
                 <p className="text-xl font-black" style={{ color: '#22D3EE' }}>Grade 11</p>
               </div>
@@ -149,7 +127,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
               <div>
                 <div className="flex items-center gap-2">
                   <BarChart3 size={14} style={{ color: '#6366F1' }} />
-                  <h4 className="text-xs font-black uppercase tracking-widest" style={{ color: '#CBD5E1' }}>Curriculum Mastery</h4>
+                  <h4 className="type-caption font-black uppercase tracking-widest" style={{ color: '#CBD5E1' }}>Curriculum Mastery</h4>
                 </div>
                 <p className="text-xs mt-1" style={{ color: '#64748B' }}>
                   Modules: <span className="font-bold" style={{ color: '#A5B4FC' }}>{stats.completedModules}</span> / {totalModules}
@@ -181,13 +159,13 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                   <Trophy size={20} />
                 </div>
                 <div>
-                  <h3 className="text-lg font-black uppercase tracking-tight" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>Class Leaderboard</h3>
-                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{rankedStudents.length} students ranked by XP</p>
+                  <h3 className="type-h3 font-black uppercase tracking-tight" style={{ color: '#F8FAFC' }}>Class Leaderboard</h3>
+                  <p className="type-caption font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{rankedStudents.length} students ranked by XP</p>
                 </div>
               </div>
               {currentUserRank && (
                 <div className="px-4 py-2.5 rounded-xl" style={{ background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)' }}>
-                  <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#A5B4FC' }}>Your Rank</p>
+                  <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#A5B4FC' }}>Your Rank</p>
                   <p className="text-xl font-black text-center" style={{ background: 'linear-gradient(135deg, #6366F1, #22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     #{currentUserRank.rank}
                   </p>
@@ -227,10 +205,10 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                         {student.name.charAt(0)}
                       </div>
                       <div>
-                        <p className="text-sm font-bold" style={{ color: isMe ? '#A5B4FC' : '#CBD5E1' }}>
-                          {student.name} {isMe && <span className="text-[10px] font-black ml-1" style={{ color: '#6366F1' }}>(You)</span>}
+                        <p className="type-small font-bold" style={{ color: isMe ? '#A5B4FC' : '#CBD5E1' }}>
+                          {student.name} {isMe && <span className="type-caption font-black ml-1" style={{ color: '#6366F1' }}>(You)</span>}
                         </p>
-                        <p className="text-[10px]" style={{ color: '#475569' }}>
+                        <p className="type-caption" style={{ color: '#475569' }}>
                           {student.xp === 0 ? 'Chưa bắt đầu' : `${student.completedModules} modules`}
                         </p>
                       </div>
@@ -239,7 +217,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                       <span className="text-lg font-black" style={{ color: student.xp > 0 ? (isMe ? '#A5B4FC' : '#CBD5E1') : '#334155' }}>
                         {student.xp}
                       </span>
-                      <p className="text-[10px] font-bold uppercase" style={{ color: '#475569' }}>XP</p>
+                      <p className="type-caption font-bold uppercase" style={{ color: '#475569' }}>XP</p>
                     </div>
                   </div>
                 );
@@ -257,7 +235,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
             key={unit.id}
             onClick={() => setActiveUnitId(unit.id)}
             disabled={unit.status === 'locked'}
-            className="px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-200 border whitespace-nowrap flex items-center gap-2"
+            className="type-caption px-5 py-2.5 rounded-full font-bold uppercase tracking-widest transition-all duration-200 border whitespace-nowrap flex items-center gap-2"
             style={activeUnitId === unit.id ? {
               background: '#6366F1',
               color: 'white',
@@ -288,7 +266,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
           </div>
           <div className="flex items-center gap-2">
             <Sparkles size={14} style={{ color: '#22D3EE' }} />
-            <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#22D3EE' }}>Grade 11 Advanced</span>
+            <span className="type-caption font-black uppercase tracking-widest" style={{ color: '#22D3EE' }}>Grade 11 Advanced</span>
           </div>
         </div>
 
@@ -368,14 +346,14 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                       {skill.icon}
                     </div>
                     <div>
-                      <h4 className="text-base font-black leading-tight" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{skill.label}</h4>
-                      <p className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{skill.vietnamese}</p>
+                      <h4 className="type-h4 font-black leading-tight" style={{ color: '#F8FAFC' }}>{skill.label}</h4>
+                      <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{skill.vietnamese}</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="flex justify-between items-end">
-                      <p className="text-xs font-medium" style={{ color: '#64748B' }}>
+                      <p className="type-caption font-medium" style={{ color: '#64748B' }}>
                         Unit {currentUnitData.id}: {currentUnitData.title}
                       </p>
                       <span className="text-3xl font-black" style={{ color: skill.iconColor }}>{val}%</span>

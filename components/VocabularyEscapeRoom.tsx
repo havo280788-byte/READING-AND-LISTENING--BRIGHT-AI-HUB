@@ -768,14 +768,14 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
             <Library size={48} />
           </div>
           <div className="space-y-4">
-            <h2 className="text-4xl font-black text-white uppercase italic tracking-tighter">LIBRARY CLEARED</h2>
-            <p className="text-amber-200/40 font-medium italic text-lg leading-relaxed">
+            <h2 className="type-h2 text-white uppercase italic tracking-tighter">LIBRARY CLEARED</h2>
+            <p className="type-body-reading text-amber-200/40 italic leading-relaxed">
               "The ancient inscriptions for {phase.title} have been successfully archived. No further challenges remain in this sector."
             </p>
           </div>
           <button
             onClick={onReturn}
-            className="w-full bg-amber-600 text-white py-5 rounded-[2rem] font-black uppercase text-xs tracking-[0.4em] shadow-xl hover:bg-amber-500 transition-all flex items-center justify-center gap-3 active:scale-95"
+            className="w-full bg-amber-600 text-white py-5 rounded-[2rem] type-button shadow-xl hover:bg-amber-500 transition-all flex items-center justify-center gap-3 active:scale-95"
           >
             <ArrowLeft size={18} />
             <span>Return to Hub</span>
@@ -796,10 +796,10 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
         <h2 className="text-2xl font-black mb-4 uppercase tracking-wider">LIBRARY SEALED</h2>
         <p className="text-slate-400 mb-8 text-sm italic font-medium">Knowledge successfully archived.</p>
         <div className="bg-amber-500/10 p-6 rounded-2xl border border-amber-500/20 mb-8">
-          <p className="text-[10px] font-black text-amber-500 uppercase tracking-widest mb-1">Mastery Score</p>
-          <p className="text-6xl font-black text-amber-500 italic">{Math.round((score / totalQuestions) * 100)}%</p>
+          <p className="type-caption text-amber-500 tracking-widest mb-1">Mastery Score</p>
+          <p className="type-h1 text-amber-500 italic">{Math.round((score / totalQuestions) * 100)}%</p>
         </div>
-        <button onClick={onReturn} className="w-full bg-amber-600 text-white py-4 rounded-xl font-bold text-sm uppercase tracking-widest shadow-lg hover:bg-amber-500 transition-all">RETURN TO HUB</button>
+        <button onClick={onReturn} className="w-full bg-amber-600 text-white py-4 rounded-xl type-button shadow-lg hover:bg-amber-500 transition-all">RETURN TO HUB</button>
       </div>
     );
   }
@@ -811,12 +811,12 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
 
       <div className="flex justify-between items-end border-b-2 border-amber-900/30 pb-6">
         <div className="space-y-1">
-          <p className="text-[10px] font-black text-amber-500 uppercase tracking-[0.4em]">{phase.title}</p>
-          <h3 className="text-xl font-black text-white uppercase italic tracking-tighter">Forbidden Inscription {currentQuestionIdx + 1}/{totalQuestions}</h3>
+          <p className="type-caption text-amber-500 tracking-[0.4em]">{phase.title}</p>
+          <h3 className="type-h3 text-white uppercase italic tracking-tighter">Forbidden Inscription {currentQuestionIdx + 1}/{totalQuestions}</h3>
         </div>
         <div className="text-right">
-          <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">SEAL TIME</p>
-          <p className={`text-2xl font-mono font-black ${timeLeft < 60 ? 'text-rose-600' : 'text-amber-400'}`}>
+          <p className="type-caption text-slate-500 tracking-widest mb-1">SEAL TIME</p>
+          <p className={`type-h2 font-mono ${timeLeft < 60 ? 'text-rose-600' : 'text-amber-400'}`}>
             {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
           </p>
         </div>
@@ -824,7 +824,7 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
 
       <div className="space-y-12 py-4 relative z-10">
         <div className="bg-black/20 p-8 rounded-[2rem] border border-white/5 shadow-inner">
-          <h4 className="text-xl md:text-2xl font-medium text-[#FFF8E1] text-center italic leading-relaxed">
+          <h4 className="type-h3 text-[#FFF8E1] text-center italic leading-relaxed">
             "{question.question}"
           </h4>
         </div>
@@ -845,14 +845,14 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
                 key={i}
                 disabled={isAnswered}
                 onClick={() => handleSelect(opt)}
-                className={`p-6 rounded-[2rem] font-bold text-left transition-all flex items-center shadow-xl group relative overflow-hidden whitespace-normal break-words ${styles}`}
+                className={`p-6 rounded-[2rem] type-body text-left transition-all flex items-center shadow-xl group relative overflow-hidden whitespace-normal break-words ${styles}`}
               >
                 <div className="absolute left-6 top-1/2 -translate-y-1/2">
-                  <span className={`w-10 h-10 rounded-2xl bg-amber-950/50 flex items-center justify-center text-[10px] font-black border-2 transition-colors ${isAnswered && isCorrect ? 'bg-emerald-600 border-emerald-400 text-white' : 'border-amber-700 text-amber-500'}`}>
+                  <span className={`w-10 h-10 rounded-2xl bg-amber-950/50 flex items-center justify-center type-caption border-2 transition-colors ${isAnswered && isCorrect ? 'bg-emerald-600 border-emerald-400 text-white' : 'border-amber-700 text-amber-500'}`}>
                     {String.fromCharCode(65 + i)}
                   </span>
                 </div>
-                <span className="text-base font-medium pl-14">{opt}</span>
+                <span className="pl-14">{opt}</span>
               </button>
             );
           })}
@@ -861,12 +861,12 @@ const VocabularyEscapeRoom: React.FC<VocabularyEscapeRoomProps> = ({ unitId = 'u
         {isAnswered && (
           <div className="space-y-8 animate-slideUp">
             <div className="p-8 bg-amber-950/40 rounded-[2.5rem] border-2 border-amber-900/20 shadow-inner">
-              <h5 className="text-[10px] font-black text-amber-500/50 uppercase tracking-[0.4em] mb-4">LIBRARIAN'S NOTES</h5>
-              <p className="text-base text-slate-300 font-medium italic">"{question.explanation}"</p>
+              <h5 className="type-caption text-amber-500/50 tracking-[0.4em] mb-4">LIBRARIAN'S NOTES</h5>
+              <p className="type-small text-slate-300 italic">"{question.explanation}"</p>
             </div>
             <button
               onClick={handleNext}
-              className="w-full bg-[#FFF8E1] text-[#2d1f18] py-5 rounded-[2rem] font-bold text-sm shadow-2xl hover:bg-white transition-all flex items-center justify-center space-x-3 uppercase tracking-[0.2em] border-b-8 border-slate-300"
+              className="w-full bg-[#FFF8E1] text-[#2d1f18] py-5 rounded-[2rem] type-button shadow-2xl hover:bg-white transition-all flex items-center justify-center space-x-3"
             >
               <span>{currentQuestionIdx === totalQuestions - 1 ? 'REVEAL MASTER SCORE' : 'PROCEED TO THE NEXT QUESTION ➝'}</span>
             </button>
