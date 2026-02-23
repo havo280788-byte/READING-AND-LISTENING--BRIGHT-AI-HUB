@@ -42,15 +42,13 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Seed default users if none exist OR if the list changed
   useEffect(() => {
-    // Force update to ensure names are normalized
     localStorage.setItem('elite_eng_users', JSON.stringify(DEFAULT_USERS));
   }, []);
 
   const filteredUsers = useMemo(() => {
-    return DEFAULT_USERS.filter(u => 
-      u.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+    return DEFAULT_USERS.filter(u =>
+      u.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       u.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
   }, [searchQuery]);
@@ -94,86 +92,142 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
     onLogin(user);
   };
 
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    padding: '12px 16px',
+    borderRadius: '12px',
+    background: '#1E293B',
+    border: '1px solid rgba(255,255,255,0.08)',
+    color: '#F8FAFC',
+    outline: 'none',
+    fontSize: '14px',
+    fontFamily: 'Inter, sans-serif',
+    transition: 'border-color 0.2s',
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="w-full max-w-5xl bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col lg:flex-row">
-        {/* Left Side: Branding */}
-        <div className="lg:w-2/5 bg-blue-600 p-12 text-white flex flex-col justify-between relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center p-4" style={{ background: '#0F172A' }}>
+      {/* Ambient glow */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full opacity-10" style={{ background: '#6366F1', filter: 'blur(100px)' }}></div>
+        <div className="absolute -bottom-40 -right-40 w-96 h-96 rounded-full opacity-10" style={{ background: '#22D3EE', filter: 'blur(100px)' }}></div>
+      </div>
+
+      <div className="w-full max-w-5xl rounded-3xl overflow-hidden flex flex-col lg:flex-row relative z-10"
+        style={{ background: '#111827', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 40px 80px rgba(0,0,0,0.6)' }}>
+
+        {/* Left Side — Branding */}
+        <div className="lg:w-2/5 p-12 flex flex-col justify-between relative overflow-hidden"
+          style={{ background: 'linear-gradient(145deg, #312E81 0%, #1E40AF 50%, #0E7490 100%)' }}>
           <div className="relative z-10">
-            <h2 className="text-3xl font-black tracking-tight mb-2">ELITE ENG</h2>
-            <p className="text-blue-100 font-medium">Tran Hung Dao High School Hub</p>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                <i className="fa-solid fa-bolt text-white text-sm"></i>
+              </div>
+              <div>
+                <h2 className="text-xl font-black text-white tracking-tight" style={{ fontFamily: 'Poppins, sans-serif' }}>ELITE ENG</h2>
+                <p className="text-xs text-blue-200 font-medium">Tran Hung Dao High School</p>
+              </div>
+            </div>
+            <div className="h-px my-6" style={{ background: 'rgba(255,255,255,0.15)' }}></div>
           </div>
-          
+
           <div className="relative z-10">
-            <h1 className="text-4xl font-bold leading-tight mb-6">Learn faster with smart AI tools.</h1>
-            <div className="space-y-4">
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><i className="fa-solid fa-bolt text-sm"></i></div>
-                <p className="text-sm font-medium">Instant Grammar Check</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><i className="fa-solid fa-microphone text-sm"></i></div>
-                <p className="text-sm font-medium">Speaking Pronunciation Lab</p>
-              </div>
-              <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center"><i className="fa-solid fa-users text-sm"></i></div>
-                <p className="text-sm font-medium">Class 11A1 Managed Access</p>
-              </div>
+            <h1 className="text-3xl font-bold leading-tight mb-6 text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              Learn faster with<br /><span style={{ color: '#67E8F9' }}>AI-powered</span> tools.
+            </h1>
+            <div className="space-y-3">
+              {[
+                { icon: 'fa-bolt', text: 'Instant Grammar Check' },
+                { icon: 'fa-microphone', text: 'Speaking Pronunciation Lab' },
+                { icon: 'fa-users', text: 'Class 11A1 Managed Access' },
+              ].map((f, i) => (
+                <div key={i} className="flex items-center space-x-3">
+                  <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(255,255,255,0.15)' }}>
+                    <i className={`fa-solid ${f.icon} text-white text-xs`}></i>
+                  </div>
+                  <p className="text-sm font-medium text-blue-100">{f.text}</p>
+                </div>
+              ))}
             </div>
           </div>
 
-          <div className="absolute -right-20 -bottom-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+          <div className="absolute -right-16 -bottom-16 w-64 h-64 rounded-full opacity-10" style={{ background: 'white', filter: 'blur(40px)' }}></div>
         </div>
 
-        {/* Right Side: Form & Quick Access */}
-        <div className="lg:w-3/5 flex flex-col md:flex-row divide-y md:divide-y-0 md:divide-x divide-slate-100">
-          
+        {/* Right Side */}
+        <div className="lg:w-3/5 flex flex-col md:flex-row" style={{ borderLeft: '1px solid rgba(255,255,255,0.05)' }}>
+
           {/* Quick Access List */}
           {isLogin && (
-            <div className="md:w-1/2 p-8 bg-slate-50/50">
-              <div className="flex justify-between items-center mb-6">
+            <div className="md:w-1/2 p-8" style={{ borderRight: '1px solid rgba(255,255,255,0.05)' }}>
+              <div className="flex justify-between items-center mb-5">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-800">Class 11A1</h3>
-                  <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">53 Members Active</p>
+                  <h3 className="text-base font-bold text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>Class 11A1</h3>
+                  <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>53 Members Active</p>
                 </div>
-                <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-600 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}>
                   <i className="fa-solid fa-magnifying-glass text-xs"></i>
                 </div>
               </div>
 
               <div className="relative mb-4">
-                <input 
-                  type="text" 
-                  placeholder="Find your name..." 
+                <i className="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-xs" style={{ color: '#64748B' }}></i>
+                <input
+                  type="text"
+                  placeholder="Find your name..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-4 pr-4 py-3 rounded-xl bg-white border border-slate-200 text-sm outline-none focus:border-blue-400 transition-all shadow-sm font-medium"
+                  style={{ ...inputStyle, paddingLeft: '36px' }}
+                  onFocus={(e) => e.target.style.borderColor = '#6366F1'}
+                  onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                 />
               </div>
 
-              <div className="space-y-2 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
+              <div className="space-y-1.5 max-h-[380px] overflow-y-auto pr-1 custom-scrollbar">
                 {filteredUsers.length > 0 ? (
                   filteredUsers.map((u) => (
                     <button
                       key={u.username}
                       onClick={() => quickLogin(u)}
-                      className="w-full flex items-center justify-between p-3 rounded-xl bg-white border border-slate-100 hover:border-blue-400 hover:shadow-md transition-all group text-left"
+                      className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-all duration-200 group"
+                      style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.04)' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#6366F1';
+                        e.currentTarget.style.background = '#243044';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = 'rgba(255,255,255,0.04)';
+                        e.currentTarget.style.background = '#1E293B';
+                      }}
                     >
                       <div className="flex items-center space-x-3">
-                        <div className="w-9 h-9 rounded-full bg-slate-100 text-blue-600 flex items-center justify-center font-bold text-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs text-white shrink-0 transition-all duration-200"
+                          style={{ background: '#334155' }}
+                          ref={(el) => {
+                            if (el) {
+                              el.closest('button')?.addEventListener('mouseenter', () => {
+                                el.style.background = 'linear-gradient(135deg, #6366F1, #3B82F6)';
+                              });
+                              el.closest('button')?.addEventListener('mouseleave', () => {
+                                el.style.background = '#334155';
+                              });
+                            }
+                          }}
+                        >
                           {u.name.charAt(0)}
                         </div>
                         <div>
-                          <p className="text-xs font-bold text-slate-800">{u.name}</p>
-                          <p className="text-[10px] text-slate-400 uppercase tracking-tighter">ID: {u.username}</p>
+                          <p className="text-xs font-bold" style={{ color: '#CBD5E1' }}>{u.name}</p>
+                          <p className="text-[10px] uppercase tracking-tighter" style={{ color: '#64748B' }}>ID: {u.username}</p>
                         </div>
                       </div>
-                      <i className="fa-solid fa-chevron-right text-slate-200 group-hover:text-blue-500 text-xs"></i>
+                      <i className="fa-solid fa-chevron-right text-xs" style={{ color: '#334155' }}></i>
                     </button>
                   ))
                 ) : (
                   <div className="py-10 text-center">
-                    <p className="text-xs text-slate-400 italic">No student found matching "{searchQuery}"</p>
+                    <p className="text-xs italic" style={{ color: '#475569' }}>No student found matching "{searchQuery}"</p>
                   </div>
                 )}
               </div>
@@ -183,71 +237,83 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           {/* Manual Auth Form */}
           <div className={`${isLogin ? 'md:w-1/2' : 'w-full'} p-8 md:p-10 flex flex-col justify-center`}>
             <div className="max-w-xs mx-auto w-full">
-              <h2 className="text-2xl font-black text-slate-800 mb-2">
+              <h2 className="text-2xl font-black mb-1" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>
                 {isLogin ? 'Manual Entry' : 'Join Elite Eng'}
               </h2>
-              <p className="text-slate-500 text-sm mb-8">
+              <p className="text-sm mb-8" style={{ color: '#64748B' }}>
                 {isLogin ? 'Sign in with your credentials.' : 'Create a personal account.'}
               </p>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 {!isLogin && (
                   <div>
-                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Full Name</label>
-                    <input 
-                      type="text" 
+                    <label className="block text-[10px] font-bold uppercase tracking-widest mb-1.5 ml-1" style={{ color: '#64748B' }}>Full Name</label>
+                    <input
+                      type="text"
                       required
-                      value={name} 
+                      value={name}
                       onChange={(e) => setName(e.target.value)}
-                      placeholder="NGUYEN VAN A" 
-                      className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50/50 transition-all font-medium text-sm"
+                      placeholder="NGUYEN VAN A"
+                      style={inputStyle}
+                      onFocus={(e) => e.target.style.borderColor = '#6366F1'}
+                      onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                     />
                   </div>
                 )}
-                
+
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Username</label>
-                  <input 
-                    type="text" 
+                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-1.5 ml-1" style={{ color: '#64748B' }}>Username</label>
+                  <input
+                    type="text"
                     required
-                    value={username} 
+                    value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="student01" 
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50/50 transition-all font-medium text-sm"
+                    placeholder="student01"
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#6366F1'}
+                    onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Password</label>
-                  <input 
-                    type="password" 
+                  <label className="block text-[10px] font-bold uppercase tracking-widest mb-1.5 ml-1" style={{ color: '#64748B' }}>Password</label>
+                  <input
+                    type="password"
                     required
-                    value={password} 
+                    value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="••••••••" 
-                    className="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-100 outline-none focus:border-blue-400 focus:ring-4 focus:ring-blue-50/50 transition-all font-medium text-sm"
+                    placeholder="••••••••"
+                    style={inputStyle}
+                    onFocus={(e) => e.target.style.borderColor = '#6366F1'}
+                    onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
                   />
-                  {isLogin && <p className="mt-2 text-[10px] text-slate-400 ml-1">Default password: <span className="font-bold text-blue-500">123</span></p>}
+                  {isLogin && <p className="mt-2 text-[10px] ml-1" style={{ color: '#475569' }}>Default password: <span style={{ color: '#6366F1', fontWeight: 'bold' }}>123</span></p>}
                 </div>
 
                 {error && (
-                  <div className="p-3 bg-red-50 text-red-600 rounded-xl text-[11px] font-bold animate-shake">
+                  <div className="p-3 rounded-xl text-[11px] font-bold" style={{ background: 'rgba(239,68,68,0.1)', color: '#FCA5A5', border: '1px solid rgba(239,68,68,0.2)' }}>
                     <i className="fa-solid fa-circle-exclamation mr-2"></i>{error}
                   </div>
                 )}
 
-                <button 
+                <button
                   type="submit"
-                  className="w-full py-4 bg-slate-800 text-white rounded-xl font-bold shadow-lg hover:bg-slate-900 active:scale-[0.98] transition-all mt-4"
+                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white transition-all duration-200 mt-4"
+                  style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 4px 15px rgba(99,102,241,0.35)' }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = 'scale(1.02)'; e.currentTarget.style.boxShadow = '0 8px 25px rgba(99,102,241,0.5)'; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 4px 15px rgba(99,102,241,0.35)'; }}
                 >
                   {isLogin ? 'Log In' : 'Sign Up'}
                 </button>
               </form>
 
-              <div className="mt-8 text-center">
-                <button 
+              <div className="mt-6 text-center">
+                <button
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-xs font-bold text-slate-400 hover:text-blue-600 transition-colors"
+                  className="text-xs font-bold transition-colors duration-200"
+                  style={{ color: '#64748B' }}
+                  onMouseEnter={(e) => e.currentTarget.style.color = '#A5B4FC'}
+                  onMouseLeave={(e) => e.currentTarget.style.color = '#64748B'}
                 >
                   {isLogin ? "Need a personal account? Sign Up" : "Back to Class Login"}
                 </button>
@@ -256,22 +322,6 @@ const Auth: React.FC<AuthProps> = ({ onLogin }) => {
           </div>
         </div>
       </div>
-
-      <style>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #e2e8f0;
-          border-radius: 10px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #cbd5e1;
-        }
-      `}</style>
     </div>
   );
 };

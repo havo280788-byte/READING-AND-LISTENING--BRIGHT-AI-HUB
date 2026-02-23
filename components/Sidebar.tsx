@@ -33,63 +33,124 @@ const Sidebar: React.FC<SidebarProps> = ({
     { id: 'listening', icon: 'fa-headphones', label: 'Listening' },
     { id: 'reading', icon: 'fa-book-open', label: 'Reading' },
     { id: 'practice_test', icon: 'fa-shield-halved', label: 'Challenge' },
-    ...(isTeacher ? [{ id: 'teacher_dashboard' as ViewType, icon: 'fa-chalkboard-user', label: 'Teacher View' }] : []),
+    ...(isTeacher ? [{ id: 'teacher_dashboard' as ViewType, icon: 'fa-chalkboard-user', label: 'Teacher Hub' }] : []),
   ];
 
   return (
-    <nav className="w-full md:w-64 bg-white border-r border-[#2ECC71]/20 p-4 flex flex-row md:flex-col justify-between md:justify-start overflow-x-auto md:overflow-x-hidden sticky top-0 z-50 shadow-2xl backdrop-blur-xl">
-      <div className="hidden md:block mb-6 px-4">
-        <h2 className="text-xl font-black text-[#2D3748] tracking-tighter leading-tight uppercase">TRAN HUNG DAO<br />HIGH SCHOOL</h2>
-        <div className="h-1 w-12 bg-[#27AE60] my-2 rounded-full"></div>
-        <p className="text-[10px] text-[#2ECC71] font-bold uppercase tracking-widest">G11 Learning Hub</p>
+    <nav className="w-full md:w-64 md:min-h-screen p-4 flex flex-row md:flex-col justify-between md:justify-start overflow-x-auto md:overflow-x-hidden sticky top-0 z-50"
+      style={{ background: '#111827', borderRight: '1px solid rgba(255,255,255,0.05)' }}>
+
+      {/* Logo */}
+      <div className="hidden md:block mb-8 px-4">
+        <div className="flex items-center gap-2 mb-2">
+          <div className="w-8 h-8 rounded-lg flex items-center justify-center"
+            style={{ background: 'linear-gradient(135deg, #6366F1, #22D3EE)' }}>
+            <i className="fa-solid fa-bolt text-white text-xs"></i>
+          </div>
+          <h2 className="text-sm font-black tracking-tight" style={{ fontFamily: 'Poppins, sans-serif', color: '#F8FAFC' }}>
+            ELITE ENG
+          </h2>
+        </div>
+        <div className="h-px w-full my-3" style={{ background: 'rgba(255,255,255,0.05)' }}></div>
+        <p className="text-[10px] font-bold uppercase tracking-widest" style={{ color: '#6366F1' }}>G11 AI Learning Hub</p>
       </div>
 
       {/* Unit Selector */}
       <div className="px-4 mb-6 hidden md:block">
-        <label className="block text-[10px] font-black text-[#27AE60] uppercase tracking-widest mb-2 ml-1">Current Module</label>
+        <label className="block text-[10px] font-black uppercase tracking-widest mb-2 ml-1" style={{ color: '#94A3B8' }}>
+          Current Module
+        </label>
         <select
           value={selectedUnitId}
           onChange={(e) => onUnitChange(e.target.value)}
-          className="w-full bg-green-50 border border-[#27AE60]/30 rounded-2xl px-3 py-2.5 text-xs font-bold text-[#2D3748] outline-none focus:border-[#27AE60] transition-all cursor-pointer shadow-sm"
+          className="w-full rounded-xl px-3 py-2.5 text-xs font-bold outline-none transition-all cursor-pointer"
+          style={{
+            background: '#1E293B',
+            border: '1px solid rgba(255,255,255,0.08)',
+            color: '#CBD5E1',
+          }}
+          onFocus={(e) => e.target.style.borderColor = '#6366F1'}
+          onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
         >
           {COURSE_DATA.map(unit => (
-            <option key={unit.id} value={unit.id}>{unit.id.toUpperCase()}: {unit.title.split(':')[1]?.trim() || unit.title}</option>
+            <option key={unit.id} value={unit.id} style={{ background: '#1E293B' }}>
+              {unit.id.toUpperCase()}: {unit.title.split(':')[1]?.trim() || unit.title}
+            </option>
           ))}
         </select>
       </div>
 
-      <ul className="flex flex-row md:flex-col space-x-4 md:space-x-0 md:space-y-2">
-        {menuItems.map((item) => (
-          <li key={item.id}>
-            <button
-              onClick={() => setActiveView(item.id)}
-              className={`flex items-center space-x-3 px-4 py-3.5 rounded-2xl transition-all w-full text-left whitespace-nowrap
-                ${activeView === item.id
-                  ? 'bg-[#27AE60] text-white shadow-xl shadow-[#27AE60]/30 scale-[1.02] border border-[#2ECC71]'
-                  : 'text-[#5D6D61] hover:bg-green-50 hover:text-[#27AE60]'}`}
-            >
-              <i className={`fa-solid ${item.icon} w-5`}></i>
-              <span className="font-bold text-sm">{item.label}</span>
-            </button>
-          </li>
-        ))}
+      {/* Nav Items */}
+      <ul className="flex flex-row md:flex-col space-x-2 md:space-x-0 md:space-y-1">
+        {menuItems.map((item) => {
+          const isActive = activeView === item.id;
+          return (
+            <li key={item.id}>
+              <button
+                onClick={() => setActiveView(item.id)}
+                className={`flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 w-full text-left whitespace-nowrap`}
+                style={isActive ? {
+                  background: '#312E81',
+                  color: '#A5B4FC',
+                  boxShadow: '0 0 12px rgba(99, 102, 241, 0.2)',
+                } : {
+                  color: '#94A3B8',
+                }}
+                onMouseEnter={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = '#1E293B';
+                    e.currentTarget.style.color = '#CBD5E1';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (!isActive) {
+                    e.currentTarget.style.background = 'transparent';
+                    e.currentTarget.style.color = '#94A3B8';
+                  }
+                }}
+              >
+                <i className={`fa-solid ${item.icon} w-5 text-sm`}></i>
+                <span className="font-semibold text-sm">{item.label}</span>
+              </button>
+            </li>
+          );
+        })}
       </ul>
 
-      <div className="mt-auto hidden md:flex flex-col pt-8 border-t border-[#2ECC71]/10">
-        <div className="bg-green-50 p-4 rounded-3xl mb-4 border border-[#2ECC71]/10">
+      {/* User Footer */}
+      <div className="mt-auto hidden md:flex flex-col pt-6">
+        <div className="h-px w-full mb-4" style={{ background: 'rgba(255,255,255,0.05)' }}></div>
+        <div className="p-4 rounded-2xl" style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)' }}>
           <div className="flex items-center space-x-3 mb-4">
-            <div className="w-10 h-10 rounded-full bg-[#27AE60] text-white flex items-center justify-center font-black text-sm shadow-md border-2 border-white ring-2 ring-[#27AE60]/10">
+            <div className="w-9 h-9 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0"
+              style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)' }}>
               {user.name.charAt(0)}
             </div>
             <div className="overflow-hidden">
-              <p className="text-xs font-black text-[#2D3748] truncate">{user.name}</p>
-              <p className="text-[10px] text-[#2ECC71] font-bold truncate tracking-tight">@{user.username}</p>
+              <p className="text-xs font-bold truncate" style={{ color: '#F8FAFC' }}>{user.name}</p>
+              <p className="text-[10px] font-medium truncate" style={{ color: '#6366F1' }}>@{user.username}</p>
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <button onClick={onLogout} className="py-2.5 bg-white border border-[#27AE60]/20 rounded-2xl text-[10px] font-black text-[#5D6D61] hover:bg-green-50 transition-all flex items-center justify-center gap-1"><i className="fa-solid fa-right-from-bracket"></i> EXIT</button>
-            <button onClick={onReset} className="py-2.5 bg-white border border-[#27AE60]/20 rounded-2xl text-[10px] font-black text-[#27AE60] hover:bg-green-50 transition-all flex items-center justify-center gap-1"><i className="fa-solid fa-arrows-rotate"></i> RESET</button>
+            <button
+              onClick={onLogout}
+              className="py-2 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all duration-200"
+              style={{ background: '#334155', color: '#CBD5E1' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#3F4C63'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}
+            >
+              <i className="fa-solid fa-right-from-bracket"></i> EXIT
+            </button>
+            <button
+              onClick={onReset}
+              className="py-2 rounded-xl text-[10px] font-bold flex items-center justify-center gap-1.5 transition-all duration-200"
+              style={{ background: '#334155', color: '#CBD5E1' }}
+              onMouseEnter={(e) => e.currentTarget.style.background = '#3F4C63'}
+              onMouseLeave={(e) => e.currentTarget.style.background = '#334155'}
+            >
+              <i className="fa-solid fa-arrows-rotate"></i> RESET
+            </button>
           </div>
         </div>
       </div>
