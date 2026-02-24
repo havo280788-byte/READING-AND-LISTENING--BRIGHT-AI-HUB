@@ -312,7 +312,7 @@ export const generateVocabImage = async (word: string, customPrompt?: string) =>
     const prompt = customPrompt || `Simple educational illustration: ${word}`;
     const response = await ai.models.generateContent({
       model: 'imagen-3.0-generate-001',
-      contents: { parts: [{ text: prompt }] },
+      contents: [{ parts: [{ text: prompt }] }],
     });
     // Safe access to inlineData
     const part = response.candidates?.[0]?.content?.parts?.find(p => p.inlineData);
@@ -331,15 +331,17 @@ export const getSpeakingFeedback = async (targetSentence: string, audioData: str
   if (!apiKey) return {};
   const ai = new GoogleGenAI({ apiKey });
   const response = await ai.models.generateContent({
-    model: getPreferredModel('gemini-3-flash-preview'),
+    model: getPreferredModel('gemini-1.5-flash'),
     contents: [
       {
-        text: `You are an AI Pronunciation Specialist. 
+        parts: [{
+          text: `You are an AI Pronunciation Specialist. 
       Evaluate the student's recording of this sentence: "${targetSentence}"
       Check word stress, final consonants, and flow. 
       If the audio has background noise but the speech is intelligible, grade it based on the speech.
-      Provide feedback in JSON.` },
-      { inlineData: { mimeType: mimeType, data: audioData } }
+      Provide feedback in JSON.` }]
+      },
+      { parts: [{ inlineData: { mimeType: mimeType, data: audioData } }] }
     ],
     config: {
       responseMimeType: "application/json",
