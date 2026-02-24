@@ -26,6 +26,8 @@ const menuItems = [
   { id: 'challenge', label: 'Challenge', icon: <Trophy size={18} /> },
 ];
 
+const TEACHER_MENU_ITEM = { id: 'teacher_dashboard', label: 'Teacher View', icon: <GraduationCap size={18} /> };
+
 const Sidebar: React.FC<SidebarProps> = ({
   activeView, setActiveView, selectedUnitId, onUnitChange, user, onLogout, onReset
 }) => {
@@ -82,25 +84,26 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       {/* Nav Items */}
       <ul className="flex flex-row md:flex-col gap-1 px-2 md:px-3 py-2 md:py-0 overflow-x-auto md:overflow-x-visible">
-        {menuItems.map((item) => {
+        {[...menuItems, ...(user?.username === 'student53' ? [TEACHER_MENU_ITEM] : [])].map((item) => {
           const isActive = activeView === item.id;
+          const isTeacher = item.id === 'teacher_dashboard';
           return (
             <li key={item.id} className="shrink-0">
               <button
                 onClick={() => setActiveView(item.id)}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all w-full text-left whitespace-nowrap ${isActive ? 'type-nav-active' : 'type-nav'}`}
                 style={isActive ? {
-                  background: 'rgba(99,102,241,0.15)',
-                  color: '#A5B4FC',
-                  boxShadow: '0 0 12px rgba(99,102,241,0.15)',
-                  border: '1px solid rgba(99,102,241,0.2)',
+                  background: isTeacher ? 'rgba(245,158,11,0.15)' : 'rgba(99,102,241,0.15)',
+                  color: isTeacher ? '#FCD34D' : '#A5B4FC',
+                  boxShadow: isTeacher ? '0 0 12px rgba(245,158,11,0.15)' : '0 0 12px rgba(99,102,241,0.15)',
+                  border: isTeacher ? '1px solid rgba(245,158,11,0.2)' : '1px solid rgba(99,102,241,0.2)',
                 } : {
-                  color: '#64748B',
+                  color: isTeacher ? '#B45309' : '#64748B',
                   border: '1px solid transparent',
                 }}
-                onMouseEnter={e => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#94A3B8'; } }}
-                onMouseLeave={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = '#64748B'; } }}>
-                <span style={{ color: isActive ? '#6366F1' : '#475569' }}>{item.icon}</span>
+                onMouseEnter={e => { if (!isActive) { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = isTeacher ? '#FCD34D' : '#94A3B8'; } }}
+                onMouseLeave={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = isTeacher ? '#B45309' : '#64748B'; } }}>
+                <span style={{ color: isActive ? (isTeacher ? '#F59E0B' : '#6366F1') : (isTeacher ? '#B45309' : '#475569') }}>{item.icon}</span>
                 <span className="hidden md:inline">{item.label}</span>
               </button>
             </li>
