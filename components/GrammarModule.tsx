@@ -82,6 +82,30 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
         { key: 'vs', name: 'vs. PAST SIMPLE', usage: ['Past Simple: specific finished time', 'Present Perfect: no specific time'], formula: ['QK: S + V2/ed', 'HTHT: S + have/has + V3/ed'], signals: ['yesterday, ago (Past Simple)', 'recently, so far (Perf.)'] },
       ]
     };
+    if (topic.includes("Paired Conjunctions") || unitId === 'u4') return {
+      main_title: "PAIRED LINKS",
+      description: "Conjunctions and Compound Nouns",
+      topics: [
+        { key: 'pcj', name: 'PARED CONJUNCTIONS', usage: ['Connecting two equal elements', 'Both...and (plural)', 'Either...or / Neither...nor (closer subject)'], formula: ['Both A and B + V(plural)', 'Either A or B + V(B)', 'Not only A but also B + V(B)'], signals: ['Both...and', 'Either...or', 'Neither...nor', 'Not only...but also'] },
+        { key: 'cn', name: 'COMPOUND NOUNS', usage: ['Combining two words for one meaning'], formula: ['Noun + Noun (bedroom)', 'Noun + V-ing (swimming pool)', 'Adj + Noun (software)'], signals: ['Mother-in-law', 'Lighthouse', 'Greenhouse gas'] },
+      ]
+    };
+    if (topic.includes("Future Forms") || unitId === 'u5') return {
+      main_title: "VISIONS OF TOMORROW",
+      description: "Will, Be going to, May/Might & Likelihood",
+      topics: [
+        { key: 'will', name: 'WILL vs. BE GOING TO', usage: ['Will: sudden decisions & predictions (no proof)', 'Going to: plans & predictions (with proof)'], formula: ['S + will + V', 'S + am/is/are + going to + V'], signals: ['I think', 'Next month', 'Look!', 'Already registered'] },
+        { key: 'prob', name: 'PROBABILITY', usage: ['May/Might: uncertain possibility', 'Be likely to: high probability'], formula: ['S + may/might (+ not) + V', 'S + be + (un)likely + to V'], signals: ['Maybe', 'Probably', 'Certainly', 'Definitely'] },
+      ]
+    };
+    if (topic.includes("Gerunds") || unitId === 'u6') return {
+      main_title: "SOCIAL DYNAMICS",
+      description: "Gerunds and Question Tags",
+      topics: [
+        { key: 'ger', name: 'GERUNDS (V-ing)', usage: ['After specific verbs (enjoy, avoid, deny)', 'After prepositions (succeed in, look forward to)'], formula: ['V + V-ing', 'Preposition + V-ing', 'Perfect Gerund: having + V3'], signals: ['Enjoy', 'Avoid', 'Deny', 'Suggest', 'Interested in'] },
+        { key: 'qt', name: 'QUESTION TAGS', usage: ['Confirming information', 'Main (+) -> Tag (-)', 'Main (-) -> Tag (+)'], formula: ['S + V, aux + S?', 'Ex: She is, isn\'t she?', 'Ex: Nobody, did they?'], signals: ['Nobody (+)', 'Let\'s (shall we)', 'I am (aren\'t I)'] },
+      ]
+    };
     return {
       main_title: "GRAMMAR FOUNDATION",
       description: "Core English Grammar Structures",
