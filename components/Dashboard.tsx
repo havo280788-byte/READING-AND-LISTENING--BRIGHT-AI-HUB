@@ -68,11 +68,11 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
   }, [stats.xp, stats.username, firebaseStudents]);
 
   const skills = [
-    { key: 'vocabulary', label: 'Vocabulary', vietnamese: 'Từ vựng', icon: <Book size={18} />, watermark: <Book size={140} />, iconColor: '#6366F1', barGradient: 'linear-gradient(90deg, #6366F1, #8B5CF6)' },
-    { key: 'grammar', label: 'Grammar', vietnamese: 'Ngữ pháp', icon: <Puzzle size={18} />, watermark: <Puzzle size={140} />, iconColor: '#3B82F6', barGradient: 'linear-gradient(90deg, #3B82F6, #6366F1)' },
-    { key: 'reading', label: 'Reading', vietnamese: 'Đọc', icon: <BookOpen size={18} />, watermark: <BookOpen size={140} />, iconColor: '#22D3EE', barGradient: 'linear-gradient(90deg, #0E7490, #22D3EE)' },
-    { key: 'listening', label: 'Listening', vietnamese: 'Nghe', icon: <Headphones size={18} />, watermark: <Headphones size={140} />, iconColor: '#8B5CF6', barGradient: 'linear-gradient(90deg, #7C3AED, #A78BFA)' },
-    { key: 'challenge', label: 'Challenge', vietnamese: 'Thử thách', icon: <Shield size={18} />, watermark: <Zap size={140} />, iconColor: '#F59E0B', barGradient: 'linear-gradient(90deg, #D97706, #F59E0B)' },
+    { key: 'vocabulary', label: 'Vocabulary', icon: <Book size={18} />, watermark: <Book size={140} />, iconColor: '#6366F1', barGradient: 'linear-gradient(90deg, #6366F1, #8B5CF6)' },
+    { key: 'grammar', label: 'Grammar', icon: <Puzzle size={18} />, watermark: <Puzzle size={140} />, iconColor: '#3B82F6', barGradient: 'linear-gradient(90deg, #3B82F6, #6366F1)' },
+    { key: 'reading', label: 'Reading', icon: <BookOpen size={18} />, watermark: <BookOpen size={140} />, iconColor: '#22D3EE', barGradient: 'linear-gradient(90deg, #0E7490, #22D3EE)' },
+    { key: 'listening', label: 'Listening', icon: <Headphones size={18} />, watermark: <Headphones size={140} />, iconColor: '#8B5CF6', barGradient: 'linear-gradient(90deg, #7C3AED, #A78BFA)' },
+    { key: 'challenge', label: 'Challenge', icon: <Shield size={18} />, watermark: <Zap size={140} />, iconColor: '#F59E0B', barGradient: 'linear-gradient(90deg, #D97706, #F59E0B)' },
   ];
 
   const getBarGradient = (pct: number, defaultGradient: string) => {
@@ -209,7 +209,7 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                           {student.name} {isMe && <span className="type-caption font-black ml-1" style={{ color: '#6366F1' }}>(You)</span>}
                         </p>
                         <p className="type-caption" style={{ color: '#475569' }}>
-                          {student.xp === 0 ? 'Chưa bắt đầu' : `${student.completedModules} modules`}
+                          {student.xp === 0 ? 'Not started yet' : `${student.completedModules} modules`}
                         </p>
                       </div>
                     </div>
@@ -347,7 +347,6 @@ const Dashboard: React.FC<DashboardProps> = ({ stats, unitTitle, totalModules, o
                     </div>
                     <div>
                       <h4 className="type-h4 font-black leading-tight" style={{ color: '#F8FAFC' }}>{skill.label}</h4>
-                      <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{skill.vietnamese}</p>
                     </div>
                   </div>
 

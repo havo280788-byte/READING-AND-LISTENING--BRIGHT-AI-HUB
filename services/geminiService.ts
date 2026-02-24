@@ -51,7 +51,6 @@ export const syncScoreToSheet = async (data: {
   module?: string;
   score?: number;
   duration?: string;
-  writing_content?: string;
   ai_feedback?: string;
   sentence?: string;
   accuracy?: number;
@@ -397,71 +396,3 @@ export const getInterviewFeedback = async (transcript: string, topic: string) =>
   return JSON.parse(response.text || '{}');
 };
 
-export const getWritingFeedback = async (text: string, context: string) => {
-  const apiKey = getActiveApiKey();
-  if (!apiKey) return {};
-  const ai = new GoogleGenAI({ apiKey });
-  const response = await ai.models.generateContent({
-    model: getPreferredModel('gemini-1.5-flash'),
-    contents: `Act as a strict IELTS Examiner and Grammar Coach. Evaluate this Grade 11 English essay.
-    Topic: ${context}
-    Student Essay: "${text}"
-    
-    Provide a JSON response adhering to this schema:
-    {
-      "score": number (0-10, allow 1 decimal),
-      "criteriaScores": { "taskResponse": number, "coherence": number, "vocabulary": number, "grammar": number },
-      "positives": ["Strength 1 (Vocabulary/Structure)", "Strength 2"],
-      "improvements": ["Improvement area 1 (Coherence/Expansion)", "Improvement area 2"],
-      "errors": [
-        { 
-          "original": "exact text segment from essay containing the error", 
-          "correction": "corrected text segment", 
-          "explanation": "Detailed explanation in Vietnamese (Giải thích chi tiết bằng tiếng Việt)", 
-          "type": "Grammar/Spelling/Word Choice/Punctuation" 
-        }
-      ],
-      "detailedAnalysis": "A comprehensive paragraph summarizing the student's performance."
-    }
-    Important: 
-    1. Identify specific errors in grammar, spelling, word choice, and punctuation. 
-    2. "explanation" MUST be in Vietnamese.
-    3. If the essay is perfect, the "errors" array can be empty.
-    `,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          score: { type: Type.NUMBER },
-          criteriaScores: {
-            type: Type.OBJECT,
-            properties: {
-              taskResponse: { type: Type.NUMBER },
-              coherence: { type: Type.NUMBER },
-              vocabulary: { type: Type.NUMBER },
-              grammar: { type: Type.NUMBER }
-            }
-          },
-          positives: { type: Type.ARRAY, items: { type: Type.STRING } },
-          improvements: { type: Type.ARRAY, items: { type: Type.STRING } },
-          errors: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                original: { type: Type.STRING },
-                correction: { type: Type.STRING },
-                explanation: { type: Type.STRING },
-                type: { type: Type.STRING }
-              },
-              required: ["original", "correction", "explanation", "type"]
-            }
-          },
-          detailedAnalysis: { type: Type.STRING }
-        }
-      }
-    }
-  });
-  return JSON.parse(response.text || '{}');
-};

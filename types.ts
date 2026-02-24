@@ -48,26 +48,6 @@ export interface GrammarMindMapNode {
   signals: string[];
 }
 
-export interface WritingError {
-  original: string;
-  correction: string;
-  explanation: string;
-  type: string;
-}
-
-export interface WritingFeedback {
-  score: number;
-  criteriaScores: {
-    taskResponse: number;
-    coherence: number;
-    vocabulary: number;
-    grammar: number;
-  };
-  positives: string[];
-  improvements: string[];
-  errors: WritingError[];
-  detailedAnalysis: string;
-}
 
 export interface PracticeTestQuestion {
   id: number;

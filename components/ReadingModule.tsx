@@ -149,33 +149,53 @@ const ReadingModule: React.FC<ReadingModuleProps> = ({
     );
   }
 
+  const cardStyle: React.CSSProperties = {
+    background: '#1E293B',
+    border: '1px solid rgba(255,255,255,0.05)',
+    boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+    borderRadius: '20px',
+  };
+
   return (
     <div className="animate-fadeIn w-full flex flex-col gap-8 pb-24">
       {/* Header */}
-      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white backdrop-blur-md px-6 py-4 rounded-[2rem] border border-green-100 shadow-xl">
-        <div className="flex items-center space-x-5">
-          <div className="w-10 h-10 rounded-xl bg-[#27AE60]/10 flex items-center justify-center text-[#27AE60]"><BookOpen size={20} /></div>
-          <div><p className="type-caption text-[#5D6D61] tracking-[0.4em] mb-0.5">{readingData.unit_context}</p><h2 className="type-h3 text-[#2D3748] tracking-tight">{readingData.title}</h2></div>
+      <header className="flex flex-col md:flex-row md:items-center justify-between gap-4 px-6 py-4 rounded-2xl" style={cardStyle}>
+        <div className="flex items-center space-x-4">
+          <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,211,238,0.12)', color: '#22D3EE' }}>
+            <BookOpen size={20} />
+          </div>
+          <div>
+            <p className="type-caption font-black uppercase tracking-[0.4em] mb-0.5" style={{ color: '#475569' }}>{readingData.unit_context}</p>
+            <h2 className="type-h2 font-black tracking-tight" style={{ color: '#F8FAFC' }}>{readingData.title}</h2>
+          </div>
         </div>
         <div className="flex items-center gap-3">
-          <div className="text-center px-5 py-1.5 bg-green-50 rounded-xl border border-[#27AE60]/20 shadow-sm"><p className="type-caption text-[#5D6D61] tracking-widest">Weighted Score</p><p className="type-h4 text-[#27AE60] italic">{weightedScore}/100</p></div>
-          <button onClick={onReturn} className="p-2.5 rounded-xl bg-green-50 border border-[#27AE60]/20 text-[#5D6D61] hover:text-[#27AE60] transition-colors shadow-sm"><ArrowLeft size={18} /></button>
+          <div className="text-center px-5 py-2 rounded-xl" style={{ background: 'rgba(34,211,238,0.1)', border: '1px solid rgba(34,211,238,0.2)' }}>
+            <p className="type-caption font-black uppercase tracking-widest mb-0.5" style={{ color: '#22D3EE' }}>Score</p>
+            <p className="text-base font-black italic" style={{ background: 'linear-gradient(135deg,#22D3EE,#6366F1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>{weightedScore}/100</p>
+          </div>
+          <button onClick={onReturn} className="p-2.5 rounded-xl transition-all"
+            style={{ background: 'rgba(255,255,255,0.04)', color: '#94A3B8', border: '1px solid rgba(255,255,255,0.06)' }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#67E8F9'; e.currentTarget.style.background = 'rgba(34,211,238,0.1)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = '#94A3B8'; e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; }}>
+            <ArrowLeft size={18} />
+          </button>
         </div>
       </header>
 
-      {/* Main Content: Vertical Layout */}
       <div className="flex flex-col gap-8 w-full">
 
         {/* Reading Passage Card */}
-        <section className="w-full bg-white backdrop-blur-md rounded-[2.5rem] border-2 border-green-100 shadow-2xl relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-2 bg-[#27AE60] z-10"></div>
+        <section className="w-full rounded-3xl relative overflow-hidden" style={{ background: '#1E293B', border: '1px solid rgba(34,211,238,0.15)', boxShadow: '0 30px 60px rgba(0,0,0,0.5)' }}>
+          <div className="absolute top-0 left-0 w-full h-1 z-10" style={{ background: 'linear-gradient(90deg, #22D3EE, #6366F1)' }}></div>
           <div className="p-8 md:p-12 space-y-8">
-            <div className="space-y-2 border-b border-[#27AE60]/10 pb-4">
-              <p className="type-caption text-[#2ECC71] tracking-[0.4em]">Reading Passage</p>
-              <h3 className="type-h2 text-[#2D3748] leading-tight italic tracking-tighter">{readingData.reading_text.title}</h3>
+            <div className="space-y-2 pb-4" style={{ borderBottom: '1px solid rgba(34,211,238,0.1)' }}>
+              <p className="type-caption font-black uppercase tracking-[0.4em]" style={{ color: '#22D3EE' }}>Reading Passage</p>
+              <h3 className="type-h2 font-black leading-tight italic tracking-tighter" style={{ color: '#F8FAFC' }}>{readingData.reading_text.title}</h3>
             </div>
-            <div className="prose prose-slate max-w-none">
-              <p className="type-body-reading text-[#2D3748] first-letter:text-6xl first-letter:font-black first-letter:mr-4 first-letter:float-left first-letter:text-[#27AE60] whitespace-pre-wrap text-justify">
+            <div>
+              <p className="text-xl leading-relaxed font-medium text-justify whitespace-pre-wrap"
+                style={{ color: '#CBD5E1', lineHeight: '2' }}>
                 {readingData.reading_text.content}
               </p>
             </div>
@@ -184,8 +204,8 @@ const ReadingModule: React.FC<ReadingModuleProps> = ({
 
         {/* Assessment Tasks */}
         <div className="w-full space-y-6">
-          <div className="bg-white backdrop-blur-md py-3 rounded-2xl text-center border border-green-100 shadow-sm">
-            <h4 className="type-caption text-[#5D6D61] tracking-[0.6em]">Comprehension Check (Total: 100 Pts)</h4>
+          <div className="py-3 rounded-2xl text-center" style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.12)' }}>
+            <h4 className="type-caption font-black uppercase tracking-[0.6em]" style={{ color: '#22D3EE' }}>Comprehension Check (Total: 100 Pts)</h4>
           </div>
 
           {readingData.tasks.map((task, idx) => {
@@ -194,88 +214,135 @@ const ReadingModule: React.FC<ReadingModuleProps> = ({
             const taskPoints = idx === 0 ? 30 : idx === 1 ? 40 : 30;
 
             return (
-              <div key={task.task_id} className={`bg-white backdrop-blur-md rounded-[2rem] border-2 shadow-lg overflow-hidden transition-all duration-500 ${isOpen ? 'ring-2 ring-[#27AE60]/10 border-[#27AE60]/30' : 'border-green-50 opacity-95'}`}>
+              <div key={task.task_id} className="rounded-2xl overflow-hidden transition-all duration-500"
+                style={{
+                  background: '#1E293B',
+                  border: isOpen ? '1px solid rgba(34,211,238,0.3)' : '1px solid rgba(255,255,255,0.05)',
+                  boxShadow: isOpen ? '0 0 20px rgba(34,211,238,0.1)' : '0 10px 30px rgba(0,0,0,0.3)',
+                }}>
                 <button
                   onClick={() => { setOpenTaskIndex(isOpen ? -1 : idx); playPop(); }}
-                  className="w-full px-6 py-5 flex items-center justify-between hover:bg-slate-50 transition-colors"
-                >
+                  className="w-full px-6 py-5 flex items-center justify-between transition-colors"
+                  style={{ background: isOpen ? 'rgba(34,211,238,0.06)' : 'transparent' }}
+                  onMouseEnter={e => { if (!isOpen) e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
+                  onMouseLeave={e => { if (!isOpen) e.currentTarget.style.background = 'transparent'; }}>
                   <div className="flex items-center gap-4">
-                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${isTaskAnswered ? 'bg-[#27AE60] text-white shadow-lg' : 'bg-[#27AE60]/10 text-[#27AE60]'}`}>
+                    <div className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
+                      style={isTaskAnswered ? { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' } : { background: 'rgba(34,211,238,0.1)', color: '#67E8F9' }}>
                       {isTaskAnswered ? <CheckCircle2 size={16} /> : <span className="font-bold text-xs">{idx + 1}</span>}
                     </div>
                     <div className="text-left">
-                      <p className="type-h4 text-[#2D3748] uppercase italic tracking-wide">{task.instruction.split(':')[0]}</p>
-                      <p className="type-caption text-[#5D6D61] tracking-widest">{task.questions.length} QUESTIONS • {taskPoints} POINTS</p>
+                      <p className="type-h4 font-black uppercase italic tracking-wide" style={{ color: '#CBD5E1' }}>{task.instruction.split(':')[0]}</p>
+                      <p className="type-caption font-bold uppercase tracking-widest" style={{ color: '#475569' }}>{task.questions.length} QUESTIONS • {taskPoints} POINTS</p>
                     </div>
                   </div>
-                  <ChevronDown size={16} className={`text-[#5D6D61] transition-transform duration-500 ${isOpen ? 'rotate-180 text-[#27AE60]' : ''}`} />
+                  <ChevronDown size={16} className={`transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`}
+                    style={{ color: isOpen ? '#22D3EE' : '#475569' }} />
                 </button>
 
                 <div className={`transition-all duration-700 ease-in-out ${isOpen ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'} overflow-hidden`}>
-                  <div className="px-6 pb-8 pt-6 bg-green-50 border-t border-[#27AE60]/10 space-y-8">
-                    {/* ... Task Content Preserved (TF, Blanks, MC) ... */}
+                  <div className="px-6 pb-8 pt-4 space-y-4" style={{ background: 'rgba(255,255,255,0.02)', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+
                     {task.type === 'true_false' && task.questions.map(q => (
-                      <div key={q.id} className="space-y-4 p-6 bg-white rounded-3xl border border-[#27AE60]/10 shadow-sm">
+                      <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
                         <div className="flex items-start gap-3">
-                          <span className="type-h3 text-[#27AE60] mt-0.5">{q.id}.</span>
-                          <p className="type-body-reading text-[#2D3748] leading-relaxed">{q.question}</p>
+                          <span className="font-black mt-0.5 shrink-0 text-lg" style={{ color: '#22D3EE' }}>{q.id}.</span>
+                          <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{q.question}</p>
                         </div>
-                        <div className="flex gap-4 pl-8 pt-2">
+                        <div className="flex gap-3 pl-6">
                           {['True', 'False'].map((label) => {
                             const val = label === 'True';
                             const isCorrect = q.answer === val;
                             const isSelected = userAnswers[q.id] === val;
-                            let btnClass = "bg-slate-50 border-[#27AE60]/30 text-[#5D6D61] hover:border-[#27AE60] hover:bg-green-50";
+                            let btnStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.04)', border: '2px solid rgba(255,255,255,0.08)', color: '#94A3B8' };
                             if (isAnswered[q.id]) {
-                              if (isSelected) btnClass = isCorrect ? "bg-[#27AE60] border-[#27AE60] text-white" : "bg-[#FF0000] border-[#FF0000] text-white";
-                              else if (isCorrect) btnClass = "bg-emerald-50 border-emerald-200 text-emerald-600";
-                              else btnClass = "opacity-30 grayscale";
+                              if (isSelected && isCorrect) btnStyle = { background: 'rgba(34,197,94,0.15)', border: '2px solid rgba(34,197,94,0.4)', color: '#4ADE80', boxShadow: '0 0 15px rgba(34,197,94,0.15)' };
+                              else if (isSelected && !isCorrect) btnStyle = { background: 'rgba(239,68,68,0.15)', border: '2px solid rgba(239,68,68,0.4)', color: '#FCA5A5' };
+                              else if (!isSelected && isCorrect) btnStyle = { background: 'rgba(34,197,94,0.06)', border: '2px solid rgba(34,197,94,0.2)', color: '#4ADE80' };
+                              else btnStyle = { opacity: 0.25, background: '#1E293B', border: '2px solid rgba(255,255,255,0.04)', color: '#334155' };
                             }
-                            return (<button key={label} disabled={isAnswered[q.id]} onClick={() => handleTFAnswer(q.id, val, task)} className={`flex-1 py-4 rounded-2xl type-button border-2 transition-all ${btnClass}`}>{label}</button>);
+                            return (
+                              <button key={label} disabled={!!isAnswered[q.id]} onClick={() => handleTFAnswer(q.id, val, task)}
+                                className="flex-1 py-4 rounded-xl font-bold text-base uppercase tracking-widest border transition-all"
+                                style={btnStyle}
+                                onMouseEnter={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(34,211,238,0.4)'; }}
+                                onMouseLeave={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
+                                {label}
+                              </button>
+                            );
                           })}
                         </div>
-                        {isAnswered[q.id] && <p className="pl-8 type-small italic text-[#5D6D61] animate-fadeIn mt-2 bg-slate-50 p-3 rounded-xl border border-slate-100">Note: {q.explanation}</p>}
+                        {isAnswered[q.id] && <p className="pl-6 text-sm font-medium italic mt-2 animate-fadeIn" style={{ color: '#475569' }}>Note: {q.explanation}</p>}
                       </div>
                     ))}
+
                     {task.type === 'fill_in_blanks' && task.questions.map(q => (
-                      <div key={q.id} className="space-y-4 p-6 bg-white rounded-3xl border border-[#27AE60]/10 shadow-sm">
-                        <p className="type-body-reading text-[#2D3748] leading-relaxed">
-                          <span className="text-[#27AE60] type-h3 mr-3">{q.id}.</span>
+                      <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
+                          <span className="font-black mr-2 text-lg" style={{ color: '#22D3EE' }}>{q.id}.</span>
                           {q.sentence?.split('_______').map((part, i) => (
-                            <React.Fragment key={i}>{part}{i === 0 && (<span className="inline-block border-b-4 border-[#27AE60] min-w-[100px] mx-2 text-center text-[#27AE60] font-bold px-2 type-h3">{isAnswered[q.id] ? (userAnswers[q.id] as string) : '_______'}</span>)}</React.Fragment>
+                            <React.Fragment key={i}>
+                              {part}
+                              {i === 0 && (
+                                <span className="inline-block border-b-2 min-w-[60px] mx-2 text-center font-bold px-1"
+                                  style={{ borderColor: '#22D3EE', color: '#67E8F9' }}>
+                                  {isAnswered[q.id] ? (userAnswers[q.id] as string) : '_______'}
+                                </span>
+                              )}
+                            </React.Fragment>
                           ))}
                         </p>
                         {!isAnswered[q.id] ? (
-                          <div className="flex gap-3 pl-8">
-                            <input type="text" placeholder={`Hint: ${q.hint}`} className="bg-slate-50 border-2 border-[#27AE60]/30 rounded-2xl px-5 py-3 type-body text-[#2D3748] outline-none focus:border-[#27AE60] w-full shadow-inner" onKeyDown={(e) => { if (e.key === 'Enter') handleGapFill(q.id, (e.target as HTMLInputElement).value, task); }} />
-                            <button onClick={(e) => { const input = (e.currentTarget.previousSibling as HTMLInputElement); handleGapFill(q.id, input.value, task); }} className="bg-[#27AE60] text-white px-6 py-3 rounded-2xl type-button transition-all shadow-md active:scale-95">OK</button>
+                          <div className="flex gap-2 pl-6">
+                            <input type="text" placeholder={`Hint: ${q.hint}`}
+                              className="flex-1 px-4 py-2.5 rounded-xl text-base font-bold outline-none transition-all"
+                              style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.08)', color: '#F8FAFC' }}
+                              onFocus={e => e.target.style.borderColor = '#22D3EE'}
+                              onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.08)'}
+                              onKeyDown={e => { if (e.key === 'Enter') handleGapFill(q.id, (e.target as HTMLInputElement).value, task); }} />
+                            <button
+                              onClick={e => { const inp = (e.currentTarget.previousSibling as HTMLInputElement); handleGapFill(q.id, inp.value, task); }}
+                              className="px-5 py-2.5 rounded-xl font-black text-sm uppercase text-white transition-all"
+                              style={{ background: 'linear-gradient(135deg, #22D3EE, #6366F1)' }}
+                              onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+                              onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
+                              OK
+                            </button>
                           </div>
                         ) : (
-                          <div className="pl-8 animate-fadeIn mt-2"><p className="type-small italic text-[#5D6D61] bg-slate-50 p-3 rounded-xl border border-slate-100"><span className={`font-bold mr-2 ${userAnswers[q.id]?.toString().toLowerCase() === q.answer.toString().toLowerCase() ? 'text-[#27AE60]' : 'text-[#FF0000]'}`}>Answer: {q.answer as string}</span> • {q.explanation}</p></div>
+                          <div className="pl-6 animate-fadeIn">
+                            <p className="text-sm font-medium italic" style={{ color: userAnswers[q.id]?.toString().toLowerCase() === q.answer.toString().toLowerCase() ? '#4ADE80' : '#FCA5A5' }}>
+                              Answer: <strong>{q.answer as string}</strong> · {q.explanation}
+                            </p>
+                          </div>
                         )}
                       </div>
                     ))}
+
                     {task.type === 'multiple_choice' && task.questions.map(q => (
-                      <div key={q.id} className="space-y-5 p-6 bg-white rounded-3xl border border-[#27AE60]/10 shadow-sm">
-                        <p className="type-body-reading text-[#2D3748] leading-relaxed"><span className="text-[#27AE60] type-h3 mr-3">{q.id}.</span> {q.question}</p>
-                        <div className="grid grid-cols-1 gap-3 pl-8">
+                      <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
+                          <span className="font-black mr-2 text-lg" style={{ color: '#22D3EE' }}>{q.id}.</span> {q.question}
+                        </p>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-5">
                           {q.options?.map((opt, i) => {
                             const isCorrect = opt === (q.answer as string);
                             const isSelected = userAnswers[q.id] === opt;
-                            let btnClass = "bg-slate-50 border-[#27AE60]/20 text-[#2D3748] hover:border-[#27AE60] hover:bg-green-50";
+                            let btnStyle: React.CSSProperties = { background: 'rgba(255,255,255,0.03)', border: '2px solid rgba(255,255,255,0.06)', color: '#94A3B8' };
                             if (isAnswered[q.id]) {
-                              if (isSelected) btnClass = isCorrect ? "bg-[#27AE60] border-[#27AE60] text-white" : "bg-[#FF0000] border-[#FF0000] text-white";
-                              else if (isCorrect) btnClass = "bg-emerald-50 border-emerald-200 text-emerald-600";
-                              else btnClass = "opacity-30 grayscale";
+                              if (isSelected && isCorrect) btnStyle = { background: 'rgba(34,197,94,0.12)', border: '2px solid rgba(34,197,94,0.4)', color: '#4ADE80', boxShadow: '0 0 12px rgba(34,197,94,0.15)' };
+                              else if (isSelected && !isCorrect) btnStyle = { background: 'rgba(239,68,68,0.12)', border: '2px solid rgba(239,68,68,0.4)', color: '#FCA5A5' };
+                              else if (!isSelected && isCorrect) btnStyle = { background: 'rgba(34,197,94,0.05)', border: '2px solid rgba(34,197,94,0.2)', color: '#4ADE80' };
+                              else btnStyle = { opacity: 0.2, background: '#1E293B', border: '2px solid rgba(255,255,255,0.03)', color: '#334155' };
                             }
                             return (
-                              <button
-                                key={i}
-                                disabled={isAnswered[q.id]}
-                                onClick={() => handleMCAnswer(q.id, opt, task)}
-                                className={`p-4 rounded-xl text-left type-body border-2 transition-all flex items-center gap-4 shadow-sm ${btnClass}`}
-                              >
-                                <span className="w-8 h-8 rounded-lg bg-white/50 flex items-center justify-center type-caption border border-black/5 shrink-0">
+                              <button key={i} disabled={!!isAnswered[q.id]} onClick={() => handleMCAnswer(q.id, opt, task)}
+                                className="p-4 rounded-xl text-left font-bold text-base border transition-all flex items-center gap-3"
+                                style={btnStyle}
+                                onMouseEnter={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(34,211,238,0.35)'; }}
+                                onMouseLeave={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}>
+                                <span className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-black shrink-0"
+                                  style={{ background: 'rgba(34,211,238,0.1)', color: '#67E8F9' }}>
                                   {String.fromCharCode(65 + i)}
                                 </span>
                                 <span className="break-words">{opt}</span>
@@ -283,12 +350,20 @@ const ReadingModule: React.FC<ReadingModuleProps> = ({
                             );
                           })}
                         </div>
-                        {isAnswered[q.id] && <p className="pl-8 type-small italic text-[#5D6D61] animate-fadeIn mt-2 bg-slate-50 p-3 rounded-xl border border-slate-100">{q.explanation}</p>}
+                        {isAnswered[q.id] && (
+                          <p className="pl-5 text-sm font-medium italic animate-fadeIn" style={{ color: '#64748B' }}>{q.explanation}</p>
+                        )}
                       </div>
                     ))}
 
                     {isTaskAnswered && idx < readingData.tasks.length - 1 && (
-                      <button onClick={() => { setOpenTaskIndex(idx + 1); playPop(); }} className="w-full py-4 mt-6 rounded-2xl bg-green-50 text-[#27AE60] type-button border border-[#27AE60]/30 hover:bg-green-100 transition-all flex items-center justify-center gap-2">NEXT TASK <ChevronDown size={14} /></button>
+                      <button onClick={() => { setOpenTaskIndex(idx + 1); playPop(); }}
+                        className="w-full py-4 mt-4 rounded-2xl font-black text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2"
+                        style={{ background: 'rgba(34,211,238,0.08)', color: '#67E8F9', border: '1px solid rgba(34,211,238,0.2)' }}
+                        onMouseEnter={e => e.currentTarget.style.background = 'rgba(34,211,238,0.15)'}
+                        onMouseLeave={e => e.currentTarget.style.background = 'rgba(34,211,238,0.08)'}>
+                        NEXT TASK <ChevronRight size={14} />
+                      </button>
                     )}
                   </div>
                 </div>
@@ -300,9 +375,20 @@ const ReadingModule: React.FC<ReadingModuleProps> = ({
             <button
               onClick={finalizeSession}
               disabled={!readingData.tasks.every(t => t.questions.every(q => isAnswered[q.id]))}
-              className={`px-12 py-5 rounded-[2rem] type-button shadow-xl transition-all border-b-[4px] active:border-b-0 active:translate-y-1 ${readingData.tasks.every(t => t.questions.every(q => isAnswered[q.id])) ? 'bg-[#27AE60] text-white border-[#2ECC71] hover:bg-[#2ECC71]' : 'bg-slate-200 text-slate-400 border-slate-300 opacity-50 cursor-not-allowed'}`}
-            >
-              XEM KẾT QUẢ
+              className="px-12 py-5 rounded-2xl font-black uppercase text-[10px] tracking-[0.3em] transition-all"
+              style={readingData.tasks.every(t => t.questions.every(q => isAnswered[q.id])) ? {
+                background: 'linear-gradient(135deg, #22D3EE, #6366F1)',
+                color: 'white',
+                boxShadow: '0 8px 25px rgba(34,211,238,0.4)',
+              } : {
+                background: '#1E293B',
+                color: '#334155',
+                cursor: 'not-allowed',
+                border: '1px solid rgba(255,255,255,0.04)',
+              }}
+              onMouseEnter={e => { if (readingData.tasks.every(t => t.questions.every(q => isAnswered[q.id]))) { e.currentTarget.style.transform = 'scale(1.02)'; } }}
+              onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}>
+              View Results
             </button>
           </div>
         </div>

@@ -85,12 +85,14 @@ const Sidebar: React.FC<SidebarProps> = ({
       {/* Nav Items */}
       <ul className="flex flex-row md:flex-col gap-1 px-2 md:px-3 py-2 md:py-0 overflow-x-auto md:overflow-x-visible">
         {[...menuItems, ...(user?.username === 'student53' ? [TEACHER_MENU_ITEM] : [])].map((item) => {
-          const isActive = activeView === item.id;
+          const isChallenge = item.id === 'challenge';
+          const targetView = isChallenge ? 'practice_test' : item.id;
+          const isActive = isChallenge ? activeView === 'practice_test' : activeView === item.id;
           const isTeacher = item.id === 'teacher_dashboard';
           return (
             <li key={item.id} className="shrink-0">
               <button
-                onClick={() => setActiveView(item.id)}
+                onClick={() => setActiveView(targetView)}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all w-full text-left whitespace-nowrap ${isActive ? 'type-nav-active' : 'type-nav'}`}
                 style={isActive ? {
                   background: isTeacher ? 'rgba(245,158,11,0.15)' : 'rgba(99,102,241,0.15)',

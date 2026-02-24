@@ -318,8 +318,8 @@ const ListeningModule: React.FC<ListeningModuleProps> = ({
                     {task.type === 'true_false' && task.questions.map(q => (
                       <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
                         <div className="flex items-start gap-3">
-                          <span className="font-black mt-0.5 shrink-0" style={{ color: '#6366F1' }}>{q.id}.</span>
-                          <p className="type-body-reading font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{q.question}</p>
+                          <span className="font-black mt-0.5 shrink-0 text-lg" style={{ color: '#6366F1' }}>{q.id}.</span>
+                          <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{q.question}</p>
                         </div>
                         <div className="flex gap-3 pl-6">
                           {['True', 'False'].map((label) => {
@@ -335,7 +335,7 @@ const ListeningModule: React.FC<ListeningModuleProps> = ({
                             }
                             return (
                               <button key={label} disabled={!!isAnswered[q.id]} onClick={() => handleTFAnswer(q.id, val, task)}
-                                className="flex-1 py-4 rounded-xl font-bold text-base uppercase tracking-widest border transition-all"
+                                className="flex-1 py-4 rounded-xl font-bold text-lg uppercase tracking-widest border transition-all"
                                 style={btnStyle}
                                 onMouseEnter={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.4)'; }}
                                 onMouseLeave={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}>
@@ -350,7 +350,7 @@ const ListeningModule: React.FC<ListeningModuleProps> = ({
                     {/* FILL IN BLANKS */}
                     {task.type === 'fill_in_blanks' && task.questions.map(q => (
                       <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <p className="text-lg font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
+                        <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
                           <span className="font-black mr-2" style={{ color: '#6366F1' }}>{q.id}.</span>
                           {q.sentence?.split('_______').map((part, i) => (
                             <React.Fragment key={i}>
@@ -394,7 +394,7 @@ const ListeningModule: React.FC<ListeningModuleProps> = ({
                     {/* MULTIPLE CHOICE */}
                     {task.type === 'multiple_choice' && task.questions.map(q => (
                       <div key={q.id} className="space-y-3 p-5 rounded-2xl" style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        <p className="text-lg font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
+                        <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>
                           <span className="font-black mr-2" style={{ color: '#6366F1' }}>{q.id}.</span> {q.question}
                         </p>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-5">
@@ -410,7 +410,7 @@ const ListeningModule: React.FC<ListeningModuleProps> = ({
                             }
                             return (
                               <button key={i} disabled={!!isAnswered[q.id]} onClick={() => handleMCAnswer(q.id, opt, task)}
-                                className="p-4 rounded-xl text-left font-bold text-base border transition-all flex items-center gap-3"
+                                className="p-4 rounded-xl text-left font-bold text-lg border transition-all flex items-center gap-3"
                                 style={btnStyle}
                                 onMouseEnter={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(99,102,241,0.35)'; }}
                                 onMouseLeave={e => { if (!isAnswered[q.id]) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'; }}>

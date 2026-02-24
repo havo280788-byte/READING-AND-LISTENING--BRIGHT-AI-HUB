@@ -104,8 +104,8 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                         <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${stat.accent}18`, color: stat.accent }}>{stat.icon}</div>
                         <div>
                             <p className="type-h2 font-black truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
-                            <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#64748B' }}>{stat.label}</p>
-                            <p className="type-caption mt-0.5" style={{ color: '#475569' }}>{stat.sub}</p>
+                            <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>{stat.label}</p>
+                            <p className="type-caption mt-0.5" style={{ color: '#64748B' }}>{stat.sub}</p>
                         </div>
                         <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full pointer-events-none" style={{ background: stat.accent, opacity: 0.06, filter: 'blur(10px)' }}></div>
                     </div>
@@ -142,7 +142,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
             {/* Student Table */}
             <section className="rounded-2xl overflow-hidden" style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)' }}>
                 {/* Table Header */}
-                <div className="type-caption grid grid-cols-12 px-6 py-4 font-black uppercase tracking-[0.2em]" style={{ background: 'rgba(255,255,255,0.03)', borderBottom: '1px solid rgba(255,255,255,0.05)', color: '#475569' }}>
+                <div className="type-small grid grid-cols-12 px-6 py-4 font-black uppercase tracking-[0.15em]" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#94A3B8' }}>
                     <div className="col-span-1 text-center">#</div>
                     <div className="col-span-4">Student</div>
                     <div className="col-span-2 text-center">Modules</div>
@@ -153,7 +153,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
 
                 {filteredStudents.length === 0 ? (
                     <div className="py-20 text-center">
-                        <p style={{ color: '#334155' }}>No students found for "{searchQuery}"</p>
+                        <p style={{ color: '#64748B' }}>No students found for "{searchQuery}"</p>
                     </div>
                 ) : (
                     filteredStudents.map((student, idx) => {
@@ -181,30 +181,30 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                             {student.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="type-small font-bold" style={{ color: '#CBD5E1' }}>{student.name}</p>
-                                            <p className="type-caption" style={{ color: '#475569' }}>{student.username}</p>
+                                            <p className="type-small font-bold" style={{ color: '#E2E8F0' }}>{student.name}</p>
+                                            <p className="type-caption" style={{ color: '#64748B' }}>{student.username}</p>
                                         </div>
                                     </div>
                                     <div className="col-span-2 text-center">
-                                        <span className="text-sm font-black" style={{ color: student.completedModules > 0 ? '#A5B4FC' : '#334155' }}>
+                                        <span className="text-base font-black" style={{ color: student.completedModules > 0 ? '#A5B4FC' : '#475569' }}>
                                             {student.completedModules}
                                         </span>
                                     </div>
                                     <div className="col-span-2 text-center">
-                                        <span className="text-sm font-black" style={{ color: student.xp > 0 ? '#F8FAFC' : '#334155' }}>
+                                        <span className="text-base font-black" style={{ color: student.xp > 0 ? '#F8FAFC' : '#475569' }}>
                                             {student.xp}
                                         </span>
                                     </div>
                                     <div className="col-span-2 flex justify-center">
-                                        <span className="px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-widest"
-                                            style={student.dataSource === 'firebase' ? { background: 'rgba(34,197,94,0.12)', color: '#4ADE80' }
-                                                : student.dataSource === 'local' ? { background: 'rgba(59,130,246,0.12)', color: '#93C5FD' }
-                                                    : { background: 'rgba(255,255,255,0.04)', color: '#334155' }}>
+                                        <span className="px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-widest"
+                                            style={student.dataSource === 'firebase' ? { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }
+                                                : student.dataSource === 'local' ? { background: 'rgba(59,130,246,0.15)', color: '#93C5FD' }
+                                                    : { background: 'rgba(255,255,255,0.06)', color: '#64748B' }}>
                                             {student.dataSource}
                                         </span>
                                     </div>
                                     <div className="col-span-1 flex justify-center">
-                                        {isExpanded ? <ChevronUp size={14} style={{ color: '#6366F1' }} /> : <ChevronDown size={14} style={{ color: '#475569' }} />}
+                                        {isExpanded ? <ChevronUp size={16} style={{ color: '#818CF8' }} /> : <ChevronDown size={16} style={{ color: '#64748B' }} />}
                                     </div>
                                 </div>
 
@@ -218,7 +218,7 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                                     const colors: Record<string, string> = { vocabulary: '#6366F1', grammar: '#3B82F6', reading: '#22D3EE', listening: '#8B5CF6', challenge: '#F59E0B' };
                                                     return (
                                                         <div key={skill} className="text-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                                                            <p className="type-caption font-black uppercase tracking-[0.2em] mb-3" style={{ color: '#475569' }}>{skill}</p>
+                                                            <p className="type-caption font-black uppercase tracking-[0.2em] mb-3" style={{ color: '#94A3B8' }}>{skill}</p>
                                                             <div className="w-full h-1.5 rounded-full overflow-hidden mb-2" style={{ background: '#0F172A' }}>
                                                                 <div className="h-full rounded-full" style={{ width: `${val}%`, background: `linear-gradient(90deg, ${colors[skill]}, ${colors[skill]}88)` }}></div>
                                                             </div>

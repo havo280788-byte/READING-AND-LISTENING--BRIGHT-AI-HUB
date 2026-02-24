@@ -386,17 +386,30 @@ const App: React.FC = () => {
           <div className="max-w-6xl mx-auto">
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
               <div className="animate-fadeIn">
-                <div className="flex items-center space-x-2 mb-1">
-                  {activeView === 'dashboard' && <LayoutDashboard size={16} className="text-[#27AE60]" />}
-                  {activeView === 'vocabulary' && <Book size={16} className="text-[#27AE60]" />}
-                  {activeView === 'grammar' && <Puzzle size={16} className="text-[#27AE60]" />}
-                  {activeView === 'listening' && <Headphones size={16} className="text-[#27AE60]" />}
-                  {activeView === 'reading' && <BookOpen size={16} className="text-[#27AE60]" />}
-                  {activeView === 'practice_test' && <Shield size={16} className="text-[#27AE60]" />}
-                  {activeView === 'teacher_dashboard' && <GraduationCap size={16} className="text-[#27AE60]" />}
-                  <h1 className="type-h3 text-[#27AE60] uppercase shadow-sm">{activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub</h1>
+                <div className="flex items-center gap-3 mb-1.5">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#D97706)' : 'linear-gradient(135deg,#22C55E,#16A34A)', boxShadow: activeView === 'teacher_dashboard' ? '0 4px 14px rgba(245,158,11,0.4)' : '0 4px 14px rgba(34,197,94,0.35)' }}>
+                    {activeView === 'dashboard' && <LayoutDashboard size={18} className="text-white" />}
+                    {activeView === 'vocabulary' && <Book size={18} className="text-white" />}
+                    {activeView === 'grammar' && <Puzzle size={18} className="text-white" />}
+                    {activeView === 'listening' && <Headphones size={18} className="text-white" />}
+                    {activeView === 'reading' && <BookOpen size={18} className="text-white" />}
+                    {activeView === 'practice_test' && <Shield size={18} className="text-white" />}
+                    {activeView === 'teacher_dashboard' && <GraduationCap size={18} className="text-white" />}
+                  </div>
+                  <h1 className="text-2xl font-black uppercase tracking-tight"
+                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#FCD34D)' : 'linear-gradient(135deg,#22C55E,#86EFAC)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                    {activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub
+                  </h1>
                 </div>
-                <p className="type-caption text-[#2ECC71]">Tran Hung Dao High School • {currentUnit.title}</p>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>🏫 Tran Hung Dao High School</span>
+                  <span className="text-xs" style={{ color: '#475569' }}>•</span>
+                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold"
+                    style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
+                    📚 {currentUnit.title}
+                  </span>
+                </div>
               </div>
 
               <div className="flex items-center space-x-4 w-full md:w-auto">
@@ -410,7 +423,7 @@ const App: React.FC = () => {
                   <div className="flex flex-col items-start">
                     <span className="type-caption text-slate-500 group-hover:text-blue-600 transition-colors">AI Configuration</span>
                     {!hasApiKey ? (
-                      <span className="text-[9px] font-bold text-rose-500 whitespace-nowrap">Lấy API key để sử dụng app</span>
+                      <span className="text-[10px] font-bold text-rose-500 whitespace-nowrap">Get an API key to use the app</span>
                     ) : (
                       <span className="text-[9px] font-bold text-blue-500 flex items-center gap-1"><CheckCircle size={10} /> Active</span>
                     )}
