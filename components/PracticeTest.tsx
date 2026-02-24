@@ -1,14 +1,14 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { PracticeTestData, PracticeTestQuestion, PracticeTestSection, ModuleProgress } from '../types';
-import { Target, Timer, ChevronRight, CheckCircle2, AlertCircle, Volume2, Trophy, ArrowLeft, Headphones, Zap, ShieldCheck, Construction, Loader2 } from 'lucide-react';
+import { Target, Timer, ChevronRight, CheckCircle2, AlertCircle, Volume2, Trophy, ArrowLeft, Headphones, Zap, ShieldCheck, Construction, Loader2, RotateCcw } from 'lucide-react';
 import useGameSound from '../hooks/useGameSound';
 import { speakText } from '../services/geminiService';
 import PerformanceCertificate from './PerformanceCertificate';
 
 interface PracticeTestProps {
   studentName?: string;
-  studentUsername?: string; // Optional
+  studentUsername?: string;
   testData: PracticeTestData;
   onComplete: (score: number) => void;
   onReturn: () => void;
@@ -36,7 +36,6 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
 
   const { playCorrect, playWrong, playPop } = useGameSound();
 
-  // Extract unit ID from testData.module_id (e.g., "u1_practice_test" -> "u1")
   const unitPrefix = testData.module_id.split('_')[0];
 
   const flatQuestions = useMemo(() => {
@@ -59,11 +58,7 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
     if (flatQuestions.length === 0) return;
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          finishTest();
-          return 0;
-        }
+        if (prev <= 1) { clearInterval(timer); finishTest(); return 0; }
         return prev - 1;
       });
     }, 1000);
@@ -94,15 +89,8 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
     if (!currentQuestion) return;
     setIsAnswered(true);
     setAnswers(prev => ({ ...prev, [currentQuestion.id]: userValue }));
-
-    if (isCorrect) {
-      playCorrect();
-      setScore(s => s + 1);
-      setStreak(s => s + 1);
-    } else {
-      playWrong();
-      setStreak(0);
-    }
+    if (isCorrect) { playCorrect(); setScore(s => s + 1); setStreak(s => s + 1); }
+    else { playWrong(); setStreak(0); }
   };
 
   const nextQuestion = () => {
@@ -117,24 +105,15 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
     }
   };
 
-  const finishTest = () => {
-    setIsFinished(true);
-  };
+  const finishTest = () => setIsFinished(true);
 
   const calculateFinalScore = () => {
-    // 1. Secret Story (Grammar Game): Max 10 points
-    // Stored as percentage (0-100) in unitProgress
     const secretStoryRaw = unitProgress?.[`${unitPrefix}_grammar_game`]?.score || 0;
-    const secretStoryScore = Math.round(secretStoryRaw * 0.1); // 100 -> 10
-
-    // 2. Memory Match (Vocab Game): Max 10 points
+    const secretStoryScore = Math.round(secretStoryRaw * 0.1);
     const memoryMatchRaw = unitProgress?.[`${unitPrefix}_vocabulary_memory`]?.score || 0;
-    const memoryMatchScore = Math.round(memoryMatchRaw * 0.1); // 100 -> 10
-
-    // 3. Challenge (This test): Max 80 points
-    const challengeRaw = flatQuestions.length > 0 ? (score / flatQuestions.length) : 0; // 0 to 1
-    const challengeScore = Math.round(challengeRaw * 80); // 1 -> 80
-
+    const memoryMatchScore = Math.round(memoryMatchRaw * 0.1);
+    const challengeRaw = flatQuestions.length > 0 ? (score / flatQuestions.length) : 0;
+    const challengeScore = Math.round(challengeRaw * 80);
     return secretStoryScore + memoryMatchScore + challengeScore;
   };
 
@@ -150,208 +129,269 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  const cardStyle: React.CSSProperties = {
+    background: '#1E293B',
+    border: '1px solid rgba(255,255,255,0.05)',
+    boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
+  };
+
+  // ── EMPTY STATE ───────────────────────────────────────────────────────────────
   if (flatQuestions.length === 0) {
     return (
-      <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col items-center justify-center animate-fadeIn">
-        <div className="max-w-2xl w-full bg-white backdrop-blur-md rounded-[3rem] border-4 border-[#27AE60]/20 shadow-2xl p-12 text-center space-y-10">
-          <div className="w-24 h-24 bg-[#27AE60]/10 text-[#27AE60] rounded-full flex items-center justify-center mx-auto mb-6">
+      <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col items-center justify-center animate-fadeIn"
+        style={{ background: '#0F172A' }}>
+        <div className="max-w-2xl w-full rounded-3xl p-12 text-center space-y-8"
+          style={cardStyle}>
+          <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto"
+            style={{ background: 'rgba(245,158,11,0.15)', color: '#FBB040' }}>
             <Construction size={48} />
           </div>
-          <div className="space-y-4">
-            <h2 className="type-h2 text-[#2D3748] uppercase italic tracking-tighter">Under Construction</h2>
-            <p className="type-body-reading text-[#5D6D61] italic leading-relaxed">
-              "The academic sequence for {testData.unit_context} is currently being compiled. Please return to the unit hub and check back soon."
+          <div className="space-y-3">
+            <h2 className="text-4xl font-black uppercase italic tracking-tighter" style={{ color: '#F8FAFC' }}>
+              Under Construction
+            </h2>
+            <p className="text-lg font-medium italic leading-relaxed" style={{ color: '#64748B' }}>
+              The academic sequence for {testData.unit_context} is currently being compiled.
             </p>
           </div>
-          <button
-            onClick={onReturn}
-            className="w-full bg-[#27AE60] text-white py-6 rounded-[2rem] type-button shadow-xl hover:bg-[#2ECC71] transition-all flex items-center justify-center space-x-3"
-          >
-            <ArrowLeft size={18} />
-            <span>Return to Hub</span>
+          <button onClick={onReturn}
+            className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-sm text-white transition-all flex items-center justify-center gap-3 active:scale-95"
+            style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 8px 25px rgba(99,102,241,0.4)' }}>
+            <ArrowLeft size={18} /><span>Return to Hub</span>
           </button>
         </div>
       </div>
     );
   }
 
+  // ── FINISHED SCREEN ───────────────────────────────────────────────────────────
   if (isFinished) {
     const totalScore = calculateFinalScore();
     const isPass = totalScore >= 70;
     const challengeRawPercent = Math.round((score / flatQuestions.length) * 100);
 
+    if (isPass) {
+      return (
+        <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8" style={{ background: '#0F172A' }}>
+          <PerformanceCertificate
+            studentName={studentName}
+            studentUsername={studentUsername}
+            unitTitle={testData.title}
+            type="Challenge"
+            score={totalScore}
+            feedback={`UNIT MASTERY ACHIEVED. Challenge: ${challengeRawPercent}%. Total Unit Score: ${totalScore}/100.`}
+            onSaveAndExit={handleSaveAndExit}
+          />
+        </div>
+      );
+    }
+
     return (
-      <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col items-center justify-center bg-white">
-        {isPass ? (
-          <div className="w-full">
-            <PerformanceCertificate
-              studentName={studentName}
-              studentUsername={studentUsername}
-              unitTitle={testData.title}
-              type="Challenge"
-              score={totalScore}
-              feedback={`UNIT MASTERY ACHIEVED. Challenge: ${challengeRawPercent}%. Total Unit Score: ${totalScore}/100.`}
-              onSaveAndExit={handleSaveAndExit}
-            />
-            <div className="flex justify-center mt-8">
-              <button
-                onClick={handleSaveAndExit}
-                className="px-8 py-3 border-2 border-[#27AE60] text-[#27AE60] type-button rounded-2xl hover:bg-green-50 transition-all"
-              >
-                QUAY LẠI MÀN HÌNH CHÍNH UNIT
-              </button>
+      <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col items-center justify-center" style={{ background: '#0F172A' }}>
+        <div className="max-w-2xl w-full rounded-3xl p-12 text-center space-y-8 animate-fadeIn" style={cardStyle}>
+          <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto animate-pulse"
+            style={{ background: 'rgba(245,158,11,0.15)', border: '2px solid rgba(245,158,11,0.3)', color: '#FBB040' }}>
+            <Target size={48} />
+          </div>
+          <div className="space-y-2">
+            <h2 className="text-4xl font-black uppercase italic tracking-tighter" style={{ color: '#F8FAFC' }}>Keep Going!</h2>
+            <p className="text-lg font-medium" style={{ color: '#94A3B8' }}>
+              Don't give up — keep practicing to improve your score.
+            </p>
+          </div>
+          <div className="rounded-2xl p-6 space-y-3"
+            style={{ background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
+            <p className="text-base font-medium" style={{ color: '#94A3B8' }}>
+              Sorry, <span className="font-bold" style={{ color: '#FCD34D' }}>{studentName}</span> — you need at least{' '}
+              <span className="font-black" style={{ color: '#FCA5A5' }}>70 points</span> to receive a certificate.
+            </p>
+            <div className="flex flex-col items-center gap-1 mt-2">
+              <span className="text-xs font-black uppercase tracking-widest" style={{ color: '#475569' }}>Total Unit Score</span>
+              <span className="text-6xl font-black italic" style={{ color: '#F59E0B' }}>{totalScore}/100</span>
             </div>
           </div>
-        ) : (
-          <div className="max-w-2xl w-full bg-white rounded-[3rem] p-12 text-center shadow-2xl border-4 border-[#27AE60]/20">
-            <div className="w-24 h-24 bg-amber-50 text-amber-600 rounded-full flex items-center justify-center mx-auto mb-8 shadow-inner animate-pulse">
-              <Target size={48} />
-            </div>
-            <h2 className="type-h3 text-[#2D3748] uppercase tracking-tighter italic mb-4">Cố gắng lên!</h2>
-            <div className="bg-green-50 border border-[#27AE60]/20 p-6 rounded-2xl mb-8">
-              <p className="type-body text-slate-600 leading-relaxed">
-                Rất tiếc <span className="font-bold text-[#27AE60]">{studentName}</span>, bạn chưa đạt 70 điểm tổng kết để nhận chứng chỉ.
-              </p>
-              <div className="mt-4 flex flex-col items-center">
-                <span className="type-caption text-slate-400 tracking-widest">Tổng Điểm Unit</span>
-                <span className="type-h1 text-[#27AE60]">{totalScore}/100</span>
-              </div>
-            </div>
-            <button
-              onClick={onReturn}
-              className="w-full bg-[#27AE60] text-white py-5 rounded-[2rem] type-button shadow-xl hover:bg-[#2ECC71] transition-all flex items-center justify-center gap-3 active:scale-95"
-            >
-              <ArrowLeft size={18} />
-              <span>QUAY LẠI MÀN HÌNH CHÍNH UNIT</span>
+          <div className="flex flex-col gap-3">
+            <button onClick={() => { setIsFinished(false); setCurrentQuestionIdx(0); setAnswers({}); setIsAnswered(false); setSelectedOption(null); setTypedAnswer(''); setScore(0); setStreak(0); setTimeLeft(testData.time_limit_minutes * 60); }}
+              className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-sm text-white transition-all flex items-center justify-center gap-3 active:scale-95"
+              style={{ background: 'linear-gradient(135deg, #F59E0B, #D97706)', boxShadow: '0 8px 25px rgba(245,158,11,0.35)' }}>
+              <RotateCcw size={18} /><span>Retry Challenge</span>
+            </button>
+            <button onClick={onReturn}
+              className="w-full py-5 rounded-2xl font-black uppercase tracking-widest text-sm transition-all flex items-center justify-center gap-3"
+              style={{ background: 'rgba(255,255,255,0.04)', color: '#94A3B8', border: '1px solid rgba(255,255,255,0.08)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.08)'; e.currentTarget.style.color = '#CBD5E1'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.04)'; e.currentTarget.style.color = '#94A3B8'; }}>
+              <ArrowLeft size={18} /><span>Return to Hub</span>
             </button>
           </div>
-        )}
+        </div>
       </div>
     );
   }
 
   const progressVal = ((currentQuestionIdx + 1) / flatQuestions.length) * 100;
+  const isCorrectAnswered = isAnswered && ((typedAnswer.toLowerCase() === currentQuestion?.answer.toLowerCase()) || (selectedOption?.toLowerCase() === currentQuestion?.answer.toLowerCase()));
 
+  // ── QUIZ SCREEN ───────────────────────────────────────────────────────────────
   return (
-    <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col">
-      <div className="max-w-6xl mx-auto w-full space-y-8 flex-1 flex flex-col">
-        {/* Header preserved */}
-        <header className="flex justify-between items-center bg-white backdrop-blur-xl border border-green-100 p-6 rounded-[2.5rem]">
+    <div className="min-h-screen -m-4 md:-m-8 p-4 md:p-8 flex flex-col" style={{ background: '#0F172A' }}>
+      <div className="max-w-6xl mx-auto w-full space-y-6 flex-1 flex flex-col">
+
+        {/* Header */}
+        <header className="flex justify-between items-center px-6 py-4 rounded-2xl" style={cardStyle}>
           <div className="flex items-center gap-4">
-            <button onClick={onReturn} className="w-10 h-10 rounded-full bg-[#27AE60]/10 flex items-center justify-center text-[#5D6D61] hover:text-[#27AE60] transition-colors">
-              <ArrowLeft size={20} />
+            <button onClick={onReturn}
+              className="w-10 h-10 rounded-xl flex items-center justify-center transition-all"
+              style={{ background: 'rgba(255,255,255,0.05)', color: '#94A3B8', border: '1px solid rgba(255,255,255,0.08)' }}
+              onMouseEnter={e => { e.currentTarget.style.color = '#A5B4FC'; e.currentTarget.style.background = 'rgba(99,102,241,0.12)'; }}
+              onMouseLeave={e => { e.currentTarget.style.color = '#94A3B8'; e.currentTarget.style.background = 'rgba(255,255,255,0.05)'; }}>
+              <ArrowLeft size={18} />
             </button>
             <div>
-              <h3 className="type-caption text-[#27AE60] tracking-[0.3em] mb-1">{testData.title}</h3>
-              <p className="type-caption text-[#5D6D61] tracking-widest">{currentSection?.section_name}</p>
+              <p className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: '#6366F1' }}>{testData.title}</p>
+              <p className="text-xs font-medium uppercase tracking-widest" style={{ color: '#475569' }}>{currentSection?.section_name}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2 bg-green-50 px-4 py-2 rounded-xl border border-[#27AE60]/10">
-              <Timer size={14} className={timeLeft < 300 ? 'text-rose-500 animate-pulse' : 'text-[#27AE60]'} />
-              <span className={`type-small font-mono ${timeLeft < 300 ? 'text-rose-500' : 'text-[#2D3748]'}`}>{formatTime(timeLeft)}</span>
+          <div className="flex items-center gap-3">
+            {/* Timer */}
+            <div className="flex items-center gap-2 px-4 py-2 rounded-xl"
+              style={timeLeft < 300
+                ? { background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.3)' }
+                : { background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}>
+              <Timer size={14} style={{ color: timeLeft < 300 ? '#FCA5A5' : '#A5B4FC' }} className={timeLeft < 300 ? 'animate-pulse' : ''} />
+              <span className="font-mono font-black text-sm" style={{ color: timeLeft < 300 ? '#FCA5A5' : '#A5B4FC' }}>{formatTime(timeLeft)}</span>
             </div>
-            <div className="hidden md:flex items-center gap-2 bg-green-50 px-4 py-2 rounded-xl border border-[#27AE60]/10">
-              <Target size={14} className="text-[#27AE60]" />
-              <span className="type-small text-[#2D3748] italic">{score} XP</span>
+            {/* Score */}
+            <div className="hidden md:flex items-center gap-2 px-4 py-2 rounded-xl"
+              style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.15)' }}>
+              <Target size={14} style={{ color: '#6366F1' }} />
+              <span className="font-black text-sm italic" style={{ color: '#A5B4FC' }}>{score} XP</span>
             </div>
+            {/* Combo */}
             {streak > 2 && (
-              <div className="flex items-center gap-2 bg-green-500/20 px-4 py-2 rounded-xl border border-green-500/30 text-green-600 animate-bounce">
+              <div className="flex items-center gap-2 px-4 py-2 rounded-xl animate-bounce"
+                style={{ background: 'rgba(245,158,11,0.15)', border: '1px solid rgba(245,158,11,0.3)', color: '#FCD34D' }}>
                 <Zap size={14} fill="currentColor" />
-                <span className="text-xs font-black">X{streak} COMBO</span>
+                <span className="text-xs font-black">×{streak} COMBO</span>
               </div>
             )}
           </div>
         </header>
 
-        <div className="space-y-2">
-          <div className="flex justify-between px-2">
-            <span className="type-caption text-[#2ECC71] tracking-widest">Progress</span>
-            <span className="type-caption text-[#27AE60] tracking-widest">{currentQuestionIdx + 1} / {flatQuestions.length}</span>
+        {/* Progress Bar */}
+        <div className="space-y-1.5">
+          <div className="flex justify-between px-1">
+            <span className="text-xs font-black uppercase tracking-widest" style={{ color: '#6366F1' }}>Progress</span>
+            <span className="text-xs font-black uppercase tracking-widest" style={{ color: '#475569' }}>
+              {currentQuestionIdx + 1} / {flatQuestions.length}
+            </span>
           </div>
-          <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden p-0.5 border border-slate-200">
-            <div
-              className="h-full bg-[#27AE60] rounded-full transition-all duration-500 ease-out shadow-lg"
-              style={{ width: `${progressVal}%` }}
-            ></div>
+          <div className="w-full h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+            <div className="h-full rounded-full transition-all duration-500 ease-out"
+              style={{ width: `${progressVal}%`, background: 'linear-gradient(90deg, #6366F1, #22D3EE)' }} />
           </div>
         </div>
 
-        <main className="flex-1 flex flex-col justify-center py-4">
-          {/* Question content preserved */}
-          <div className="bg-white backdrop-blur-md border border-green-100 rounded-[4rem] p-8 md:p-16 shadow-2xl relative overflow-hidden min-h-[400px] flex flex-col justify-center">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#27AE60]/5 rounded-full blur-[100px] -mr-32 -mt-32"></div>
-            <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#27AE60]/5 rounded-full blur-[100px] -ml-32 -mb-32"></div>
+        {/* Question Card */}
+        <main className="flex-1 flex flex-col justify-center py-2">
+          <div className="rounded-3xl p-8 md:p-14 relative overflow-hidden min-h-[420px] flex flex-col justify-center"
+            style={{ background: '#1E293B', border: '1px solid rgba(99,102,241,0.15)', boxShadow: '0 30px 60px rgba(0,0,0,0.5)' }}>
 
-            <div className="relative z-10 space-y-12">
-              <div className="text-center space-y-6">
+            {/* Background glow */}
+            <div className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none opacity-10"
+              style={{ background: '#6366F1', transform: 'translate(50%, -50%)' }} />
+            <div className="absolute bottom-0 left-0 w-96 h-96 rounded-full blur-[120px] pointer-events-none opacity-10"
+              style={{ background: '#22D3EE', transform: 'translate(-50%, 50%)' }} />
+
+            {/* Question type badge */}
+            <div className="absolute top-6 right-6 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest"
+              style={{ background: 'rgba(99,102,241,0.1)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
+              Q{currentQuestionIdx + 1} · {currentQuestion?.type?.replace(/_/g, ' ')}
+            </div>
+
+            <div className="relative z-10 space-y-10">
+
+              {/* Question text */}
+              <div className="text-center space-y-5">
                 {currentQuestion?.type === 'listening_spelling' ? (
-                  <div className="flex flex-col items-center gap-8">
-                    <div className="p-4 rounded-full bg-[#27AE60]/10 border border-[#27AE60]/20 text-[#27AE60] mb-2">
-                      <Headphones size={32} />
+                  <div className="flex flex-col items-center gap-6">
+                    <div className="p-5 rounded-full" style={{ background: 'rgba(99,102,241,0.12)', color: '#A5B4FC' }}>
+                      <Headphones size={40} />
                     </div>
                     <button
                       onClick={() => handleSpeak(currentQuestion.audio_placeholder || '')}
                       disabled={isSpeaking}
-                      className="flex items-center gap-3 bg-green-50 hover:bg-[#27AE60] hover:text-white transition-all px-8 py-4 rounded-2xl border border-[#27AE60]/20 group shadow-lg text-[#2D3748]"
-                    >
-                      {isSpeaking ? <Loader2 size={24} className="animate-spin" /> : <Volume2 size={24} className="group-hover:animate-bounce" />}
-                      <span className="type-button">Listen to Word (US Female)</span>
+                      className="flex items-center gap-3 px-10 py-5 rounded-2xl text-white font-black text-lg uppercase tracking-widest transition-all"
+                      style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 8px 25px rgba(99,102,241,0.4)' }}
+                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.02)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}>
+                      {isSpeaking ? <Loader2 size={24} className="animate-spin" /> : <Volume2 size={24} />}
+                      <span>Listen to Word</span>
                     </button>
-                    <p className="text-[#5D6D61] italic font-medium">"{currentQuestion.hint}"</p>
+                    <p className="text-xl italic font-medium" style={{ color: '#94A3B8' }}>"{currentQuestion.hint}"</p>
                   </div>
                 ) : (
                   <>
                     {currentQuestion?.context && (
-                      <p className="text-[#5D6D61] italic font-medium text-lg leading-relaxed max-w-2xl mx-auto">
+                      <p className="text-xl italic font-medium leading-relaxed max-w-3xl mx-auto" style={{ color: '#64748B' }}>
                         "{currentQuestion.context}"
                       </p>
                     )}
                     {currentQuestion?.root_word && (
-                      <div className="bg-[#27AE60]/5 w-fit mx-auto px-6 py-1 rounded-full border border-[#27AE60]/10 mb-2">
-                        <span className="type-caption text-[#27AE60] tracking-[0.3em]">Root Word: {currentQuestion.root_word}</span>
+                      <div className="w-fit mx-auto px-5 py-1 rounded-full"
+                        style={{ background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.2)' }}>
+                        <span className="text-xs font-black uppercase tracking-[0.3em]" style={{ color: '#A5B4FC' }}>
+                          Root Word: {currentQuestion.root_word}
+                        </span>
                       </div>
                     )}
-                    <h2 className="type-h1 text-[#2D3748] leading-tight italic tracking-tighter max-w-5xl mx-auto">
+                    <h2 className="text-3xl md:text-4xl font-black italic tracking-tight leading-tight max-w-5xl mx-auto" style={{ color: '#F8FAFC' }}>
                       "{currentQuestion?.question}"
                     </h2>
                   </>
                 )}
               </div>
 
+              {/* Options / Input */}
               <div className="w-full max-w-5xl mx-auto">
                 {currentQuestion?.type === 'listening_spelling' ? (
                   <div className="flex flex-col md:flex-row gap-4">
                     <input
                       type="text"
                       value={typedAnswer}
-                      onChange={(e) => setTypedAnswer(e.target.value)}
+                      onChange={e => setTypedAnswer(e.target.value)}
                       disabled={isAnswered}
-                      onKeyDown={(e) => e.key === 'Enter' && handleTypeSubmit()}
+                      onKeyDown={e => e.key === 'Enter' && handleTypeSubmit()}
                       placeholder="Type the word you hear..."
-                      className="flex-1 bg-green-50 border-2 border-[#27AE60]/20 rounded-[2rem] px-8 py-5 type-h2 text-[#2D3748] outline-none focus:border-[#27AE60]/50 transition-all shadow-inner placeholder:text-slate-400"
+                      className="flex-1 rounded-2xl px-8 py-5 text-2xl font-bold outline-none transition-all"
+                      style={{ background: '#0F172A', border: '2px solid rgba(99,102,241,0.3)', color: '#F8FAFC' }}
+                      onFocus={e => e.target.style.borderColor = '#6366F1'}
+                      onBlur={e => e.target.style.borderColor = 'rgba(99,102,241,0.3)'}
                       autoFocus
                     />
                     <button
                       onClick={handleTypeSubmit}
                       disabled={isAnswered || !typedAnswer.trim()}
-                      className="bg-[#27AE60] text-white px-10 py-5 rounded-[2rem] font-black uppercase text-xs tracking-widest disabled:opacity-30 transition-all shadow-xl hover:bg-[#2ECC71] active:scale-95"
-                    >
+                      className="px-10 py-5 rounded-2xl font-black uppercase text-sm tracking-widest text-white disabled:opacity-30 transition-all"
+                      style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 8px 25px rgba(99,102,241,0.4)' }}>
                       Submit
                     </button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {currentQuestion?.options?.map((opt, i) => {
                       const isCorrect = opt.toLowerCase() === currentQuestion.answer.toLowerCase();
                       const isSelected = selectedOption === opt;
-
-                      let styles = "bg-green-50 border-[#27AE60]/10 text-[#5D6D61] hover:bg-green-100 hover:border-[#27AE60]/30";
+                      let btnStyle: React.CSSProperties = {
+                        background: 'rgba(255,255,255,0.03)',
+                        border: '2px solid rgba(255,255,255,0.07)',
+                        color: '#94A3B8',
+                      };
                       if (isAnswered) {
-                        if (isCorrect) styles = "bg-[#27AE60]/20 border-[#27AE60] text-[#27AE60] shadow-[0_0_30px_rgba(39,174,96,0.2)]";
-                        else if (isSelected) styles = "bg-[#FF0000] border-[#FF0000] text-white"; // Red Preserved
-                        else styles = "opacity-20 pointer-events-none grayscale";
+                        if (isCorrect) btnStyle = { background: 'rgba(34,197,94,0.15)', border: '2px solid rgba(34,197,94,0.5)', color: '#4ADE80', boxShadow: '0 0 30px rgba(34,197,94,0.2)' };
+                        else if (isSelected) btnStyle = { background: 'rgba(239,68,68,0.15)', border: '2px solid rgba(239,68,68,0.5)', color: '#FCA5A5' };
+                        else btnStyle = { opacity: 0.2, background: '#1E293B', border: '2px solid rgba(255,255,255,0.04)', color: '#334155', pointerEvents: 'none' };
                       }
 
                       return (
@@ -359,12 +399,19 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
                           key={i}
                           disabled={isAnswered}
                           onClick={() => handleOptionSelect(opt)}
-                          className={`p-8 rounded-[3rem] border-4 text-left transition-all flex items-center gap-8 group ${styles}`}
-                        >
-                          <div className={`w-16 h-16 rounded-2xl flex items-center justify-center type-h3 border-2 transition-all shrink-0 ${isAnswered && isCorrect ? 'bg-[#27AE60] border-[#2ECC71] text-white' : 'bg-white border-[#27AE60]/10 text-[#27AE60]'}`}>
+                          className="p-6 md:p-8 rounded-3xl text-left transition-all duration-200 flex items-center gap-6 group active:scale-[0.98]"
+                          style={btnStyle}
+                          onMouseEnter={e => { if (!isAnswered) { e.currentTarget.style.borderColor = 'rgba(99,102,241,0.5)'; e.currentTarget.style.background = 'rgba(99,102,241,0.08)'; e.currentTarget.style.color = '#CBD5E1'; } }}
+                          onMouseLeave={e => { if (!isAnswered) { e.currentTarget.style.borderColor = 'rgba(255,255,255,0.07)'; e.currentTarget.style.background = 'rgba(255,255,255,0.03)'; e.currentTarget.style.color = '#94A3B8'; } }}>
+                          <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-black shrink-0 transition-all"
+                            style={isAnswered && isCorrect
+                              ? { background: 'rgba(34,197,94,0.2)', color: '#4ADE80', border: '2px solid rgba(34,197,94,0.4)' }
+                              : { background: 'rgba(99,102,241,0.1)', color: '#A5B4FC', border: '2px solid rgba(99,102,241,0.2)' }}>
                             {String.fromCharCode(65 + i)}
                           </div>
-                          <span className="type-h2 flex-1 tracking-tight">{opt}</span>
+                          <span className="text-xl md:text-2xl font-bold leading-snug flex-1">{opt}</span>
+                          {isAnswered && isCorrect && <CheckCircle2 size={24} style={{ color: '#4ADE80' }} className="shrink-0" />}
+                          {isAnswered && isSelected && !isCorrect && <AlertCircle size={24} style={{ color: '#FCA5A5' }} className="shrink-0" />}
                         </button>
                       );
                     })}
@@ -372,26 +419,38 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
                 )}
               </div>
 
+              {/* Explanation + Next */}
               {isAnswered && currentQuestion && (
-                <div className="animate-slideUp space-y-8 pt-8">
-                  <div className="bg-green-50 border border-[#27AE60]/20 p-8 rounded-[3rem] shadow-inner relative group">
-                    <div className="flex items-start gap-5">
-                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${(typedAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) || (selectedOption?.toLowerCase() === currentQuestion.answer.toLowerCase()) ? 'bg-[#27AE60] text-white' : 'bg-[#FF0000] text-white'}`}>
-                        {(typedAnswer.toLowerCase() === currentQuestion.answer.toLowerCase()) || (selectedOption?.toLowerCase() === currentQuestion.answer.toLowerCase()) ? <ShieldCheck /> : <AlertCircle />}
-                      </div>
-                      <div className="space-y-2 flex-1">
-                        <p className="type-caption text-[#5D6D61] tracking-[0.3em]">Analysis</p>
-                        <p className="type-body-reading text-[#2D3748] italic leading-relaxed">"{currentQuestion.explanation}"</p>
-                      </div>
+                <div className="animate-fadeIn space-y-6 pt-4">
+                  <div className="rounded-2xl p-6 flex items-start gap-4"
+                    style={isCorrectAnswered
+                      ? { background: 'rgba(34,197,94,0.08)', border: '1px solid rgba(34,197,94,0.25)' }
+                      : { background: 'rgba(239,68,68,0.08)', border: '1px solid rgba(239,68,68,0.25)' }}>
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                      style={isCorrectAnswered
+                        ? { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }
+                        : { background: 'rgba(239,68,68,0.15)', color: '#FCA5A5' }}>
+                      {isCorrectAnswered ? <ShieldCheck size={20} /> : <AlertCircle size={20} />}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-xs font-black uppercase tracking-[0.3em] mb-1"
+                        style={{ color: isCorrectAnswered ? '#4ADE80' : '#FCA5A5' }}>
+                        {isCorrectAnswered ? 'Correct!' : 'Incorrect'}
+                      </p>
+                      <p className="text-lg font-medium italic leading-relaxed" style={{ color: '#CBD5E1' }}>
+                        "{currentQuestion.explanation}"
+                      </p>
                     </div>
                   </div>
 
                   <button
                     onClick={nextQuestion}
-                    className="w-full bg-[#27AE60] text-white py-6 rounded-[3rem] type-button shadow-2xl hover:scale-[1.01] transition-all flex items-center justify-center gap-4 active:scale-95 border-b-8 border-[#2ECC71]"
-                  >
-                    <span>{currentQuestionIdx < flatQuestions.length - 1 ? 'PROCEED TO THE NEXT QUESTION' : 'Finalize Challenge'}</span>
-                    <ChevronRight size={18} />
+                    className="w-full py-6 rounded-2xl font-black uppercase text-sm tracking-widest text-white transition-all flex items-center justify-center gap-4 active:scale-[0.99]"
+                    style={{ background: 'linear-gradient(135deg, #6366F1, #3B82F6)', boxShadow: '0 10px 30px rgba(99,102,241,0.5)' }}
+                    onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.01)'; e.currentTarget.style.boxShadow = '0 14px 40px rgba(99,102,241,0.65)'; }}
+                    onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; e.currentTarget.style.boxShadow = '0 10px 30px rgba(99,102,241,0.5)'; }}>
+                    <span>{currentQuestionIdx < flatQuestions.length - 1 ? 'Next Question' : 'Finalize Challenge'}</span>
+                    <ChevronRight size={20} />
                   </button>
                 </div>
               )}
@@ -399,11 +458,18 @@ const PracticeTest: React.FC<PracticeTestProps> = ({
           </div>
         </main>
 
-        <footer className="py-8 text-center border-t border-slate-200">
-          <div className="flex justify-center items-center gap-10 opacity-60 text-[#27AE60]">
-            <div className="flex items-center gap-2"><Zap size={14} /><span className="type-caption">Low Latency AI</span></div>
-            <div className="flex items-center gap-2"><ShieldCheck size={14} /><span className="type-caption">Anti-Hijack Voice Engine</span></div>
-            <div className="flex items-center gap-2"><Target size={14} /><span className="type-caption">Academic US Standard</span></div>
+        {/* Footer */}
+        <footer className="py-6 text-center">
+          <div className="flex justify-center items-center gap-8" style={{ color: '#334155' }}>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+              <Zap size={12} /><span>Low Latency AI</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+              <ShieldCheck size={12} /><span>Anti-Hijack Voice</span>
+            </div>
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+              <Target size={12} /><span>US Academic Standard</span>
+            </div>
           </div>
         </footer>
       </div>

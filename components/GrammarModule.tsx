@@ -9,7 +9,7 @@ import {
   UNIT1_GRAMMAR_CHALLENGE, UNIT2_GRAMMAR_CHALLENGE, UNIT3_GRAMMAR_CHALLENGE,
   UNIT4_GRAMMAR_CHALLENGE, UNIT5_GRAMMAR_CHALLENGE, UNIT6_GRAMMAR_CHALLENGE
 } from '../constants';
-import { CheckCircle2, AlertCircle, ChevronRight, BookOpen, Construction, Star, ShieldCheck } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ChevronRight, BookOpen, Construction, Star, ShieldCheck, Activity, Zap, Puzzle, Trophy } from 'lucide-react';
 import PerformanceCertificate from './PerformanceCertificate';
 
 interface GrammarModuleProps {
@@ -205,15 +205,39 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               <div className="p-7 rounded-2xl" style={cardStyle}>
                 <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>USAGE</h4>
-                <ul className="space-y-3">{activeTopicData.usage.map((u, i) => <li key={i} className="type-small leading-relaxed flex items-start" style={{ color: '#CBD5E1' }}><span className="mr-2" style={{ color: '#6366F1' }}>•</span>{u}</li>)}</ul>
-              </div>
-              <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>FORMULA</h4>
-                <div className="space-y-3">{activeTopicData.formula.map((f, i) => <div key={i} className="p-3 rounded-xl text-xs font-bold font-mono" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.12)', color: '#A5B4FC' }}>{f}</div>)}</div>
-              </div>
-              <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>SIGNALS</h4>
-                <div className="flex flex-wrap gap-2">{activeTopicData.signals.map((s, i) => <span key={i} className="px-3 py-1.5 rounded-lg text-[11px] font-black" style={{ background: 'rgba(34,211,238,0.08)', border: '1px solid rgba(34,211,238,0.15)', color: '#22D3EE' }}>{s}</span>)}</div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}><BookOpen size={22} /></div>
+                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#A5B4FC]">Usage Rules</h4>
+                  </div>
+                  <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{activeTopicData.usage[0]}</p>
+                </div>
+
+                <div className="p-6 rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,211,238,0.15)', color: '#22D3EE' }}><Activity size={22} /></div>
+                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#22D3EE]">Sentence Formula</h4>
+                  </div>
+                  <div className="space-y-3">
+                    {activeTopicData.formula.map((f, i) => (
+                      <div key={i} className="p-5 rounded-xl text-2xl font-black text-center italic tracking-wider" style={{ background: '#0F172A', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.05)' }}>
+                        {f}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(245,158,11,0.15)', color: '#FCD34D' }}><Zap size={22} /></div>
+                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#FCD34D]">Signal Words</h4>
+                  </div>
+                  <div className="flex flex-wrap gap-3">
+                    {activeTopicData.signals.map((sig, i) => (
+                      <span key={i} className="px-5 py-2.5 rounded-xl text-xl font-black" style={{ background: 'rgba(255,255,255,0.05)', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.08)' }}>{sig}</span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -245,7 +269,9 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
                     const cur = questions[currentIndex];
                     return cur.type === 'multiple_choice' ? (
                       <div className="space-y-10">
-                        <h3 className="type-h3 font-black text-center italic" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>"{cur.question}"</h3>
+                        <h3 className="text-4xl font-black italic text-center mb-10 tracking-tighter" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>
+                          "{cur.question}"
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                           {cur.options?.map((opt, i) => {
                             let s: React.CSSProperties = { background: '#243044', border: '2px solid rgba(99,102,241,0.15)', color: '#CBD5E1' };
@@ -257,7 +283,7 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
                             return <button key={i} disabled={isAnswered} onClick={() => handleAnswer(i)}
                               className="type-body p-5 rounded-2xl font-bold text-left transition-all flex items-center space-x-4" style={s}>
                               <span className="w-10 h-10 rounded-xl flex items-center justify-center font-black shrink-0" style={{ background: 'rgba(99,102,241,0.1)', color: '#A5B4FC' }}>{String.fromCharCode(65 + i)}</span>
-                              <span>{opt}</span>
+                              <span className="text-xl">{opt}</span>
                             </button>;
                           })}
                         </div>

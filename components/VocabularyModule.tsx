@@ -266,23 +266,23 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                     </div>
                     <div className="space-y-4">
                       <div className="pr-10">
-                        <span className="type-caption font-black uppercase tracking-widest block mb-1" style={{ color: '#475569' }}>Vocabulary</span>
-                        <h3 className="type-h3" style={{ color: '#F8FAFC' }}>{word.english}</h3>
-                        {word.phonetic && <p className="type-small font-mono mt-1" style={{ color: '#64748B' }}>{word.phonetic}</p>}
+                        <span className="text-xs font-black uppercase tracking-widest block mb-1" style={{ color: '#475569' }}>Vocabulary</span>
+                        <h3 className="text-3xl font-black italic tracking-tight" style={{ color: '#F8FAFC' }}>{word.english}</h3>
+                        {word.phonetic && <p className="text-sm font-mono mt-1" style={{ color: '#64748B' }}>{word.phonetic}</p>}
                       </div>
                       <div className={`transition-all duration-500 ease-in-out overflow-hidden ${isExpanded ? 'max-h-[800px] opacity-100 mt-6' : 'max-h-0 opacity-0'}`}>
                         <div className="pt-5 border-t space-y-5" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                          <div className="p-4 rounded-2xl" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.15)' }}>
-                            <span className="type-caption font-black uppercase tracking-widest block mb-1" style={{ color: '#64748B' }}>Meaning & POS</span>
-                            <p className="type-body font-bold" style={{ color: '#F8FAFC' }}>{word.vietnamese}</p>
+                          <div className="p-5 rounded-2xl" style={{ background: 'rgba(99,102,241,0.08)', border: '1px solid rgba(99,102,241,0.15)' }}>
+                            <span className="text-xs font-black uppercase tracking-widest block mb-1" style={{ color: '#64748B' }}>Meaning & POS</span>
+                            <p className="text-xl font-black" style={{ color: '#F8FAFC' }}>{word.vietnamese}</p>
                           </div>
                           {word.wordFamily && (
-                            <div className="p-4 rounded-2xl" style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.1)' }}>
+                            <div className="p-5 rounded-2xl" style={{ background: 'rgba(34,211,238,0.06)', border: '1px solid rgba(34,211,238,0.1)' }}>
                               <div className="flex items-center gap-2 mb-2">
-                                <Layers size={12} style={{ color: '#22D3EE' }} />
-                                <span className="type-caption font-black uppercase tracking-[0.2em]" style={{ color: '#22D3EE' }}>Academic Word Family</span>
+                                <Layers size={14} style={{ color: '#22D3EE' }} />
+                                <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: '#22D3EE' }}>Academic Word Family</span>
                               </div>
-                              <p className="type-body font-black leading-relaxed" style={{ color: '#CBD5E1' }}>{word.wordFamily}</p>
+                              <p className="text-lg font-black leading-relaxed" style={{ color: '#CBD5E1' }}>{word.wordFamily}</p>
                             </div>
                           )}
                           <div className="relative">
@@ -296,8 +296,8 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                       </div>
                       {!isExpanded && (
                         <div className="pt-5 flex items-center justify-between opacity-40 group-hover:opacity-100 transition-opacity">
-                          <span className="type-caption font-black uppercase tracking-[0.2em]" style={{ color: '#6366F1' }}>Unlock details</span>
-                          <ChevronDown size={14} className="animate-bounce" style={{ color: '#6366F1' }} />
+                          <span className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: '#6366F1' }}>Unlock details</span>
+                          <ChevronDown size={18} className="animate-bounce" style={{ color: '#6366F1' }} />
                         </div>
                       )}
                     </div>
@@ -427,7 +427,7 @@ const VocabularyModule: React.FC<VocabularyModuleProps> = ({
                           border: '2px solid rgba(99,102,241,0.2)',
                         }}>
                         {(card.isFlipped || card.isMatched) && (
-                          <p className="font-black text-sm leading-tight uppercase" style={{ color: card.isMatched ? '#4ADE80' : '#F8FAFC' }}>
+                          <p className="font-black text-lg leading-tight uppercase" style={{ color: card.isMatched ? '#4ADE80' : '#F8FAFC' }}>
                             {card.content}
                           </p>
                         )}

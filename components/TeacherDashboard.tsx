@@ -100,14 +100,14 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                     { label: 'Class Avg XP', icon: <BarChart3 size={20} />, value: classStats.avgXP, accent: '#22D3EE', sub: 'XP Points' },
                     { label: 'Top Student', icon: <Trophy size={20} />, value: classStats.topStudent?.name.split(' ').slice(-1)[0] || '–', accent: '#F59E0B', sub: `${classStats.topStudent?.xp || 0} XP` },
                 ].map((stat, i) => (
-                    <div key={i} className="p-6 flex flex-col gap-4 relative overflow-hidden" style={cardStyle}>
-                        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: `${stat.accent}18`, color: stat.accent }}>{stat.icon}</div>
+                    <div key={i} className="p-8 flex flex-col gap-5 relative overflow-hidden" style={cardStyle}>
+                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: `${stat.accent}18`, color: stat.accent }}>{stat.icon}</div>
                         <div>
-                            <p className="type-h2 font-black truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
-                            <p className="type-caption font-black uppercase tracking-widest" style={{ color: '#94A3B8' }}>{stat.label}</p>
-                            <p className="type-caption mt-0.5" style={{ color: '#64748B' }}>{stat.sub}</p>
+                            <p className="text-3xl font-black italic tracking-tighter truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
+                            <p className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: '#94A3B8' }}>{stat.label}</p>
+                            <p className="text-xs mt-1 font-medium" style={{ color: '#64748B' }}>{stat.sub}</p>
                         </div>
-                        <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full pointer-events-none" style={{ background: stat.accent, opacity: 0.06, filter: 'blur(10px)' }}></div>
+                        <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full pointer-events-none" style={{ background: stat.accent, opacity: 0.08, filter: 'blur(15px)' }}></div>
                     </div>
                 ))}
             </section>
@@ -142,13 +142,13 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
             {/* Student Table */}
             <section className="rounded-2xl overflow-hidden" style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)' }}>
                 {/* Table Header */}
-                <div className="type-small grid grid-cols-12 px-6 py-4 font-black uppercase tracking-[0.15em]" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#94A3B8' }}>
+                <div className="text-xs grid grid-cols-12 px-8 py-5 font-black uppercase tracking-[0.2em]" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#CBD5E1' }}>
                     <div className="col-span-1 text-center">#</div>
-                    <div className="col-span-4">Student</div>
+                    <div className="col-span-4">Student Profile</div>
                     <div className="col-span-2 text-center">Modules</div>
-                    <div className="col-span-2 text-center">XP</div>
-                    <div className="col-span-2 text-center">Source</div>
-                    <div className="col-span-1 text-center">Detail</div>
+                    <div className="col-span-2 text-center">XP Points</div>
+                    <div className="col-span-2 text-center">Sync Status</div>
+                    <div className="col-span-1 text-center">View</div>
                 </div>
 
                 {filteredStudents.length === 0 ? (
@@ -175,23 +175,23 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                                         <span className="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-black"
                                             style={{ background: rankBg, color: rankColor }}>{rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : `#${rank}`}</span>
                                     </div>
-                                    <div className="col-span-4 flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full flex items-center justify-center font-black text-xs text-white shrink-0"
+                                    <div className="col-span-4 flex items-center gap-4">
+                                        <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0"
                                             style={{ background: student.xp > 0 ? 'linear-gradient(135deg, #6366F1, #3B82F6)' : '#334155' }}>
                                             {student.name.charAt(0)}
                                         </div>
                                         <div>
-                                            <p className="type-small font-bold" style={{ color: '#E2E8F0' }}>{student.name}</p>
-                                            <p className="type-caption" style={{ color: '#64748B' }}>{student.username}</p>
+                                            <p className="text-xl font-black italic tracking-tight" style={{ color: '#E2E8F0', fontFamily: 'Poppins, sans-serif' }}>{student.name}</p>
+                                            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{student.username}</p>
                                         </div>
                                     </div>
                                     <div className="col-span-2 text-center">
-                                        <span className="text-base font-black" style={{ color: student.completedModules > 0 ? '#A5B4FC' : '#475569' }}>
+                                        <span className="text-2xl font-black italic" style={{ color: student.completedModules > 0 ? '#A5B4FC' : '#475569' }}>
                                             {student.completedModules}
                                         </span>
                                     </div>
                                     <div className="col-span-2 text-center">
-                                        <span className="text-base font-black" style={{ color: student.xp > 0 ? '#F8FAFC' : '#475569' }}>
+                                        <span className="text-2xl font-black italic" style={{ color: student.xp > 0 ? '#F8FAFC' : '#475569' }}>
                                             {student.xp}
                                         </span>
                                     </div>

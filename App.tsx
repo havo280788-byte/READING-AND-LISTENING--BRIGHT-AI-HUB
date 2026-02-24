@@ -366,7 +366,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen bg-white">
+    <div className="relative min-h-screen" style={{ background: '#0F172A' }}>
       <ApiKeyModal isOpen={isApiKeyModalOpen} onClose={() => setIsApiKeyModalOpen(false)} />
 
       <div className="relative z-10 flex flex-col md:flex-row min-h-screen">
@@ -387,25 +387,25 @@ const App: React.FC = () => {
             <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
               <div className="animate-fadeIn">
                 <div className="flex items-center gap-3 mb-1.5">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#D97706)' : 'linear-gradient(135deg,#22C55E,#16A34A)', boxShadow: activeView === 'teacher_dashboard' ? '0 4px 14px rgba(245,158,11,0.4)' : '0 4px 14px rgba(34,197,94,0.35)' }}>
-                    {activeView === 'dashboard' && <LayoutDashboard size={18} className="text-white" />}
-                    {activeView === 'vocabulary' && <Book size={18} className="text-white" />}
-                    {activeView === 'grammar' && <Puzzle size={18} className="text-white" />}
-                    {activeView === 'listening' && <Headphones size={18} className="text-white" />}
-                    {activeView === 'reading' && <BookOpen size={18} className="text-white" />}
-                    {activeView === 'practice_test' && <Shield size={18} className="text-white" />}
-                    {activeView === 'teacher_dashboard' && <GraduationCap size={18} className="text-white" />}
+                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#D97706)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', boxShadow: activeView === 'teacher_dashboard' ? '0 4px 14px rgba(245,158,11,0.4)' : '0 4px 14px rgba(99,102,241,0.35)' }}>
+                    {activeView === 'dashboard' && <LayoutDashboard size={20} className="text-white" />}
+                    {activeView === 'vocabulary' && <Book size={20} className="text-white" />}
+                    {activeView === 'grammar' && <Puzzle size={20} className="text-white" />}
+                    {activeView === 'listening' && <Headphones size={20} className="text-white" />}
+                    {activeView === 'reading' && <BookOpen size={20} className="text-white" />}
+                    {activeView === 'practice_test' && <Shield size={20} className="text-white" />}
+                    {activeView === 'teacher_dashboard' && <GraduationCap size={20} className="text-white" />}
                   </div>
-                  <h1 className="text-2xl font-black uppercase tracking-tight"
-                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#FCD34D)' : 'linear-gradient(135deg,#22C55E,#86EFAC)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+                  <h1 className="text-3xl font-black uppercase tracking-tight"
+                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#FCD34D)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
                     {activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub
                   </h1>
                 </div>
                 <div className="flex items-center gap-2 flex-wrap">
                   <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>🏫 Tran Hung Dao High School</span>
                   <span className="text-xs" style={{ color: '#475569' }}>•</span>
-                  <span className="px-2.5 py-0.5 rounded-full text-xs font-bold"
+                  <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest"
                     style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
                     📚 {currentUnit.title}
                   </span>
@@ -415,17 +415,18 @@ const App: React.FC = () => {
               <div className="flex items-center space-x-4 w-full md:w-auto">
                 <button
                   onClick={() => setIsApiKeyModalOpen(true)}
-                  className="flex items-center gap-3 bg-white/50 hover:bg-white text-[#2D3748] px-4 py-2.5 rounded-xl border border-slate-200 transition-all shadow-sm group"
+                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all shadow-sm group"
+                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: '#CBD5E1' }}
                 >
-                  <div className={`p-1.5 rounded-lg ${hasApiKey ? 'bg-blue-50 text-blue-600' : 'bg-rose-50 text-rose-600 animate-pulse'}`}>
+                  <div className={`p-1.5 rounded-lg ${hasApiKey ? 'bg-blue-500/20 text-blue-400' : 'bg-rose-500/20 text-rose-400 animate-pulse'}`}>
                     <Settings size={18} />
                   </div>
-                  <div className="flex flex-col items-start">
-                    <span className="type-caption text-slate-500 group-hover:text-blue-600 transition-colors">AI Configuration</span>
+                  <div className="flex flex-col items-start text-left">
+                    <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748B' }}>AI System Info</span>
                     {!hasApiKey ? (
-                      <span className="text-[10px] font-bold text-rose-500 whitespace-nowrap">Get an API key to use the app</span>
+                      <span className="text-[10px] font-bold text-rose-400 whitespace-nowrap">API Key Required</span>
                     ) : (
-                      <span className="text-[9px] font-bold text-blue-500 flex items-center gap-1"><CheckCircle size={10} /> Active</span>
+                      <span className="text-[9px] font-bold text-blue-400 flex items-center gap-1"><CheckCircle size={10} /> Connectivity Active</span>
                     )}
                   </div>
                 </button>
