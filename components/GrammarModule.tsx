@@ -3,13 +3,14 @@ import { UnitData, ModuleProgress, GrammarChallengeQuestion } from '../types';
 import useGameSound from '../hooks/useGameSound';
 import GrammarSecretAdmirer from './GrammarSecretAdmirer';
 import GrammarErrorCorrection from './GrammarErrorCorrection';
+import GrammarFlashcards from './GrammarFlashcards';
 import {
   UNIT1_ERROR_CORRECTION, UNIT2_ERROR_CORRECTION, UNIT3_ERROR_CORRECTION,
   UNIT4_ERROR_CORRECTION, UNIT5_ERROR_CORRECTION, UNIT6_ERROR_CORRECTION,
   UNIT1_GRAMMAR_CHALLENGE, UNIT2_GRAMMAR_CHALLENGE, UNIT3_GRAMMAR_CHALLENGE,
   UNIT4_GRAMMAR_CHALLENGE, UNIT5_GRAMMAR_CHALLENGE, UNIT6_GRAMMAR_CHALLENGE
 } from '../constants';
-import { CheckCircle2, AlertCircle, ChevronRight, BookOpen, Construction, Star, ShieldCheck, Activity, Zap, Puzzle, Trophy } from 'lucide-react';
+import { CheckCircle2, AlertCircle, ChevronRight, BookOpen, Construction, Star, ShieldCheck, Activity, Zap, Puzzle, Trophy, Layers } from 'lucide-react';
 import PerformanceCertificate from './PerformanceCertificate';
 
 interface GrammarModuleProps {
@@ -30,6 +31,7 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
   onComplete, onGameComplete, onReturn, onNextStep
 }) => {
   const [view, setView] = useState<'study' | 'game' | 'error_correction' | 'quiz' | 'certificate'>('study');
+  const [studyMode, setStudyMode] = useState<'static' | 'flashcards'>('static');
   const [subScores, setSubScores] = useState({ story: 0, error: 0, challenge: 0 });
   const [showGameNext, setShowGameNext] = useState(false);
   const [showErrorNext, setShowErrorNext] = useState(false);
@@ -216,6 +218,21 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
             </div>
 
             <div className="flex justify-center flex-wrap gap-3">
+              <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/5 border border-white/10 mr-4">
+                <button
+                  onClick={() => setStudyMode('static')}
+                  className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${studyMode === 'static' ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20' : 'text-slate-400 hover:text-white'}`}
+                >
+                  Static View
+                </button>
+                <button
+                  onClick={() => setStudyMode('flashcards')}
+                  className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all flex items-center gap-2 ${studyMode === 'flashcards' ? 'bg-indigo-500 text-white shadow-lg shadow-indigo-500/20' : 'text-slate-400 hover:text-white'}`}
+                >
+                  <Layers size={14} /> Flashcards
+                </button>
+              </div>
+
               {topicsData.topics.map(t => (
                 <button key={t.key} onClick={() => setActiveTopic(t.key)}
                   className="px-5 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all duration-200"
@@ -226,44 +243,48 @@ const GrammarModule: React.FC<GrammarModuleProps> = ({
               ))}
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-              <div className="p-7 rounded-2xl" style={cardStyle}>
-                <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>USAGE</h4>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}><BookOpen size={22} /></div>
-                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#A5B4FC]">Usage Rules</h4>
+            {studyMode === 'static' ? (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="p-7 rounded-2xl" style={cardStyle}>
+                  <h4 className="type-caption font-black uppercase tracking-[0.4em] mb-5 pb-2" style={{ color: '#6366F1', borderBottom: '1px solid rgba(99,102,241,0.15)' }}>USAGE</h4>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC' }}><BookOpen size={22} /></div>
+                      <h4 className="text-2xl font-black uppercase tracking-tight text-[#A5B4FC]">Usage Rules</h4>
+                    </div>
+                    <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{activeTopicData.usage[0]}</p>
                   </div>
-                  <p className="text-xl font-medium leading-relaxed" style={{ color: '#CBD5E1' }}>{activeTopicData.usage[0]}</p>
-                </div>
 
-                <div className="p-6 rounded-2xl" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,211,238,0.15)', color: '#22D3EE' }}><Activity size={22} /></div>
-                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#22D3EE]">Sentence Formula</h4>
+                  <div className="p-6 rounded-2xl mt-8" style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(34,211,238,0.15)', color: '#22D3EE' }}><Activity size={22} /></div>
+                      <h4 className="text-2xl font-black uppercase tracking-tight text-[#22D3EE]">Sentence Formula</h4>
+                    </div>
+                    <div className="space-y-3">
+                      {activeTopicData.formula.map((f, i) => (
+                        <div key={i} className="p-5 rounded-xl text-2xl font-black text-center italic tracking-wider" style={{ background: '#0F172A', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.05)' }}>
+                          {f}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                  <div className="space-y-3">
-                    {activeTopicData.formula.map((f, i) => (
-                      <div key={i} className="p-5 rounded-xl text-2xl font-black text-center italic tracking-wider" style={{ background: '#0F172A', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.05)' }}>
-                        {f}
-                      </div>
-                    ))}
-                  </div>
-                </div>
 
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(245,158,11,0.15)', color: '#FCD34D' }}><Zap size={22} /></div>
-                    <h4 className="text-2xl font-black uppercase tracking-tight text-[#FCD34D]">Signal Words</h4>
-                  </div>
-                  <div className="flex flex-wrap gap-3">
-                    {activeTopicData.signals.map((sig, i) => (
-                      <span key={i} className="px-5 py-2.5 rounded-xl text-xl font-black" style={{ background: 'rgba(255,255,255,0.05)', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.08)' }}>{sig}</span>
-                    ))}
+                  <div className="space-y-4 mt-8">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: 'rgba(245,158,11,0.15)', color: '#FCD34D' }}><Zap size={22} /></div>
+                      <h4 className="text-2xl font-black uppercase tracking-tight text-[#FCD34D]">Signal Words</h4>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
+                      {activeTopicData.signals.map((sig, i) => (
+                        <span key={i} className="px-5 py-2.5 rounded-xl text-xl font-black" style={{ background: 'rgba(255,255,255,0.05)', color: '#F8FAFC', border: '1px solid rgba(255,255,255,0.08)' }}>{sig}</span>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            ) : (
+              <GrammarFlashcards unitId={unitId} activeCategory={activeTopic} />
+            )}
 
             <div className="flex justify-center pt-4">
               <button onClick={() => setView('game')} className="type-button px-10 py-4 rounded-2xl uppercase flex items-center gap-3 text-white transition-all duration-200"
