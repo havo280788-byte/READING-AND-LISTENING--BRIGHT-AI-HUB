@@ -1,6 +1,6 @@
 {
-  "name": "LinguaAI - Smart English Learning",
-  "description": "IELTS/TOEIC Speaking & Writing practice app integrated with Gemini AI for instant feedback.",
+  "name": "BRIGHT AI HUB",
+  "description": "A comprehensive English learning SPA for 11th-grade students in Tran Hung Dao high school- Lam Dong",
   "requestFramePermissions": [
     "microphone"
   ]
