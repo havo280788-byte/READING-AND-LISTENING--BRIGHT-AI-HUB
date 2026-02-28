@@ -1,546 +1,296 @@
-
-import React, { useState, useEffect, useMemo } from 'react';
-import { ViewType, UserStats, UserAccount } from './types';
-import {
-  COURSE_DATA,
-  UNIT1_PRACTICE_TEST,
-  UNIT2_PRACTICE_TEST,
-  UNIT3_PRACTICE_TEST,
-  UNIT4_PRACTICE_TEST,
-  UNIT5_PRACTICE_TEST,
-  UNIT6_PRACTICE_TEST,
-  UNIT7_PRACTICE_TEST,
-  UNIT8_PRACTICE_TEST,
-  normalizeName
-} from './constants';
-import Sidebar from './components/Sidebar';
+import React, { useState, useEffect } from 'react';
+import { SkillMode, UserStats, AI_MODELS } from './types';
 import Dashboard from './components/Dashboard';
-import VocabularyModule from './components/VocabularyModule';
-import GrammarModule from './components/GrammarModule';
-import ReadingModule from './components/ReadingModule';
-import ListeningModule from './components/ListeningModule';
-import PracticeTest from './components/PracticeTest';
-import Auth from './components/Auth';
-import ApiKeyModal from './components/ApiKeyModal';
-import TeacherDashboard from './components/TeacherDashboard';
-import { Target, CheckCircle, CloudSync, Settings, Book, Puzzle, Headphones, BookOpen, Shield, LayoutDashboard, Mic, Zap, Database, GraduationCap } from 'lucide-react';
-import { syncScoreToSheet, updateModuleStatus, getActiveApiKey } from './services/geminiService';
-import { saveStudentProgress, loadStudentProgress, loadAllStudentsProgress, isFirebaseConfigured, setFirebaseUrl, getFirebaseUrl } from './services/firebaseService';
+import { TeacherDashboard } from './components/TeacherDashboard';
+import SpeakingPractice from './components/SpeakingPractice';
+import WritingPractice from './components/WritingPractice';
+import LoginScreen from './components/LoginScreen';
+import { SettingsModal } from './components/SettingsModal';
+import { setApiKey, setModel } from './services/geminiService';
+import { saveUserStats, getUserStats } from './services/firebaseService';
 
-const TOTAL_MODULES = 30;
-const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
+function App() {
+   const [currentUser, setCurrentUser] = useState<string | null>(null);
+   const [activeTab, setActiveTab] = useState<SkillMode>(SkillMode.DASHBOARD);
+   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+   const [currentApiKey, setCurrentApiKey] = useState('');
+   const [currentModel, setCurrentModel] = useState('gemini-3-pro-preview');
 
-const INITIAL_STATS = (username: string, name: string): UserStats => ({
-  username,
-  name,
-  level: "Grade 11 - Intermediate",
-  xp: 0,
-  streak: 1,
-  badges: [],
-  lastVisit: new Date().toISOString(),
-  selectedUnitId: COURSE_DATA[0].id,
-  completedModules: 0,
-  completedModuleIds: [],
-  moduleProgress: {},
-  progress: {
-    vocabulary: 0,
-    grammar: 0,
-    speaking: 0,
+   // User Progress State
+   const [stats, setStats] = useState<UserStats>({
+      speakingScore: [],
+      writingScore: [],
+      lessonsCompleted: 0,
+      streak: 1,
+      lastPractice: new Date().toISOString()
+   });
 
-    reading: 0,
-    listening: 0,
-    challenge: 0
-  }
-});
+   // Load User on Mount
+   useEffect(() => {
+      const savedUser = localStorage.getItem('lingua_current_user');
+      const savedKey = localStorage.getItem('lingua_api_key');
+      const savedModel = localStorage.getItem('lingua_model');
 
-// normalizeName moved to constants.ts
+      if (savedUser && savedKey) {
+         setApiKey(savedKey);
+         setCurrentApiKey(savedKey);
 
-const App: React.FC = () => {
-  const [activeView, setActiveView] = useState<ViewType>('dashboard');
-  const [vocabInitialView, setVocabInitialView] = useState<'list' | 'game'>('list');
-  const [isSyncing, setIsSyncing] = useState(false);
-  const [isApiKeyModalOpen, setIsApiKeyModalOpen] = useState(false);
-  const [firebaseStudents, setFirebaseStudents] = useState<Record<string, any>>({});
+         if (savedModel) {
+            setModel(savedModel);
+            setCurrentModel(savedModel);
+         }
 
-  const [currentUser, setCurrentUser] = useState<UserAccount | null>(() => {
-    const saved = localStorage.getItem('elite_eng_current_user');
-    return saved ? JSON.parse(saved) : null;
-  });
-
-  const [stats, setStats] = useState<UserStats | null>(() => {
-    const savedUser = localStorage.getItem('elite_eng_current_user');
-    if (!savedUser) return null;
-    const user = JSON.parse(savedUser);
-    const savedStats = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${user.username}`);
-    if (!savedStats) return INITIAL_STATS(user.username, user.name);
-
-    const parsed = JSON.parse(savedStats);
-    // Recalculate progress from moduleProgress to ensure it's always up-to-date
-    const uid = parsed.selectedUnitId || 'u1';
-    const mp = parsed.moduleProgress || {};
-    parsed.progress = {
-      vocabulary: Math.max(mp[`${uid}_vocabulary_memory`]?.score || 0, mp[`${uid}_vocabulary_escape`]?.score || 0),
-      grammar: mp[`${uid}_grammar_quiz`]?.score || 0,
-      speaking: 0,
-      reading: mp[`${uid}_reading`]?.score || 0,
-      listening: mp[`${uid}_listening`]?.score || 0,
-      challenge: mp[`${uid}_practice_test`]?.score || 0
-    };
-    return parsed;
-  });
-
-  const hasApiKey = !!getActiveApiKey();
-
-  // Check for API Key on load
-  useEffect(() => {
-    const key = getActiveApiKey();
-    if (!key) {
-      setIsApiKeyModalOpen(true);
-    }
-  }, []);
-
-  // Auto-import Firebase URL from ?fb= query parameter AND sync local data
-  useEffect(() => {
-    // Step 1: Import Firebase URL from query params if present
-    const params = new URLSearchParams(window.location.search);
-    const fbParam = params.get('fb');
-    if (fbParam) {
-      setFirebaseUrl(fbParam);
-      // Clean URL
-      const url = new URL(window.location.href);
-      url.searchParams.delete('fb');
-      window.history.replaceState({}, '', url.toString());
-    }
-
-    // Step 2: Auto-sync local data to Firebase (runs after URL is set above)
-    const syncOnLoad = async () => {
-      if (isFirebaseConfigured() && currentUser && stats) {
-        try {
-          await saveStudentProgress(currentUser.username, stats);
-          console.log('Auto-synced local data to Firebase on load');
-          // Also refresh leaderboard after sync
-          const allData = await loadAllStudentsProgress();
-          if (allData && Object.keys(allData).length > 0) {
-            setFirebaseStudents(allData);
-          }
-        } catch (e) {
-          console.warn('Auto-sync on load failed:', e);
-        }
+         handleLogin(savedUser, savedKey, savedModel || 'gemini-3-pro-preview');
       }
-    };
-    syncOnLoad();
-  }, []); // Run once on mount
+   }, []);
 
-  // Refresh Firebase leaderboard data
-  const refreshFirebaseData = async () => {
-    if (isFirebaseConfigured()) {
-      try {
-        const allData = await loadAllStudentsProgress();
-        if (allData && Object.keys(allData).length > 0) {
-          setFirebaseStudents(allData);
-        }
-      } catch (e) {
-        console.warn('Firebase refresh failed:', e);
-      }
-    }
-  };
+   const handleLogin = (name: string, key: string, model: string) => {
+      setCurrentUser(name);
+      localStorage.setItem('lingua_current_user', name);
 
-  useEffect(() => {
-    refreshFirebaseData();
-    const interval = setInterval(refreshFirebaseData, 30000);
-    return () => clearInterval(interval);
-  }, []);
+      // Save API key & Model
+      setApiKey(key);
+      localStorage.setItem('lingua_api_key', key);
+      setCurrentApiKey(key);
 
-  // Name Normalization Effect - only depends on currentUser
-  useEffect(() => {
-    if (currentUser) {
-      const normalizedName = normalizeName(currentUser.name);
+      setModel(model);
+      localStorage.setItem('lingua_model', model);
+      setCurrentModel(model);
 
-      if (currentUser.name !== normalizedName) {
-        const newUser = { ...currentUser, name: normalizedName };
-        setCurrentUser(newUser);
-        localStorage.setItem('elite_eng_current_user', JSON.stringify(newUser));
-
-        setStats(prev => prev ? { ...prev, name: normalizedName } : null);
-      }
-    }
-  }, [currentUser]);
-
-  // Remote sync disabled - app runs in local-only mode
-  // Progress is loaded from localStorage in handleLogin and initial state
-
-  // Helper: recalculate progress from moduleProgress (called inline, not via useEffect)
-  const recalculateProgress = (moduleProgress: Record<string, any>, unitId: string) => {
-    return {
-      vocabulary: Math.max(
-        moduleProgress[`${unitId}_vocabulary_memory`]?.score || 0,
-        moduleProgress[`${unitId}_vocabulary_escape`]?.score || 0
-      ),
-      grammar: moduleProgress[`${unitId}_grammar_quiz`]?.score || 0,
-      speaking: 0,
-      reading: moduleProgress[`${unitId}_reading`]?.score || 0,
-      listening: moduleProgress[`${unitId}_listening`]?.score || 0,
-      challenge: moduleProgress[`${unitId}_practice_test`]?.score || 0
-    };
-  };
-
-  // Recalculate progress whenever unit changes
-  useEffect(() => {
-    if (!stats) return;
-    const nextProgress = recalculateProgress(stats.moduleProgress, stats.selectedUnitId);
-    if (JSON.stringify(stats.progress) !== JSON.stringify(nextProgress)) {
-      setStats(prev => prev ? ({ ...prev, progress: nextProgress }) : null);
-    }
-  }, [stats?.selectedUnitId]);
-
-  // Save Local Storage changes
-  useEffect(() => {
-    if (stats && currentUser) {
-      localStorage.setItem(`${STORAGE_KEY_PREFIX}_${currentUser.username}`, JSON.stringify(stats));
-    }
-  }, [stats, currentUser]);
-
-  const handleLogin = async (user: UserAccount) => {
-    const normalizedUser = { ...user, name: normalizeName(user.name) };
-    setCurrentUser(normalizedUser);
-    localStorage.setItem('elite_eng_current_user', JSON.stringify(normalizedUser));
-
-    const localStats = localStorage.getItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`);
-    let finalStats = localStats ? JSON.parse(localStats) : INITIAL_STATS(normalizedUser.username, normalizedUser.name);
-
-    // Try to load from Firebase and merge (remote takes priority for XP/modules)
-    if (isFirebaseConfigured()) {
-      try {
-        const remoteData = await loadStudentProgress(normalizedUser.username);
-        if (remoteData) {
-          // Merge: take the higher XP, more completed modules, and merge moduleProgress
-          const mergedModuleProgress = { ...finalStats.moduleProgress };
-          if (remoteData.moduleProgress) {
-            for (const [key, val] of Object.entries(remoteData.moduleProgress as Record<string, any>)) {
-              const localVal = mergedModuleProgress[key];
-              if (!localVal || (val && (val as any).score > (localVal as any).score)) {
-                mergedModuleProgress[key] = val;
-              }
+      // Load stats for this specific user - Try Firebase first
+      const loadStats = async () => {
+         try {
+            const cloudStats = await getUserStats(name);
+            if (cloudStats) {
+               setStats(cloudStats);
+               return;
             }
-          }
-          finalStats = {
-            ...finalStats,
-            xp: Math.max(finalStats.xp || 0, remoteData.xp || 0),
-            completedModules: Math.max(finalStats.completedModules || 0, remoteData.completedModules || 0),
-            moduleProgress: mergedModuleProgress,
-            selectedUnitId: remoteData.selectedUnitId || finalStats.selectedUnitId
-          };
-        }
 
-        // Push merged data BACK to Firebase (so local-only progress gets synced)
-        await saveStudentProgress(normalizedUser.username, finalStats);
+            // Fallback to localStorage if cloud is empty
+            const userStatsKey = `lingua_stats_${name.replace(/\s+/g, '_')}`;
+            const storedStats = localStorage.getItem(userStatsKey);
 
-        // Refresh leaderboard
-        const allData = await loadAllStudentsProgress();
-        if (allData) setFirebaseStudents(allData);
-      } catch (e) {
-        console.warn('Firebase merge skipped:', e);
+            if (storedStats) {
+               const parsedStats = JSON.parse(storedStats);
+               setStats(parsedStats);
+               // Sync fallback to cloud
+               saveUserStats(name, parsedStats);
+            } else {
+               // Reset stats for new user
+               const initialStats: UserStats = {
+                  speakingScore: [],
+                  writingScore: [],
+                  lessonsCompleted: 0,
+                  streak: 1,
+                  lastPractice: new Date().toISOString()
+               };
+               setStats(initialStats);
+               saveUserStats(name, initialStats);
+            }
+         } catch (error) {
+            console.error("Error loading stats during login:", error);
+         }
+      };
+
+      loadStats();
+   };
+
+   const handleLogout = () => {
+      setCurrentUser(null);
+      localStorage.removeItem('lingua_current_user');
+      setStats({
+         speakingScore: [],
+         writingScore: [],
+         lessonsCompleted: 0,
+         streak: 1,
+         lastPractice: new Date().toISOString()
+      });
+      setActiveTab(SkillMode.DASHBOARD);
+   };
+
+   const handleSaveSettings = () => {
+      setApiKey(currentApiKey);
+      setModel(currentModel);
+      localStorage.setItem('lingua_api_key', currentApiKey);
+      localStorage.setItem('lingua_model', currentModel);
+      setIsSettingsOpen(false);
+   };
+
+   // Update Stats Helper
+   const updateStats = (score: number, mode: 'speaking' | 'writing') => {
+      if (!currentUser) return;
+
+      const newStats = { ...stats };
+      if (mode === 'speaking') {
+         newStats.speakingScore = [...newStats.speakingScore, score];
+      } else {
+         newStats.writingScore = [...newStats.writingScore, score];
       }
-    }
+      newStats.lessonsCompleted += 1;
+      newStats.lastPractice = new Date().toISOString();
 
-    // Recalculate progress from moduleProgress immediately (not via useEffect)
-    finalStats.progress = recalculateProgress(finalStats.moduleProgress || {}, finalStats.selectedUnitId);
+      setStats(newStats);
 
-    setStats(finalStats);
-    localStorage.setItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`, JSON.stringify(finalStats));
-  };
+      // Save to Firebase (Cloud)
+      saveUserStats(currentUser, newStats).catch(err => console.error("Cloud save failed:", err));
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-    setStats(null);
-    localStorage.removeItem('elite_eng_current_user');
-  };
+      // Backup to localStorage
+      const userStatsKey = `lingua_stats_${currentUser.replace(/\s+/g, '_')}`;
+      localStorage.setItem(userStatsKey, JSON.stringify(newStats));
+   };
 
-  const handleResetProgress = () => {
-    if (currentUser && window.confirm("Xóa toàn bộ tiến trình học tập trên thiết bị này?")) {
-      const resetStats = INITIAL_STATS(currentUser.username, currentUser.name);
-      setStats(resetStats);
-      localStorage.setItem(`${STORAGE_KEY_PREFIX}_${currentUser.username}`, JSON.stringify(resetStats));
-      setActiveView('dashboard');
-    }
-  };
+   // Navigation Items
+   const navItems = [
+      { id: SkillMode.DASHBOARD, label: 'Overview', icon: 'fa-chart-pie' },
+      { id: SkillMode.SPEAKING, label: 'Speaking', icon: 'fa-microphone' },
+      { id: SkillMode.WRITING, label: 'Writing', icon: 'fa-pen-nib' },
+   ];
 
-  const handleTaskCompletion = async (moduleId: string, score: number) => {
-    if (!stats || !currentUser) return;
-    setIsSyncing(true);
+   // --- RENDER LOGIN IF NO USER ---
+   if (!currentUser) {
+      return <LoginScreen onLogin={handleLogin} />;
+   }
 
-    const unitLabel = COURSE_DATA.find(u => u.id === stats.selectedUnitId)?.title.split(':')[0] || "General";
+   const modelInfo = AI_MODELS.find(m => m.id === currentModel) || AI_MODELS[0];
 
-    try {
-      // 1. Sync Activity/Score (NOW LOCAL ONLY - NO GOOGLE SHEETS)
-      await syncScoreToSheet({
-        name: currentUser.name,
-        unit: unitLabel,
-        module: moduleId,
-        score: score
-      });
+   // --- MAIN APP UI ---
+   return (
+      <div className="min-h-screen flex flex-col md:flex-row font-sans text-slate-100 bg-[#0F172A]">
 
-      // 2. Set Status for Mastery Progress (NOW LOCAL ONLY)
-      await updateModuleStatus(currentUser.name, moduleId, "completed", score);
+         {/* Sidebar / Mobile Header */}
+         <aside className="w-full md:w-80 bg-slate-900/60 backdrop-blur-2xl border-r border-white/10 flex-shrink-0 sticky top-0 md:h-screen z-20 flex flex-col shadow-2xl">
+            <div className="p-8 flex items-center gap-4 border-b border-white/5">
+               <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30 transform hover:scale-110 transition-transform">
+                  <i className="fas fa-shapes text-2xl"></i>
+               </div>
+               <div>
+                  <h1 className="font-extrabold text-2xl tracking-tight text-white leading-none">Lingua<span className="text-blue-500">AI</span></h1>
+                  <p className="text-sm text-slate-400 font-semibold tracking-wide mt-1">English Mastery</p>
+               </div>
+            </div>
 
-      // 3. Update Local State for Instant UI Feedback
-      setStats(prev => {
-        if (!prev) return null;
-        const currentModule = prev.moduleProgress[moduleId] || { status: 'not_started', score: 0, attempts: 0 };
-        const isNewCompletion = currentModule.status !== 'completed';
-        const newScore = Math.max(currentModule.score, score);
-
-        // XP calculation: 50 for completion, 10 for retrying
-        const isSubTask = moduleId.includes('_vocab_viewed_');
-        const xpReward = isNewCompletion ? (isSubTask ? 5 : 50) : (isSubTask ? 0 : 10);
-        const moduleCountIncr = isNewCompletion && !isSubTask ? 1 : 0;
-
-        const newModuleProgress = {
-          ...prev.moduleProgress,
-          [moduleId]: {
-            status: 'completed' as const,
-            score: newScore,
-            attempts: currentModule.attempts + 1
-          }
-        };
-
-        // Recalculate progress immediately from the new moduleProgress
-        const newProgress = recalculateProgress(newModuleProgress, prev.selectedUnitId);
-
-        // Track completed module IDs
-        const newCompletedIds = isNewCompletion && !isSubTask
-          ? [...(prev.completedModuleIds || []), moduleId]
-          : (prev.completedModuleIds || []);
-
-        const updatedStats = {
-          ...prev,
-          xp: prev.xp + xpReward,
-          completedModules: prev.completedModules + moduleCountIncr,
-          completedModuleIds: newCompletedIds,
-          moduleProgress: newModuleProgress,
-          progress: newProgress
-        };
-
-        // 4. Sync to Firebase (fire and forget)
-        if (isFirebaseConfigured() && currentUser) {
-          saveStudentProgress(currentUser.username, updatedStats).then(() => {
-            // Refresh leaderboard after sync
-            loadAllStudentsProgress().then(allData => {
-              if (allData) setFirebaseStudents(allData);
-            });
-          });
-        }
-
-        return updatedStats;
-      });
-    } catch (e) {
-      console.error("Syncing failed but local progress saved:", e);
-    } finally {
-      setIsSyncing(false);
-    }
-  };
-
-  if (!currentUser || !stats) return <Auth onLogin={handleLogin} />;
-
-  const currentUnit = COURSE_DATA.find(u => u.id === stats.selectedUnitId) || COURSE_DATA[0];
-
-  // Sequential Flow Handling
-  const handleSequenceNext = (fromModule: string) => {
-    switch (fromModule) {
-      case 'grammar_game':
-        setVocabInitialView('game');
-        setActiveView('vocabulary');
-        break;
-      case 'vocabulary_game':
-        setActiveView('listening');
-        break;
-      case 'listening':
-        setActiveView('reading');
-        break;
-      case 'reading':
-        setActiveView('practice_test');
-        break;
-      default:
-        setActiveView('dashboard');
-    }
-  };
-
-  return (
-    <div className="relative min-h-screen" style={{ background: '#0F172A' }}>
-      <ApiKeyModal isOpen={isApiKeyModalOpen} onClose={() => setIsApiKeyModalOpen(false)} />
-
-      <div className="relative z-10 flex flex-col md:flex-row min-h-screen">
-        <Sidebar
-          activeView={activeView}
-          setActiveView={(view) => {
-            if (view === 'vocabulary') setVocabInitialView('list');
-            setActiveView(view);
-          }}
-          selectedUnitId={stats.selectedUnitId}
-          onUnitChange={(uid) => { setStats(prev => prev ? ({ ...prev, selectedUnitId: uid }) : null); setActiveView('dashboard'); }}
-          user={currentUser}
-          onLogout={handleLogout}
-          onReset={handleResetProgress}
-        />
-        <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-          <div className="max-w-6xl mx-auto">
-            <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-              <div className="animate-fadeIn">
-                <div className="flex items-center gap-3 mb-1.5">
-                  <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
-                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#D97706)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', boxShadow: activeView === 'teacher_dashboard' ? '0 4px 14px rgba(245,158,11,0.4)' : '0 4px 14px rgba(99,102,241,0.35)' }}>
-                    {activeView === 'dashboard' && <LayoutDashboard size={20} className="text-white" />}
-                    {activeView === 'vocabulary' && <Book size={20} className="text-white" />}
-                    {activeView === 'grammar' && <Puzzle size={20} className="text-white" />}
-                    {activeView === 'listening' && <Headphones size={20} className="text-white" />}
-                    {activeView === 'reading' && <BookOpen size={20} className="text-white" />}
-                    {activeView === 'practice_test' && <Shield size={20} className="text-white" />}
-                    {activeView === 'teacher_dashboard' && <GraduationCap size={20} className="text-white" />}
+            <div className="px-8 py-6">
+               <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/10 shadow-sm">
+                  <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xl shadow-sm ring-2 ring-white/10">
+                     {currentUser.charAt(0)}
                   </div>
-                  <h1 className="text-3xl font-black uppercase tracking-tight"
-                    style={{ background: activeView === 'teacher_dashboard' ? 'linear-gradient(135deg,#F59E0B,#FCD34D)' : 'linear-gradient(135deg,#6366F1,#22D3EE)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                    {activeView === 'practice_test' ? 'Challenge' : activeView === 'teacher_dashboard' ? 'Teacher' : activeView} Hub
-                  </h1>
-                </div>
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-sm font-semibold" style={{ color: '#94A3B8' }}>🏫 Tran Hung Dao High School</span>
-                  <span className="text-xs" style={{ color: '#475569' }}>•</span>
-                  <span className="px-3 py-1 rounded-full text-[11px] font-black uppercase tracking-widest"
-                    style={{ background: 'rgba(99,102,241,0.15)', color: '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
-                    📚 {currentUnit.title}
-                  </span>
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-4 w-full md:w-auto">
-                <button
-                  onClick={() => setIsApiKeyModalOpen(true)}
-                  className="flex items-center gap-3 px-4 py-2.5 rounded-xl transition-all shadow-sm group"
-                  style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)', color: '#CBD5E1' }}
-                >
-                  <div className={`p-1.5 rounded-lg ${hasApiKey ? 'bg-blue-500/20 text-blue-400' : 'bg-rose-500/20 text-rose-400 animate-pulse'}`}>
-                    <Settings size={18} />
+                  <div className="overflow-hidden">
+                     <p className="text-xs text-blue-400 uppercase font-bold tracking-wider mb-0.5">
+                        {currentUser === 'Nguyen Thi Thu Ha' ? 'Teacher' : 'Student'}
+                     </p>
+                     <p className="font-bold text-lg text-white truncate">{currentUser}</p>
                   </div>
-                  <div className="flex flex-col items-start text-left">
-                    <span className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748B' }}>AI System Info</span>
-                    {!hasApiKey ? (
-                      <span className="text-[10px] font-bold text-rose-400 whitespace-nowrap">API Key Required</span>
-                    ) : (
-                      <span className="text-[9px] font-bold text-blue-400 flex items-center gap-1"><CheckCircle size={10} /> Connectivity Active</span>
-                    )}
+               </div>
+            </div>
+
+            <nav className="flex-1 px-6 space-y-3 overflow-y-auto py-2">
+               {navItems.map((item) => (
+                  <button
+                     key={item.id}
+                     onClick={() => setActiveTab(item.id)}
+                     className={`w-full flex items-center gap-5 px-6 py-5 rounded-2xl transition-all duration-300 font-bold text-lg group ${activeTab === item.id
+                        ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20'
+                        : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                        }`}
+                  >
+                     <i className={`fas ${item.icon} w-8 text-center text-xl transition-transform group-hover:scale-110`}></i>
+                     {item.label}
+                     {activeTab === item.id && <i className="fas fa-chevron-right ml-auto text-sm opacity-50"></i>}
+                  </button>
+               ))}
+            </nav>
+
+            <div className="p-6 border-t border-white/5">
+               <button
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-4 px-6 py-4 text-red-400 hover:bg-red-400/10 rounded-2xl transition-colors font-bold text-lg"
+               >
+                  <i className="fas fa-sign-out-alt w-8 text-center text-xl"></i>
+                  Sign Out
+               </button>
+            </div>
+         </aside>
+
+         {/* Main Content */}
+         <main className="flex-1 overflow-y-auto h-screen custom-scrollbar">
+            <div className="max-w-7xl mx-auto p-6 md:p-12 flex flex-col min-h-full">
+
+               <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
+                  <div>
+                     <h2 className="text-4xl font-extrabold text-white tracking-tight">
+                        {navItems.find(n => n.id === activeTab)?.label}
+                     </h2>
+                     <p className="text-slate-400 text-lg mt-2">Welcome back, <span className="font-bold text-blue-400">{currentUser}</span>! Ready to learn?</p>
                   </div>
-                </button>
 
-                {/* Firebase Status Indicator */}
-                <div className={`flex items-center gap-2 px-3 py-2 rounded-xl border type-caption ${isFirebaseConfigured() ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 'bg-red-50 text-red-500 border-red-200'}`}>
-                  <Database size={12} />
-                  <span className="hidden md:inline">{isFirebaseConfigured() ? 'Firebase ✓' : 'No Firebase'}</span>
-                  <span className={`w-2 h-2 rounded-full ${isFirebaseConfigured() ? 'bg-emerald-500 animate-pulse' : 'bg-red-400'}`} />
-                </div>
+                  {/* Header Actions */}
+                  <div className="flex items-center gap-4">
+                     {/* Connection Status */}
+                     <div className="hidden md:flex px-5 py-2.5 bg-white/5 rounded-full border border-white/10 shadow-sm items-center gap-3">
+                        <div className="relative flex h-3 w-3">
+                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                           <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </div>
+                        <span className="text-sm font-bold text-slate-300">Connected</span>
+                     </div>
 
-                {isSyncing && (
-                  <div className="flex items-center gap-2 bg-white/20 text-[#27AE60] px-3 py-1.5 rounded-full border border-[#27AE60]/30 animate-pulse">
-                    <CloudSync size={14} />
-                    <span className="type-caption">Local Saving</span>
+                     {/* Settings Button */}
+                     <button
+                        onClick={() => setIsSettingsOpen(true)}
+                        className="flex flex-col items-end group"
+                     >
+                        <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 shadow-sm hover:shadow-md flex items-center justify-center text-slate-400 transition-all group-hover:border-blue-500/50 group-hover:text-blue-400">
+                           <i className="fas fa-cog text-xl"></i>
+                        </div>
+                        {(!currentApiKey || currentApiKey.length < 10) && (
+                           <span className="text-[10px] font-bold text-red-500 mt-1 bg-red-50 px-2 py-0.5 rounded-md border border-red-100 whitespace-nowrap animate-pulse">
+                              Get API Key to use the app
+                           </span>
+                        )}
+                     </button>
                   </div>
-                )}
-                <div className="bg-green-50 text-[#27AE60] px-4 py-2 rounded-2xl font-black flex items-center shadow-lg border border-[#2ECC71]/20 ml-auto md:ml-0">
-                  <Zap size={14} className="text-[#27AE60] mr-2" />
-                  <span className="w-5 h-5 rounded-lg bg-[#27AE60] text-white flex items-center justify-center text-[10px] mr-2">XP</span> {stats.xp}
-                </div>
-                <div className="w-10 h-10 rounded-2xl bg-[#27AE60] flex items-center justify-center text-white font-black shadow-lg border-2 border-white">{stats.name.charAt(0)}</div>
-              </div>
-            </header>
+               </header>
 
-            {activeView === 'dashboard' && <Dashboard stats={stats} unitTitle={currentUnit.title} totalModules={TOTAL_MODULES} onNavigate={setActiveView} firebaseStudents={firebaseStudents} />}
+               {/* Settings Modal */}
+               <SettingsModal
+                  isOpen={isSettingsOpen}
+                  onClose={() => setIsSettingsOpen(false)}
+                  apiKey={currentApiKey}
+                  setApiKey={setCurrentApiKey}
+                  selectedModel={currentModel}
+                  setModel={setCurrentModel}
+                  onSave={handleSaveSettings}
+               />
 
-            {activeView === 'teacher_dashboard' && currentUser?.username === 'student53' && <TeacherDashboard firebaseStudents={firebaseStudents} onRefresh={refreshFirebaseData} />}
+               {/* Content Area */}
+               <div className="animate-fade-in-up pb-10 flex-1">
+                  {activeTab === SkillMode.DASHBOARD && (
+                     currentUser === 'Nguyen Thi Thu Ha'
+                        ? <TeacherDashboard />
+                        : <Dashboard stats={stats} />
+                  )}
+                  {activeTab === SkillMode.SPEAKING && (
+                     <SpeakingPractice
+                        onComplete={(score) => updateStats(score, 'speaking')}
+                        studentName={currentUser}
+                     />
+                  )}
+                  {activeTab === SkillMode.WRITING && (
+                     <WritingPractice
+                        onComplete={(score) => updateStats(score, 'writing')}
+                        studentName={currentUser}
+                     />
+                  )}
+               </div>
 
-            {activeView === 'vocabulary' && (
-              <VocabularyModule
-                studentName={stats.name}
-                vocabData={currentUnit.vocab}
-                progress={stats.moduleProgress}
-                vocabGameId={`${stats.selectedUnitId}_vocabulary_memory`}
-                onGameComplete={(id, score) => {
-                  handleTaskCompletion(id, score);
-                }}
-                onReturn={() => setActiveView('dashboard')}
-                initialView={vocabInitialView}
-                onNextStep={() => handleSequenceNext('vocabulary_game')}
-              />
-            )}
-
-            {activeView === 'grammar' && (
-              <GrammarModule
-                studentName={stats.name}
-                studentUsername={stats.username}
-                grammarData={currentUnit.grammar}
-                progress={stats.moduleProgress}
-                quizId={`${stats.selectedUnitId}_grammar_quiz`}
-                unitId={stats.selectedUnitId}
-                onComplete={(score) => handleTaskCompletion(`${stats.selectedUnitId}_grammar_quiz`, score)}
-                onGameComplete={(score) => {
-                  handleTaskCompletion(`${stats.selectedUnitId}_grammar_game`, score);
-                }}
-                onReturn={() => setActiveView('dashboard')}
-                onNextStep={() => handleSequenceNext('grammar_game')}
-              />
-            )}
-
-            {activeView === 'listening' && currentUnit.listening && (
-              <ListeningModule
-                studentName={stats.name}
-                listeningData={currentUnit.listening}
-                onComplete={(score) => handleTaskCompletion(`${stats.selectedUnitId}_listening`, score)}
-                onReturn={() => setActiveView('dashboard')}
-                onNextStep={() => handleSequenceNext('listening')}
-              />
-            )}
-
-            {activeView === 'reading' && currentUnit.reading && (
-              <ReadingModule
-                studentName={stats.name}
-                readingData={currentUnit.reading}
-                onComplete={(score) => handleTaskCompletion(`${stats.selectedUnitId}_reading`, score)}
-                onReturn={() => setActiveView('dashboard')}
-                onNextStep={() => handleSequenceNext('reading')}
-              />
-            )}
-
-
-            {activeView === 'practice_test' && (
-              <PracticeTest
-                studentName={stats.name}
-                testData={{
-                  u1: UNIT1_PRACTICE_TEST,
-                  u2: UNIT2_PRACTICE_TEST,
-                  u3: UNIT3_PRACTICE_TEST,
-                  u4: UNIT4_PRACTICE_TEST,
-                  u5: UNIT5_PRACTICE_TEST,
-                  u6: UNIT6_PRACTICE_TEST,
-                  u7: UNIT7_PRACTICE_TEST,
-                  u8: UNIT8_PRACTICE_TEST
-                }[stats.selectedUnitId] || UNIT1_PRACTICE_TEST}
-                onComplete={(score) => handleTaskCompletion(`${stats.selectedUnitId}_practice_test`, score)}
-                onReturn={() => setActiveView('dashboard')}
-                unitProgress={stats.moduleProgress}
-              />
-            )}
-          </div>
-        </main>
+               {/* Footer */}
+               <footer className="py-6 text-center text-blue-400 text-xs font-bold uppercase tracking-widest border-t border-white/5 mt-auto">
+                  DEVELOPED BY TEACHER VO THI THU HA - TRAN HUNG DAO HIGH SCHOOL - LAM DONG
+               </footer>
+            </div>
+         </main>
       </div>
-
-      <div className="fixed bottom-[20px] left-1/2 -translate-x-1/2 z-[1000] pointer-events-none select-none flex flex-col items-center justify-center w-auto animate-fadeIn px-6 py-3 rounded-2xl bg-white/10 backdrop-blur-md shadow-sm border border-black/5">
-        <p className="type-h4 text-[#27AE60] italic leading-tight whitespace-nowrap">
-          ✨ DEVELOPED BY TEACHER VO THI THU HA ✨
-        </p>
-        <p className="type-small text-[#2ECC71] leading-tight mt-1">
-          🏫 TRAN HUNG DAO HIGH SCHOOL - LAM DONG
-        </p>
-      </div>
-    </div>
-  );
-};
+   );
+}
 
 export default App;

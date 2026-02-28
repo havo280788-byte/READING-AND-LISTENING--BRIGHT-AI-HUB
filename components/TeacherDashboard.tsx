@@ -1,242 +1,211 @@
-import React, { useState, useMemo } from 'react';
-import { UserAccount } from '../types';
-import { COURSE_DATA, ALL_STUDENTS } from '../constants';
-import { RefreshCw, Search, ChevronDown, ChevronUp, BarChart3, Users, Trophy, BookOpen, Zap } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Card } from './Components';
+import { UserStats } from '../types';
 
-interface TeacherDashboardProps {
-    firebaseStudents: Record<string, any>;
-    onRefresh: () => void;
+// The list of students to fetch data for
+const STUDENTS = [
+    "Hoa Quang An", "Pham Quynh Anh", "Ha Thi Minh Anh", "Cao Nguyen Quynh Anh", "Tran Nguyet Anh",
+    "Hoa Gia Binh", "Hoang Van Cong Chinh", "Nguyen Manh Cuong", "Tran Thi Dung", "Nguyen Thanh Dat",
+    "Nguyen Phuc Dien", "Nguyen Trung Duc", "Nguyen Le Gia Han", "Nguyen Phuong Hien", "Nguyen Hoang Gia Huynh",
+    "Duong Gia Hung", "Dinh Van Hung", "Le Dinh Khoi", "Nguyen Thi Ngoc Lan", "Huynh Dang Khanh Linh",
+    "Pham Vu Thuy Linh", "Nguyen Bui Yen Linh", "Dang Hoang Long", "Nguyen Khanh Ly", "Tran Hoang Minh",
+    "Tran Nu Nguyet Nga", "Tran Nhu Ngoc", "Le Thi Nhu Ngoc", "Tran Nu Bao Ngoc", "Tran Hoang Nguyen",
+    "Nguyen Thao Nguyen", "Phan Duy Nguyen", "Nguyen Thi Thanh Nhan", "Bui Thien Nhan", "Nguyen Ngoc Uyen Nhi",
+    "Vu Nguyen Tue Nhi", "Nguyen Hoang Tam Nhu", "Le Kim Phat", "Nguyen Ba Phi", "Dinh Xuan Hoang Phuc",
+    "Ta Pham Minh Phuc", "Tran Huu Quang", "Nguyen Tien Sang", "Tran Minh Thong", "Vu Le Phuong Thuy",
+    "Vo Bao Thuy", "Nguyen Anh Thu", "Le Trinh Anh Thu", "Pham Anh Thu", "Nguyen Thuy Tien",
+    "Nguyen Phuong Uyen", "Vu Thi Ha Vy"
+];
+
+import { getAllStudentStats } from '../services/firebaseService';
+
+interface StudentAggregatedInfo {
+    name: string;
+    speakingAvg: number | null;
+    writingAvg: number | null;
+    lessonsCompleted: number;
+    lastPractice: string | null;
 }
 
-const STORAGE_KEY_PREFIX = 'ELITE_ENG_USER_DATA_V8';
+export const TeacherDashboard: React.FC = () => {
+    const [aggregatedData, setAggregatedData] = useState<StudentAggregatedInfo[]>([]);
+    const [loading, setLoading] = useState(true);
 
-const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, onRefresh }) => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [expandedStudent, setExpandedStudent] = useState<string | null>(null);
-    const [selectedUnit, setSelectedUnit] = useState<string>('all');
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    useEffect(() => {
+        const fetchData = async () => {
+            setLoading(true);
+            try {
+                // Fetch all cloud data
+                const cloudRecords = await getAllStudentStats();
+                const cloudMap = new Map(cloudRecords.map(r => [r.name, r.stats]));
 
-    const handleRefresh = async () => {
-        setIsRefreshing(true);
-        await onRefresh();
-        setTimeout(() => setIsRefreshing(false), 1500);
-    };
+                // Merge with predefined STUDENT list to ensure all names are present
+                const data = STUDENTS.map(name => {
+                    const stats = cloudMap.get(name);
 
-    const normalizeName = (str: string) => str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/Đ/g, "D").toUpperCase();
+                    if (stats) {
+                        const speakingAvg = stats.speakingScore.length > 0
+                            ? stats.speakingScore.reduce((a, b) => a + b, 0) / stats.speakingScore.length
+                            : null;
+                        const writingAvg = stats.writingScore.length > 0
+                            ? stats.writingScore.reduce((a, b) => a + b, 0) / stats.writingScore.length
+                            : null;
 
-    const CLASS_NAMES_RAW = [
-        "Hòa Quang An", "Phạm Quỳnh Anh", "Hà Thị Minh Anh", "Cao Nguyễn Quỳnh Anh", "Trần Nguyệt Ánh",
-        "Hòa Gia Bình", "Hoàng Văn Công Chính", "Nguyễn Mạnh Cường", "Trần Thị Dung", "Nguyễn Thành Đạt",
-        "Nguyễn Phúc Điền", "Nguyễn Trung Đức", "Nguyễn Lê Gia Hân", "Nguyễn Phương Hiền", "Nguyễn Hoàng Gia Huynh",
-        "Dương Gia Hưng", "Đinh Văn Hưng", "Lê Đình Khôi", "Nguyễn Thị Ngọc Lan", "Huỳnh Đặng Khánh Linh",
-        "Phạm Vũ Thùy Linh", "Nguyễn Bùi Yến Linh", "Đặng Hoàng Long", "Nguyễn Khánh Ly", "Trần Hoàng Minh",
-        "Trần Nữ Nguyệt Nga", "Trần Như Ngọc", "Lê Thị Như Ngọc", "Trần Nữ Bảo Ngọc", "Trần Hoàng Nguyên",
-        "Nguyễn Thảo Nguyên", "Phan Duy Nguyễn", "Nguyễn Thị Thanh Nhàn", "Bùi Thiện Nhân", "Nguyễn Ngọc Uyển Nhi",
-        "Vũ Nguyễn Tuệ Nhi", "Nguyễn Hoàng Tâm Như", "Lê Kim Phát", "Nguyễn Bá Phi", "Đinh Xuân Hoàng Phúc",
-        "Tạ Phạm Minh Phúc", "Trần Hữu Quang", "Nguyễn Tiến Sang", "Trần Minh Thông", "Vũ Lê Phương Thùy",
-        "Võ Bảo Thùy", "Nguyễn Anh Thư", "Lê Trịnh Anh Thư", "Phạm Anh Thư", "Nguyễn Thùy Tiên",
-        "Nguyễn Phương Uyên", "Vũ Thị Hà Vy", "Nguyen Thi Thu Ha"
-    ];
-    const ALL_STUDENT_LIST = CLASS_NAMES_RAW.map((n, i) => ({ username: `student${(i + 1).toString().padStart(2, '0')}`, name: normalizeName(n) }));
+                        return {
+                            name,
+                            speakingAvg,
+                            writingAvg,
+                            lessonsCompleted: stats.lessonsCompleted,
+                            lastPractice: stats.lastPractice
+                        };
+                    }
 
-    const studentData = useMemo(() => {
-        const savedDataMap: Record<string, any> = {};
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith(STORAGE_KEY_PREFIX + '_')) {
-                try {
-                    const data = JSON.parse(localStorage.getItem(key) || '{}');
-                    const uname = data.username || key.replace(STORAGE_KEY_PREFIX + '_', '');
-                    savedDataMap[uname] = data;
-                } catch { }
+                    // Fallback for students with no cloud data
+                    return {
+                        name,
+                        speakingAvg: null,
+                        writingAvg: null,
+                        lessonsCompleted: 0,
+                        lastPractice: null
+                    };
+                }).sort((a, b) => b.lessonsCompleted - a.lessonsCompleted);
+
+                setAggregatedData(data);
+            } catch (error) {
+                console.error("Failed to fetch teacher data:", error);
+            } finally {
+                setLoading(false);
             }
-        }
-        return ALL_STUDENT_LIST.map(s => {
-            const fb = firebaseStudents[s.username] || {};
-            const local = savedDataMap[s.username] || {};
-            const mergeData = (fb: any, local: any) => {
-                if (!fb && !local) return {};
-                if (!fb) return local;
-                if (!local) return fb;
-                return Object.keys({ ...fb, ...local }).reduce((acc, k) => {
-                    acc[k] = Math.max(fb[k] || 0, local[k] || 0);
-                    return acc;
-                }, {} as Record<string, number>);
-            };
-            return {
-                name: s.name,
-                username: s.username,
-                xp: Math.max(fb.xp || 0, local.xp || 0),
-                completedModules: Math.max(fb.completedModules || 0, local.completedModules || 0),
-                progress: mergeData(fb.progress || {}, local.progress || {}),
-                moduleProgress: mergeData(fb.moduleProgress || {}, local.moduleProgress || {}),
-                lastActive: fb.lastActive || local.updatedAt || null,
-                dataSource: fb.xp || fb.completedModules ? 'firebase' : local.xp || local.completedModules ? 'local' : 'none',
-            };
-        }).sort((a, b) => b.xp - a.xp);
-    }, [firebaseStudents]);
+        };
 
-    const filteredStudents = useMemo(() => searchQuery
-        ? studentData.filter(s => s.name.toLowerCase().includes(searchQuery.toLowerCase()) || s.username.includes(searchQuery.toLowerCase()))
-        : studentData, [studentData, searchQuery]);
+        fetchData();
+    }, []);
 
-    const classStats = useMemo(() => ({
-        totalStudents: studentData.length,
-        activeStudents: studentData.filter(s => s.xp > 0).length,
-        avgXP: studentData.length > 0 ? Math.round(studentData.reduce((a, s) => a + s.xp, 0) / studentData.length) : 0,
-        topStudent: studentData[0] || null,
-    }), [studentData]);
+    const activeStudents = aggregatedData.filter(s => s.lessonsCompleted > 0);
+    const inactiveStudents = aggregatedData.filter(s => s.lessonsCompleted === 0);
 
-    const UNIT_KEYS = ['u1', 'u2', 'u3', 'u4', 'u5', 'u6'];
-    const cardStyle: React.CSSProperties = { background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)', boxShadow: '0 10px 30px rgba(0,0,0,0.35)', borderRadius: '20px' };
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center py-20 animate-pulse">
+                <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center text-blue-400 mb-4">
+                    <i className="fas fa-spinner fa-spin text-3xl"></i>
+                </div>
+                <p className="text-slate-400 font-bold text-lg tracking-wide uppercase">Syncing class data...</p>
+            </div>
+        );
+    }
 
     return (
-        <div className="space-y-6 animate-fadeIn pb-24">
-            {/* Header Stats */}
-            <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                    { label: 'Total Students', icon: <Users size={20} />, value: classStats.totalStudents, accent: '#6366F1', sub: 'Class 11A1' },
-                    { label: 'Active Learners', icon: <Zap size={20} />, value: classStats.activeStudents, accent: '#22C55E', sub: `${classStats.totalStudents - classStats.activeStudents} not started` },
-                    { label: 'Class Avg XP', icon: <BarChart3 size={20} />, value: classStats.avgXP, accent: '#22D3EE', sub: 'XP Points' },
-                    { label: 'Top Student', icon: <Trophy size={20} />, value: classStats.topStudent?.name.split(' ').slice(-1)[0] || '–', accent: '#F59E0B', sub: `${classStats.topStudent?.xp || 0} XP` },
-                ].map((stat, i) => (
-                    <div key={i} className="p-8 flex flex-col gap-5 relative overflow-hidden" style={cardStyle}>
-                        <div className="w-12 h-12 rounded-2xl flex items-center justify-center" style={{ background: `${stat.accent}18`, color: stat.accent }}>{stat.icon}</div>
-                        <div>
-                            <p className="text-3xl font-black italic tracking-tighter truncate" style={{ color: '#F8FAFC', fontFamily: 'Poppins, sans-serif' }}>{stat.value}</p>
-                            <p className="text-xs font-black uppercase tracking-[0.2em]" style={{ color: '#94A3B8' }}>{stat.label}</p>
-                            <p className="text-xs mt-1 font-medium" style={{ color: '#64748B' }}>{stat.sub}</p>
-                        </div>
-                        <div className="absolute -bottom-4 -right-4 w-20 h-20 rounded-full pointer-events-none" style={{ background: stat.accent, opacity: 0.08, filter: 'blur(15px)' }}></div>
+        <div className="space-y-8 animate-fade-in">
+            {/* Class Summary Header */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="bg-gradient-to-br from-blue-500 to-indigo-600 text-white !border-0 relative overflow-hidden group">
+                    <div className="absolute -right-6 -bottom-6 text-white/10 text-9xl">
+                        <i className="fas fa-users"></i>
                     </div>
-                ))}
-            </section>
-
-            {/* Filters */}
-            <section className="p-6 flex flex-col md:flex-row gap-4 items-center" style={cardStyle}>
-                <div className="relative flex-1 w-full">
-                    <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: '#475569' }} />
-                    <input
-                        type="text" placeholder="Search by name or username..."
-                        value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                        className="type-button flex-1 w-full pl-9 pr-4 py-3 rounded-xl outline-none transition-all"
-                        style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)', color: '#CBD5E1' }}
-                        onFocus={e => e.target.style.borderColor = '#6366F1'}
-                        onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.05)'}
-                    />
-                </div>
-                <select value={selectedUnit} onChange={e => setSelectedUnit(e.target.value)}
-                    className="type-small px-4 py-3 rounded-xl font-bold outline-none cursor-pointer"
-                    style={{ background: '#0F172A', border: '1px solid rgba(255,255,255,0.05)', color: '#CBD5E1', minWidth: '180px' }}>
-                    <option value="all">All Units</option>
-                    {UNIT_KEYS.map(u => <option key={u} value={u}>{u.toUpperCase()}</option>)}
-                </select>
-                <button onClick={handleRefresh}
-                    className="type-caption px-5 py-3 rounded-xl uppercase tracking-widest flex items-center gap-2 transition-all"
-                    style={{ background: isRefreshing ? '#6366F1' : 'rgba(99,102,241,0.12)', color: isRefreshing ? 'white' : '#A5B4FC', border: '1px solid rgba(99,102,241,0.2)' }}>
-                    <RefreshCw size={14} className={isRefreshing ? 'animate-spin' : ''} />
-                    {isRefreshing ? 'Syncing...' : 'Sync Firebase'}
-                </button>
-            </section>
-
-            {/* Student Table */}
-            <section className="rounded-2xl overflow-hidden" style={{ background: '#1E293B', border: '1px solid rgba(255,255,255,0.05)' }}>
-                {/* Table Header */}
-                <div className="text-xs grid grid-cols-12 px-8 py-5 font-black uppercase tracking-[0.2em]" style={{ background: 'rgba(255,255,255,0.04)', borderBottom: '1px solid rgba(255,255,255,0.08)', color: '#CBD5E1' }}>
-                    <div className="col-span-1 text-center">#</div>
-                    <div className="col-span-4">Student Profile</div>
-                    <div className="col-span-2 text-center">Modules</div>
-                    <div className="col-span-2 text-center">XP Points</div>
-                    <div className="col-span-2 text-center">Sync Status</div>
-                    <div className="col-span-1 text-center">View</div>
-                </div>
-
-                {filteredStudents.length === 0 ? (
-                    <div className="py-20 text-center">
-                        <p style={{ color: '#64748B' }}>No students found for "{searchQuery}"</p>
+                    <div className="flex flex-col relative z-10">
+                        <span className="text-blue-100 font-medium text-lg">Total Students</span>
+                        <span className="text-5xl font-extrabold mt-2">{STUDENTS.length}</span>
+                        <span className="text-blue-100 text-sm mt-1">Registered in system</span>
                     </div>
-                ) : (
-                    filteredStudents.map((student, idx) => {
-                        const isExpanded = expandedStudent === student.username;
-                        const rank = studentData.findIndex(s => s.username === student.username) + 1;
-                        const rankColor = rank === 1 ? '#FBBF24' : rank === 2 ? '#94A3B8' : rank === 3 ? '#FB923C' : '#334155';
-                        const rankBg = rank <= 3 ? `${rankColor}20` : 'rgba(255,255,255,0.03)';
+                </Card>
 
-                        return (
-                            <div key={student.username} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)' }}>
-                                <div
-                                    onClick={() => setExpandedStudent(isExpanded ? null : student.username)}
-                                    className="grid grid-cols-12 px-6 py-4 items-center cursor-pointer transition-colors"
-                                    style={{ background: isExpanded ? '#243044' : 'transparent' }}
-                                    onMouseEnter={e => { if (!isExpanded) e.currentTarget.style.background = 'rgba(255,255,255,0.02)'; }}
-                                    onMouseLeave={e => { if (!isExpanded) e.currentTarget.style.background = 'transparent'; }}
-                                >
-                                    <div className="col-span-1 flex justify-center">
-                                        <span className="w-7 h-7 rounded-lg flex items-center justify-center text-[11px] font-black"
-                                            style={{ background: rankBg, color: rankColor }}>{rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : `#${rank}`}</span>
-                                    </div>
-                                    <div className="col-span-4 flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm text-white shrink-0"
-                                            style={{ background: student.xp > 0 ? 'linear-gradient(135deg, #6366F1, #3B82F6)' : '#334155' }}>
-                                            {student.name.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <p className="text-xl font-black italic tracking-tight" style={{ color: '#E2E8F0', fontFamily: 'Poppins, sans-serif' }}>{student.name}</p>
-                                            <p className="text-xs font-bold uppercase tracking-widest" style={{ color: '#64748B' }}>{student.username}</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-span-2 text-center">
-                                        <span className="text-2xl font-black italic" style={{ color: student.completedModules > 0 ? '#A5B4FC' : '#475569' }}>
-                                            {student.completedModules}
-                                        </span>
-                                    </div>
-                                    <div className="col-span-2 text-center">
-                                        <span className="text-2xl font-black italic" style={{ color: student.xp > 0 ? '#F8FAFC' : '#475569' }}>
-                                            {student.xp}
-                                        </span>
-                                    </div>
-                                    <div className="col-span-2 flex justify-center">
-                                        <span className="px-2.5 py-1 rounded-full text-[11px] font-black uppercase tracking-widest"
-                                            style={student.dataSource === 'firebase' ? { background: 'rgba(34,197,94,0.15)', color: '#4ADE80' }
-                                                : student.dataSource === 'local' ? { background: 'rgba(59,130,246,0.15)', color: '#93C5FD' }
-                                                    : { background: 'rgba(255,255,255,0.06)', color: '#64748B' }}>
-                                            {student.dataSource}
-                                        </span>
-                                    </div>
-                                    <div className="col-span-1 flex justify-center">
-                                        {isExpanded ? <ChevronUp size={16} style={{ color: '#818CF8' }} /> : <ChevronDown size={16} style={{ color: '#64748B' }} />}
-                                    </div>
-                                </div>
+                <Card className="bg-gradient-to-br from-green-500 to-emerald-600 text-white !border-0 relative overflow-hidden group">
+                    <div className="absolute -right-6 -bottom-6 text-white/10 text-9xl">
+                        <i className="fas fa-chart-line"></i>
+                    </div>
+                    <div className="flex flex-col relative z-10">
+                        <span className="text-green-100 font-medium text-lg">Active Students</span>
+                        <span className="text-5xl font-extrabold mt-2">{activeStudents.length}</span>
+                        <span className="text-green-100 text-sm mt-1">Practiced at least once</span>
+                    </div>
+                </Card>
 
-                                {isExpanded && (
-                                    <div className="px-6 pb-6 animate-fadeIn">
-                                        <div className="p-6 rounded-2xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                                            <p className="type-caption font-black uppercase tracking-[0.3em] mb-5" style={{ color: '#6366F1' }}>Progress by Skill</p>
-                                            <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                                {['vocabulary', 'grammar', 'reading', 'listening', 'challenge'].map(skill => {
-                                                    const val = student.progress?.[skill] || 0;
-                                                    const colors: Record<string, string> = { vocabulary: '#6366F1', grammar: '#3B82F6', reading: '#22D3EE', listening: '#8B5CF6', challenge: '#F59E0B' };
-                                                    return (
-                                                        <div key={skill} className="text-center p-4 rounded-xl" style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.04)' }}>
-                                                            <p className="type-caption font-black uppercase tracking-[0.2em] mb-3" style={{ color: '#94A3B8' }}>{skill}</p>
-                                                            <div className="w-full h-1.5 rounded-full overflow-hidden mb-2" style={{ background: '#0F172A' }}>
-                                                                <div className="h-full rounded-full" style={{ width: `${val}%`, background: `linear-gradient(90deg, ${colors[skill]}, ${colors[skill]}88)` }}></div>
-                                                            </div>
-                                                            <p className="text-lg font-black" style={{ color: colors[skill] }}>{val}%</p>
-                                                        </div>
-                                                    );
-                                                })}
+                <Card className="bg-gradient-to-br from-purple-500 to-pink-600 text-white !border-0 relative overflow-hidden group">
+                    <div className="absolute -right-6 -bottom-6 text-white/10 text-9xl">
+                        <i className="fas fa-graduation-cap"></i>
+                    </div>
+                    <div className="flex flex-col relative z-10">
+                        <span className="text-purple-100 font-medium text-lg">Total Lessons</span>
+                        <span className="text-5xl font-extrabold mt-2">
+                            {aggregatedData.reduce((acc, curr) => acc + curr.lessonsCompleted, 0)}
+                        </span>
+                        <span className="text-purple-100 text-sm mt-1">Completed across class</span>
+                    </div>
+                </Card>
+            </div>
+
+            {/* Detailed Table */}
+            <Card title="Student Performance Overview" className="bg-white/5 border-white/10 backdrop-blur-xl shadow-2xl overflow-hidden">
+                <div className="overflow-x-auto custom-scrollbar -mx-8 -mb-8">
+                    <table className="w-full text-left border-collapse">
+                        <thead>
+                            <tr className="bg-white/5 border-b border-white/10">
+                                <th className="px-8 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Student Name</th>
+                                <th className="px-8 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Lessons</th>
+                                <th className="px-8 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Avg Speaking</th>
+                                <th className="px-8 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Avg Writing</th>
+                                <th className="px-8 py-5 text-sm font-bold text-slate-400 uppercase tracking-wider">Last Active</th>
+                            </tr>
+                        </thead>
+                        <tbody className="divide-y divide-white/5">
+                            {activeStudents.map((student, idx) => (
+                                <tr key={idx} className="hover:bg-white/5 transition-colors">
+                                    <td className="px-8 py-5">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-10 h-10 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold">
+                                                {student.name.charAt(0)}
                                             </div>
+                                            <span className="font-bold text-white">{student.name}</span>
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                        );
-                    })
-                )}
-            </section>
+                                    </td>
+                                    <td className="px-8 py-5">
+                                        <span className="px-3 py-1 bg-white/5 rounded-full text-blue-400 font-bold border border-white/10">
+                                            {student.lessonsCompleted}
+                                        </span>
+                                    </td>
+                                    <td className="px-8 py-5">
+                                        <span className={`font-bold text-lg ${student.speakingAvg && student.speakingAvg >= 7 ? 'text-green-400' : 'text-slate-300'}`}>
+                                            {student.speakingAvg ? student.speakingAvg.toFixed(1) : '-'}
+                                        </span>
+                                    </td>
+                                    <td className="px-8 py-5">
+                                        <span className={`font-bold text-lg ${student.writingAvg && student.writingAvg >= 7 ? 'text-green-400' : 'text-slate-300'}`}>
+                                            {student.writingAvg ? student.writingAvg.toFixed(1) : '-'}
+                                        </span>
+                                    </td>
+                                    <td className="px-8 py-5 text-slate-400 text-sm font-medium">
+                                        {student.lastPractice ? new Date(student.lastPractice).toLocaleDateString() : 'Never'}
+                                    </td>
+                                </tr>
+                            ))}
+                            {inactiveStudents.length > 0 && (
+                                <tr className="bg-white/5">
+                                    <td colSpan={5} className="px-8 py-4 text-sm font-bold text-slate-500 uppercase tracking-widest text-center">
+                                        Students with no data yet ({inactiveStudents.length})
+                                    </td>
+                                </tr>
+                            )}
+                            {inactiveStudents.map((student, idx) => (
+                                <tr key={`inactive-${idx}`} className="hover:bg-white/5 transition-colors border-b border-white/5 last:border-0">
+                                    <td className="px-8 py-4">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-xs border border-white/10">
+                                                {student.name.charAt(0)}
+                                            </div>
+                                            <span className="font-semibold text-white/90">{student.name}</span>
+                                        </div>
+                                    </td>
+                                    <td colSpan={4} className="px-8 py-4 text-slate-400 text-xs font-bold uppercase tracking-widest italic">
+                                        <i className="fas fa-clock-rotate-left mr-2 opacity-50"></i>
+                                        Pending First Session
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </Card>
         </div>
     );
 };
-
-export default TeacherDashboard;

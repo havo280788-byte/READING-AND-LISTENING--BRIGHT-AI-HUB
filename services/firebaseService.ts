@@ -1,90 +1,73 @@
-/**
- * Firebase Realtime Database Service (REST API)
- * Uses Firebase REST API directly — no SDK required.
- * Teacher pastes their Firebase Database URL in the Settings modal.
- */
+import { db } from "../firebaseConfig";
+import {
+    doc,
+    getDoc,
+    setDoc,
+    collection,
+    getDocs,
+    query,
+    orderBy
+} from "firebase/firestore";
+import { UserStats } from "../types";
 
-const FIREBASE_URL_KEY = 'elite_eng_firebase_url';
-
-/** Get the saved Firebase Database URL */
-export const getFirebaseUrl = (): string => {
-    return localStorage.getItem(FIREBASE_URL_KEY)?.replace(/\/$/, '') || '';
-};
-
-/** Save the Firebase Database URL */
-export const setFirebaseUrl = (url: string) => {
-    localStorage.setItem(FIREBASE_URL_KEY, url.replace(/\/$/, ''));
-};
-
-/** Check if Firebase is configured */
-export const isFirebaseConfigured = (): boolean => {
-    return !!getFirebaseUrl();
-};
+const COLLECTION_NAME = "students";
 
 /**
- * Save a student's full progress to Firebase.
- * Called whenever a module is completed.
+ * Saves or updates user statistics in Firestore.
  */
-export const saveStudentProgress = async (username: string, data: any): Promise<boolean> => {
-    const baseUrl = getFirebaseUrl();
-    if (!baseUrl) return false;
-
+export const saveUserStats = async (name: string, stats: UserStats) => {
     try {
-        const response = await fetch(`${baseUrl}/students/${username}.json`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                name: data.name,
-                username: data.username,
-                xp: data.xp || 0,
-                completedModules: data.completedModules || 0,
-                moduleProgress: data.moduleProgress || {},
-                progress: data.progress || {},
-                selectedUnitId: data.selectedUnitId || 'u1',
-                lastUpdated: new Date().toISOString()
-            })
-        });
-        return response.ok;
+        const studentRef = doc(db, COLLECTION_NAME, name);
+        await setDoc(studentRef, {
+            ...stats,
+            updatedAt: new Date().toISOString()
+        }, { merge: true });
+        console.log(`Stats saved for ${name}`);
     } catch (error) {
-        console.warn('Firebase sync failed (save):', error);
-        return false;
+        console.error("Error saving user stats:", error);
+        throw error;
     }
 };
 
 /**
- * Load a single student's progress from Firebase.
- * Used on login to merge with local data.
+ * Retrieves statistics for a specific student from Firestore.
  */
-export const loadStudentProgress = async (username: string): Promise<any | null> => {
-    const baseUrl = getFirebaseUrl();
-    if (!baseUrl) return null;
-
+export const getUserStats = async (name: string): Promise<UserStats | null> => {
     try {
-        const response = await fetch(`${baseUrl}/students/${username}.json`);
-        if (!response.ok) return null;
-        const data = await response.json();
-        return data; // null if student has no data yet
+        const studentRef = doc(db, COLLECTION_NAME, name);
+        const docSnap = await getDoc(studentRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data() as UserStats;
+        } else {
+            return null;
+        }
     } catch (error) {
-        console.warn('Firebase sync failed (load student):', error);
-        return null;
+        console.error("Error fetching user stats:", error);
+        throw error;
     }
 };
 
 /**
- * Load ALL students' progress from Firebase.
- * Used for the shared leaderboard on Dashboard.
+ * Retrieves statistics for ALL students (for Teacher Dashboard).
  */
-export const loadAllStudentsProgress = async (): Promise<Record<string, any>> => {
-    const baseUrl = getFirebaseUrl();
-    if (!baseUrl) return {};
+export interface StudentRecord {
+    name: string;
+    stats: UserStats;
+}
 
+export const getAllStudentStats = async (): Promise<StudentRecord[]> => {
     try {
-        const response = await fetch(`${baseUrl}/students.json`);
-        if (!response.ok) return {};
-        const data = await response.json();
-        return data || {};
+        const studentsCol = collection(db, COLLECTION_NAME);
+        const q = query(studentsCol, orderBy("updatedAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        return querySnapshot.docs.map(doc => ({
+            name: doc.id,
+            stats: doc.data() as UserStats
+        }));
     } catch (error) {
-        console.warn('Firebase sync failed (load all):', error);
-        return {};
+        console.error("Error fetching all student stats:", error);
+        throw error;
     }
 };
