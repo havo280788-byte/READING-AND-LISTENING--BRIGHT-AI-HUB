@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { RefreshCw, Search, ChevronDown, ChevronUp, BarChart3, Users, Trophy, Zap, Database, Save, Edit3, CheckCircle, X, AlertTriangle, Upload } from 'lucide-react';
+import { RefreshCw, Search, ChevronDown, ChevronUp, BarChart3, Users, Trophy, Zap, Database, Save, Edit3, CheckCircle, X, AlertTriangle, Upload, Download } from 'lucide-react';
 import { getFirebaseUrl, setFirebaseUrl, saveStudentProgress, loadAllStudentsProgress, isFirebaseConfigured } from '../services/firebaseService';
 
 interface TeacherDashboardProps {
@@ -34,6 +34,23 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
         setIsRefreshing(true);
         await onRefresh();
         setTimeout(() => setIsRefreshing(false), 1500);
+    };
+
+    const exportCSV = () => {
+        const BOM = '\uFEFF'; // UTF-8 BOM for Excel Vietnamese support
+        const header = 'STT,Tên học sinh,Username,Số module,Tổng điểm XP,Trạng thái dữ liệu';
+        const rows = studentData.map((s, i) =>
+            `${i + 1},"${s.name}",${s.username},${s.completedModules},${s.xp},${s.dataSource}`
+        );
+        const csv = BOM + [header, ...rows].join('\n');
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const date = new Date().toLocaleDateString('vi-VN').replace(/\//g, '-');
+        a.href = url;
+        a.download = `BaoCaoHocSinh_${date}.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
     };
 
     const handleSaveFirebaseUrl = () => {
@@ -288,6 +305,12 @@ const TeacherDashboard: React.FC<TeacherDashboardProps> = ({ firebaseStudents, o
                     style={{ background: 'rgba(34,197,94,0.12)', color: '#4ADE80', border: '1px solid rgba(34,197,94,0.2)', whiteSpace: 'nowrap' }}>
                     <Upload size={14} />
                     Đẩy tất cả lên Firebase
+                </button>
+                <button onClick={exportCSV}
+                    className="type-caption px-5 py-3 rounded-xl uppercase tracking-widest flex items-center gap-2 transition-all"
+                    style={{ background: 'rgba(251,191,36,0.12)', color: '#FCD34D', border: '1px solid rgba(251,191,36,0.2)', whiteSpace: 'nowrap' }}>
+                    <Download size={14} />
+                    Tải CSV
                 </button>
             </section>
 
