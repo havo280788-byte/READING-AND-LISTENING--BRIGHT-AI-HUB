@@ -282,8 +282,16 @@ const App: React.FC = () => {
       }
     }
 
-    // Recalculate progress from moduleProgress immediately (not via useEffect)
-    finalStats.progress = recalculateProgress(finalStats.moduleProgress || {}, finalStats.selectedUnitId);
+    // Recalculate progress from moduleProgress if we have real data,
+    // otherwise use Firebase progress directly (restored by teacher)
+    const hasModuleProgress = Object.keys(finalStats.moduleProgress || {}).length > 0;
+    if (hasModuleProgress) {
+      finalStats.progress = recalculateProgress(finalStats.moduleProgress || {}, finalStats.selectedUnitId);
+    } else if (finalStats.progress && Object.values(finalStats.progress).some((v: any) => v > 0)) {
+      // Keep Firebase progress as-is (restored data)
+    } else {
+      finalStats.progress = recalculateProgress({}, finalStats.selectedUnitId);
+    }
 
     setStats(finalStats);
     localStorage.setItem(`${STORAGE_KEY_PREFIX}_${normalizedUser.username}`, JSON.stringify(finalStats));

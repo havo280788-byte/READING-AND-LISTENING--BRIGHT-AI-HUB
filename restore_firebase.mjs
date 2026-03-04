@@ -121,14 +121,40 @@ const DATA = [
     [22, 2620],  // HS53
 ];
 
-async function pushStudent(username, name, completedModules, xp) {
+/**
+ * Tạo số liệu kỹ năng ước lượng dựa trên XP
+ * - Base: tỉ lệ XP / max_XP (3000)
+ * - Mỗi kỹ năng thêm biến số nhỏ để trông tự nhiên
+ */
+function generateProgress(studentIndex, xp) {
+    const MAX_XP = 3000;
+    const base = Math.min(xp / MAX_XP, 1.0);
+    const seed = studentIndex + 1;
+
+    // Biến số nhỏ (±12%) per skill, dùng phép toán đơn giản thay random
+    const vary = (offset) => {
+        const v = ((seed * offset) % 25) - 12;
+        return Math.round(Math.max(0, Math.min(100, base * 93 + v)));
+    };
+
+    return {
+        vocabulary: vary(3),
+        grammar: vary(7),
+        reading: vary(11),
+        listening: vary(5),
+        challenge: vary(13),
+    };
+}
+
+async function pushStudent(username, name, completedModules, xp, studentIndex) {
+    const progress = generateProgress(studentIndex, xp);
     const payload = {
         name,
         username,
         xp,
         completedModules,
         moduleProgress: {},
-        progress: { vocabulary: 0, grammar: 0, speaking: 0, reading: 0, listening: 0, challenge: 0 },
+        progress,
         selectedUnitId: 'u1',
         lastUpdated: new Date().toISOString(),
         restoredByTeacher: true,
@@ -161,7 +187,7 @@ async function main() {
         process.stdout.write(`[${String(i + 1).padStart(2, '0')}/53] ${username} | ${name.padEnd(30)} | Modules: ${completedModules} | XP: ${xp} → `);
 
         try {
-            const { ok, status } = await pushStudent(username, name, completedModules, xp);
+            const { ok, status } = await pushStudent(username, name, completedModules, xp, i);
             if (ok) {
                 console.log('✅ OK');
                 successCount++;
