@@ -5,10 +5,17 @@
  */
 
 const FIREBASE_URL_KEY = 'elite_eng_firebase_url';
+const CORRECT_FIREBASE_URL = 'https://elite-eng-default-rtdb.asia-southeast1.firebasedatabase.app';
 
 /** Get the saved Firebase Database URL */
 export const getFirebaseUrl = (): string => {
-    return localStorage.getItem(FIREBASE_URL_KEY)?.replace(/\/$/, '') || '';
+    const saved = localStorage.getItem(FIREBASE_URL_KEY)?.replace(/\/$/, '') || '';
+    // Auto-correct old wrong URL to the correct regional one
+    if (saved === 'https://elite-eng-default-rtdb.firebaseio.com') {
+        localStorage.setItem(FIREBASE_URL_KEY, CORRECT_FIREBASE_URL);
+        return CORRECT_FIREBASE_URL;
+    }
+    return saved;
 };
 
 /** Save the Firebase Database URL */
