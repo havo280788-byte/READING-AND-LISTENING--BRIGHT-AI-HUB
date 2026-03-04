@@ -1,21 +1,27 @@
 /**
  * Firebase Realtime Database Service (REST API)
  * Uses Firebase REST API directly — no SDK required.
- * Teacher pastes their Firebase Database URL in the Settings modal.
+ *
+ * URL is hardcoded as default so students never need to configure it manually.
+ * Teachers can still override it via Settings modal or ?fb= query param.
  */
 
 const FIREBASE_URL_KEY = 'elite_eng_firebase_url';
-const CORRECT_FIREBASE_URL = 'https://elite-eng-default-rtdb.asia-southeast1.firebasedatabase.app';
 
-/** Get the saved Firebase Database URL */
+// ✅ URL chính xác của Firebase project này (Singapore region)
+// Học sinh KHÔNG cần nhập thủ công — tự động kết nối
+const DEFAULT_FIREBASE_URL = 'https://elite-eng-default-rtdb.asia-southeast1.firebasedatabase.app';
+
+/** Get the saved Firebase Database URL (falls back to hardcoded default) */
 export const getFirebaseUrl = (): string => {
     const saved = localStorage.getItem(FIREBASE_URL_KEY)?.replace(/\/$/, '') || '';
-    // Auto-correct old wrong URL to the correct regional one
+    // Auto-correct old wrong URL
     if (saved === 'https://elite-eng-default-rtdb.firebaseio.com') {
-        localStorage.setItem(FIREBASE_URL_KEY, CORRECT_FIREBASE_URL);
-        return CORRECT_FIREBASE_URL;
+        localStorage.setItem(FIREBASE_URL_KEY, DEFAULT_FIREBASE_URL);
+        return DEFAULT_FIREBASE_URL;
     }
-    return saved;
+    // Return saved if valid, otherwise use default
+    return saved || DEFAULT_FIREBASE_URL;
 };
 
 /** Save the Firebase Database URL */
@@ -23,14 +29,14 @@ export const setFirebaseUrl = (url: string) => {
     localStorage.setItem(FIREBASE_URL_KEY, url.replace(/\/$/, ''));
 };
 
-/** Check if Firebase is configured */
+/** Check if Firebase is configured (always true since we have a default) */
 export const isFirebaseConfigured = (): boolean => {
-    return !!getFirebaseUrl();
+    return true; // DEFAULT_FIREBASE_URL is always available
 };
 
 /**
  * Save a student's full progress to Firebase.
- * Called whenever a module is completed.
+ * SAFE WRITE: Only called with validated, non-zero data.
  */
 export const saveStudentProgress = async (username: string, data: any): Promise<boolean> => {
     const baseUrl = getFirebaseUrl();

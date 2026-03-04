@@ -99,7 +99,7 @@ const App: React.FC = () => {
     }
   }, []);
 
-  // Auto-import Firebase URL from ?fb= query parameter AND sync local data
+  // Auto-import Firebase URL from ?fb= query parameter AND safely sync data
   useEffect(() => {
     // Step 1: Import Firebase URL from query params if present
     const params = new URLSearchParams(window.location.search);
@@ -112,20 +112,59 @@ const App: React.FC = () => {
       window.history.replaceState({}, '', url.toString());
     }
 
-    // Step 2: Auto-sync local data to Firebase (runs after URL is set above)
+    // Step 2: SAFE sync — always load Firebase first, merge, then write back
+    // This prevents overwriting Firebase with empty local data on new devices
     const syncOnLoad = async () => {
-      if (isFirebaseConfigured() && currentUser && stats) {
-        try {
-          await saveStudentProgress(currentUser.username, stats);
-          console.log('Auto-synced local data to Firebase on load');
-          // Also refresh leaderboard after sync
-          const allData = await loadAllStudentsProgress();
-          if (allData && Object.keys(allData).length > 0) {
-            setFirebaseStudents(allData);
+      if (!isFirebaseConfigured() || !currentUser) return;
+      try {
+        // Always load remote data first
+        const remoteData = await loadStudentProgress(currentUser.username);
+
+        if (remoteData) {
+          // Merge: always take the MAX of local vs remote to avoid data loss
+          const mergedModuleProgress = { ...(stats?.moduleProgress || {}) };
+          if (remoteData.moduleProgress) {
+            for (const [key, val] of Object.entries(remoteData.moduleProgress as Record<string, any>)) {
+              const localVal = mergedModuleProgress[key];
+              if (!localVal || (val && (val as any).score > (localVal as any).score)) {
+                mergedModuleProgress[key] = val;
+              }
+            }
           }
-        } catch (e) {
-          console.warn('Auto-sync on load failed:', e);
+          const mergedStats = {
+            ...(stats || {}),
+            xp: Math.max(stats?.xp || 0, remoteData.xp || 0),
+            completedModules: Math.max(stats?.completedModules || 0, remoteData.completedModules || 0),
+            moduleProgress: mergedModuleProgress,
+            selectedUnitId: remoteData.selectedUnitId || stats?.selectedUnitId || 'u1',
+          };
+
+          // Only write back if merged data is strictly better than remote
+          const needsUpload = mergedStats.xp > (remoteData.xp || 0) ||
+            mergedStats.completedModules > (remoteData.completedModules || 0);
+
+          if (needsUpload) {
+            await saveStudentProgress(currentUser.username, mergedStats);
+            console.log('Uploaded better local data to Firebase on load');
+          } else {
+            console.log('Firebase data is same or better — no upload needed');
+          }
+
+          // Update local state with merged (best) data
+          setStats(prev => prev ? { ...prev, ...mergedStats } : null);
+        } else if (stats && (stats.xp > 0 || stats.completedModules > 0)) {
+          // No remote data yet but we have local data — upload it
+          await saveStudentProgress(currentUser.username, stats);
+          console.log('Uploaded local data to Firebase (no remote data existed)');
         }
+
+        // Always refresh leaderboard
+        const allData = await loadAllStudentsProgress();
+        if (allData && Object.keys(allData).length > 0) {
+          setFirebaseStudents(allData);
+        }
+      } catch (e) {
+        console.warn('Auto-sync on load failed:', e);
       }
     };
     syncOnLoad();
